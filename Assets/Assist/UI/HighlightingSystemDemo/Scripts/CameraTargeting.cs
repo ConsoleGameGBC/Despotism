@@ -4,6 +4,12 @@ using System.Collections;
 [RequireComponent(typeof(Camera))]
 public class CameraTargeting : MonoBehaviour
 {
+	public Vector3 defaultPosition;
+	public Vector3 zoomInPosition;
+	public float speed = 1.0F;
+	private float startTime;
+	private float journeyLength;
+	private bool zoomIn = false;
 	// Which layers targeting ray must hit (-1 = everything)
 	public LayerMask targetingLayerMask = -1;
 	
@@ -12,7 +18,13 @@ public class CameraTargeting : MonoBehaviour
 	
 	// Camera component reference
 	private Camera cam;
-	
+
+	void Start()
+	{
+		startTime = Time.time;
+		journeyLength = Vector3.Distance(defaultPosition, zoomInPosition);
+	}
+
 	void Awake()
 	{
 		cam = GetComponent<Camera>();
@@ -58,6 +70,16 @@ public class CameraTargeting : MonoBehaviour
 				if (Input.GetButtonDown("Fire1"))
 				{
 					Debug.Log (targetTransform.name);
+					if(zoomIn != true)
+						zoomIn = true;
+					else
+						zoomIn = false;
+					while(zoomIn == true && transform.position != endMarker.position)
+					{
+						float distCovered = (Time.time - startTime) * speed;
+						float fracJourney = distCovered / journeyLength;
+						transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
+					}
 				}
 				ho.On(Color.yellow);
 			}
