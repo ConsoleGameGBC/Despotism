@@ -2,17 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Camera))]
+[RequireComponent(typeof(Animator))]
+
 public class CameraTargeting : MonoBehaviour
 {
-	public Vector3 defaultPosition;
-	public Vector3 zoomInPosition;
-	public float speed = 1.0F;
 	private float startTime;
 	private float journeyLength;
 	private bool zoomIn = false;
 	// Which layers targeting ray must hit (-1 = everything)
 	public LayerMask targetingLayerMask = -1;
-	
+	public Animator animator;
 	// Targeting ray length
 	private float targetingRayLength = Mathf.Infinity;
 	
@@ -22,7 +21,7 @@ public class CameraTargeting : MonoBehaviour
 	void Start()
 	{
 		startTime = Time.time;
-		journeyLength = Vector3.Distance(defaultPosition, zoomInPosition);
+		animator = GetComponent<Animator>();
 	}
 
 	void Awake()
@@ -49,7 +48,7 @@ public class CameraTargeting : MonoBehaviour
 			RaycastHit hitInfo;
 			
 			// Create a ray from mouse coords
-			Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0f));
+			Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 			
 			// Targeting raycast
 			if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, targetingRayLength, targetingLayerMask.value))
@@ -69,17 +68,17 @@ public class CameraTargeting : MonoBehaviour
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
-					Debug.Log (targetTransform.name);
 					if(zoomIn != true)
-						zoomIn = true;
-					else
-						zoomIn = false;
-					while(zoomIn == true && transform.position != endMarker.position)
 					{
-						float distCovered = (Time.time - startTime) * speed;
-						float fracJourney = distCovered / journeyLength;
-						transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
+						zoomIn = true;
+						animator.SetBool ("zoomIn MainMenu" ,zoomIn);
 					}
+					else
+					{
+						zoomIn = false;
+						animator.SetBool ("zoomIn MainMenu" ,zoomIn);
+					}
+
 				}
 				ho.On(Color.yellow);
 			}
