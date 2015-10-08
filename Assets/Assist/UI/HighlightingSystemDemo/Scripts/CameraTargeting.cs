@@ -16,11 +16,13 @@ public class CameraTargeting : MonoBehaviour
 	private bool unfoldAlready = false;
 	// Which layers targeting ray must hit (-1 = everything)
 	public LayerMask targetingLayerMask = -1;
-	public GameObject turnReport;
-	public GameObject mainMenu;
+	[SerializeField] GameObject turnReport;
+	[SerializeField] GameObject mainMenu;
+	[SerializeField] GameObject randEventOptionContent;
 	private Animator animatorZoom;
 	private Animator animatorFold;
 	private HighlightableObject[] highlightObj;
+	private UILabel randEventOption;
 	// Targeting ray length
 	
 	// Camera component reference
@@ -30,6 +32,7 @@ public class CameraTargeting : MonoBehaviour
 	{
 		animatorZoom = GetComponent<Animator>();
 		animatorFold = turnReport.GetComponentInChildren<Animator>();
+		randEventOption = randEventOptionContent.GetComponent<UILabel> ();
 	}
 
 	void Awake()
@@ -86,25 +89,42 @@ public class CameraTargeting : MonoBehaviour
 		}
 		else if (Input.GetButtonDown("Left"))
 		{
-			switch(currentType)
+			if(zoomIn != true)
 			{
-			case UIType.TURNREPORT:
-				break;
-			case UIType.MAINMENU:
-				break;
+				switch(currentType)
+				{
+				case UIType.TURNREPORT:
+					break;
+				case UIType.MAINMENU:
+					break;
+				}
 			}
-			Debug.Log ("LeftKeyPress");
+			else if(currentType == UIType.TURNREPORT)
+			{
+				randEventOptionContent.GetComponent<TypewriterEffect> ().Finish();
+				randEventOption.text = "TESTING TESTING TESTING";
+				randEventOptionContent.GetComponent<TypewriterEffect> ().ResetToBeginning();
+			}
+
 		}
 		else if (Input.GetButtonDown("Right"))
 		{
-			switch(currentType)
+			if(zoomIn != true)
 			{
-			case UIType.TURNREPORT:
-				break;
-			case UIType.MAINMENU:
-				break;
+				switch(currentType)
+				{
+				case UIType.TURNREPORT:
+					break;
+				case UIType.MAINMENU:
+					break;
+				}
 			}
-			Debug.Log ("RightKeyPress");
+			else if(currentType == UIType.TURNREPORT)
+			{
+				randEventOptionContent.GetComponent<TypewriterEffect> ().Finish();
+				randEventOption.text = "blablablablablabla";
+				randEventOptionContent.GetComponent<TypewriterEffect> ().ResetToBeginning();
+			}
 		}
 
 
