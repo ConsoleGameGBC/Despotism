@@ -1,90 +1,113 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Camera))]
-[RequireComponent(typeof(Animator))]
 
+public enum UIType
+{
+	MAINMENU,
+	TURNREPORT
+}
 public class CameraTargeting : MonoBehaviour
 {
+	private UIType currentType = UIType.TURNREPORT;
 	private float startTime;
 	private float journeyLength;
 	private bool zoomIn = false;
 	private bool unfoldAlready = false;
 	// Which layers targeting ray must hit (-1 = everything)
 	public LayerMask targetingLayerMask = -1;
-	public GameObject leftPaper;
+	public GameObject turnReport;
+	public GameObject mainMenu;
 	private Animator animatorZoom;
 	private Animator animatorFold;
+	private HighlightableObject[] highlightObj;
 	// Targeting ray length
-	private float targetingRayLength = Mathf.Infinity;
 	
 	// Camera component reference
 	private Camera cam;
 
 	void Start()
 	{
-		startTime = Time.time;
 		animatorZoom = GetComponent<Animator>();
-		animatorFold = leftPaper.GetComponent<Animator>();
+		animatorFold = turnReport.GetComponentInChildren<Animator>();
 	}
 
 	void Awake()
 	{
-		cam = GetComponent<Camera>();
+
 	}
 	
 	void Update()
 	{
-		TargetingRaycast();
+		KeyDetect();
+		HighLightDetect();
 	}
-	
-	public void TargetingRaycast()
+
+	public void HighLightDetect()
 	{
-		// Current mouse position on screen
-		Vector3 mp = Input.mousePosition;
-		
-		// Current target object transform component
-		Transform targetTransform = null;
-		
-		// If camera component is available
-		if (cam != null)
+		switch(currentType)
 		{
-			RaycastHit hitInfo;
-			
-			// Create a ray from mouse coords
-			Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-			
-			// Targeting raycast
-			if (Physics.Raycast(ray.origin, ray.direction, out hitInfo, targetingRayLength, targetingLayerMask.value))
-			{
-				// Cache what we've hit
-				targetTransform = hitInfo.collider.transform;
-			}
-		}
-		
-		// If we've hit an object during raycast
-		if (targetTransform != null)
-		{
-
-			// And this object has HighlightableObject component
-			HighlightableObject ho = targetTransform.root.GetComponentInChildren<HighlightableObject>();
-			if (ho != null)
-			{
-				if (Input.GetButtonDown("Fire1") && zoomIn != true)
+			case UIType.MAINMENU:
+				break;
+			case UIType.TURNREPORT:
+				highlightObj = turnReport.GetComponentsInChildren<HighlightableObject>();
+				for(int i = 0; i< highlightObj.Length; i++)
 				{
-					animatorZoom.SetBool ("zoomIn MainMenu" ,zoomIn = true);
+					highlightObj[i].On();
+				}
+				break;
+		}
+	}
+	public void KeyDetect ()
+	{
+		if (Input.GetButtonDown("Up") && zoomIn != true)
+		{
+			animatorZoom.SetBool ("zoomIn MainMenu" ,zoomIn = true);
+			switch(currentType)
+			{
+				case UIType.TURNREPORT:
 					animatorFold.SetBool ("pageUnfold" ,unfoldAlready = true);
-				}
-				else if(Input.GetButtonDown("Fire2") && zoomIn == true)
-				{
-					animatorZoom.SetBool ("zoomIn MainMenu" ,zoomIn = false);
-					animatorFold.SetBool ("pageUnfold" ,unfoldAlready = false);
-				}
-
-				if(zoomIn != true)
-				ho.On(Color.yellow);
+					break;
+				case UIType.MAINMENU:
+					break;
 			}
 		}
+		else if(Input.GetButtonDown("Down") && zoomIn == true)
+		{
+			animatorZoom.SetBool ("zoomIn MainMenu" ,zoomIn = false);
+			switch(currentType)
+			{
+				case UIType.TURNREPORT:
+					animatorFold.SetBool ("pageUnfold" ,unfoldAlready = false);
+					break;
+				case UIType.MAINMENU:
+					break;
+			}
+		}
+		else if (Input.GetButtonDown("Left"))
+		{
+			switch(currentType)
+			{
+			case UIType.TURNREPORT:
+				break;
+			case UIType.MAINMENU:
+				break;
+			}
+			Debug.Log ("LeftKeyPress");
+		}
+		else if (Input.GetButtonDown("Right"))
+		{
+			switch(currentType)
+			{
+			case UIType.TURNREPORT:
+				break;
+			case UIType.MAINMENU:
+				break;
+			}
+			Debug.Log ("RightKeyPress");
+		}
+
+
 	}
 	
 	void OnGUI()
