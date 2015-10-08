@@ -19,3 +19,5 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+Assets/Script/RandomEvents.cs
+Assets/Script/Resource.cs
