@@ -7,21 +7,38 @@ public class RandomEvents : MonoBehaviour {
 
 	int temp = 0;
 	GameObject myManager;
+	[SerializeField] GameObject eventTopicObj;
+	[SerializeField] GameObject eventContentObj;
+	[SerializeField] GameObject eventOptionContent;
+
+	List<RandEvent> EventList = new List<RandEvent> ();
 	
 	// Use this for initialization
 	void Start () {
 		myManager = this.gameObject;
 
 		//RandEvent[] eventTable = new RandEvent[2];
-		List<RandEvent> EventList = new List<RandEvent> (); 
-		
-		
+
+		//EventList.Add
+
+		publishEvent ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+	public void publishEvent(){
+
+		//RandEvent eventInProgress = EventList.
+
+		//eventTopicObj.GetComponent<UILabel> ().text = 
+
+	}
+
+
+
 
 	public void addFood(int amount)
 		
@@ -32,7 +49,10 @@ public class RandomEvents : MonoBehaviour {
 	{
 		
 	}
-	
+
+
+
+
 	
 }
 
