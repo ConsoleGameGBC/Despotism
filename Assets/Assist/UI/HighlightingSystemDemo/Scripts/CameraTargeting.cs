@@ -28,11 +28,18 @@ public class CameraTargeting : MonoBehaviour
 	// Camera component reference
 	private Camera cam;
 
+	//Added by MERDEM
+	int currentOption;
+	[SerializeField] GameObject myManager;
+
 	void Start()
 	{
 		animatorZoom = GetComponent<Animator>();
 		animatorFold = turnReport.GetComponentInChildren<Animator>();
 		randEventOption = randEventOptionContent.GetComponent<UILabel> ();
+
+		//Added by MERDEM
+		currentOption = 1;
 	}
 
 	void Awake()
@@ -102,7 +109,13 @@ public class CameraTargeting : MonoBehaviour
 			else if(currentType == UIType.TURNREPORT)
 			{
 				randEventOptionContent.GetComponent<TypewriterEffect> ().Finish();
-				randEventOption.text = "TESTING TESTING TESTING";
+				//Changed by MERDEM
+				if(currentOption>1)
+					currentOption--;
+				else
+					currentOption = 3;
+				randEventOption.text= myManager.GetComponent<RandomEvents>().getOptionText(currentOption);
+				//randEventOption.text = "TESTING TESTING TESTING";
 				randEventOptionContent.GetComponent<TypewriterEffect> ().ResetToBeginning();
 			}
 
@@ -122,7 +135,15 @@ public class CameraTargeting : MonoBehaviour
 			else if(currentType == UIType.TURNREPORT)
 			{
 				randEventOptionContent.GetComponent<TypewriterEffect> ().Finish();
-				randEventOption.text = "blablablablablabla";
+
+				//Added by MERDEM
+				if(currentOption<3)
+					currentOption++;
+				else
+					currentOption = 1;
+				randEventOption.text= myManager.GetComponent<RandomEvents>().getOptionText(currentOption);
+
+				//randEventOption.text = "blablablablablabla";
 				randEventOptionContent.GetComponent<TypewriterEffect> ().ResetToBeginning();
 			}
 		}

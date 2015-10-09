@@ -11,6 +11,7 @@ public class RandomEvents : MonoBehaviour {
 	[SerializeField] GameObject eventContentObj;
 	[SerializeField] GameObject eventOptionContent;
 
+	int eventNo;
 	//List<RandEvent> EventList = new List<RandEvent> ();
 	RandEvent[] EventArray;
 	int numOfEvents = 3;
@@ -39,7 +40,7 @@ public class RandomEvents : MonoBehaviour {
 	public void publishEvent(){
 
 		//RandEvent eventInProgress = EventList.
-		int eventNo = Random.Range (0, numOfEvents);
+		eventNo = Random.Range (0, numOfEvents);
 		RandEvent eventInProgress = EventArray [eventNo];
 		eventTopicObj.GetComponent<UILabel> ().text = EventArray [eventNo].title;
 		eventContentObj.GetComponent<UILabel> ().text = EventArray [eventNo].text;
@@ -48,7 +49,40 @@ public class RandomEvents : MonoBehaviour {
 
 	}
 
+	public string getOptionText(int optNum){
+		switch(optNum){
+		case 1:
+			return EventArray [eventNo].option1;
+			break;
+		case 2:
+			return EventArray[eventNo].option2;
+			break;
+		case 3:
+			return EventArray[eventNo].option3;
+			break;
+		default:
+			Debug.Log("Error in getOptionText");
+			return null;
+			break;
+		}
+	}
 
+	public void madeChoice(int optNum){
+		switch (optNum) {
+		case 1:
+			EventArray[eventNo].ChoseO1();
+			break;
+		case 2:
+			EventArray[eventNo].ChoseO2();
+			break;
+		case 3:
+			EventArray[eventNo].ChoseO3();
+			break;
+		default:
+			Debug.Log("Error in madeChoice");
+			break;
+		}
+	}
 
 
 	public void addFood(int amount)
