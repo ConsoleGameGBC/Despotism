@@ -11,11 +11,18 @@ public class RandomEvents : MonoBehaviour {
 	[SerializeField] GameObject eventContentObj;
 	[SerializeField] GameObject eventOptionContent;
 
-	List<RandEvent> EventList = new List<RandEvent> ();
-	
+	//List<RandEvent> EventList = new List<RandEvent> ();
+	RandEvent[] EventArray;
+	int numOfEvents = 3;
+
 	// Use this for initialization
 	void Start () {
 		myManager = this.gameObject;
+
+		EventArray = new RandEvent[3];
+		EventArray [0] = new VisitingMerchant ();
+		EventArray[1] = new StolenFood ();
+		EventArray [2] = new Refugees ();
 
 		//RandEvent[] eventTable = new RandEvent[2];
 
@@ -32,7 +39,11 @@ public class RandomEvents : MonoBehaviour {
 	public void publishEvent(){
 
 		//RandEvent eventInProgress = EventList.
-
+		int eventNo = Random.Range (0, numOfEvents);
+		RandEvent eventInProgress = EventArray [eventNo];
+		eventTopicObj.GetComponent<UILabel> ().text = EventArray [eventNo].title;
+		eventContentObj.GetComponent<UILabel> ().text = EventArray [eventNo].text;
+		eventOptionContent.GetComponent<UILabel> ().text = EventArray [eventNo].option1;
 		//eventTopicObj.GetComponent<UILabel> ().text = 
 
 	}
@@ -84,7 +95,7 @@ abstract class RandEvent{
 
 class VisitingMerchant : RandEvent{
 	
-	VisitingMerchant(){
+	public VisitingMerchant(){
 		title = "Traveling Merchant";
 		text = "A Merchant is visiting. He offers to sell us food.";
 		option1 = "Buy food";
@@ -108,7 +119,7 @@ class VisitingMerchant : RandEvent{
 }
 
 class StolenFood : RandEvent{
-	StolenFood(){
+	public StolenFood(){
 		title = "Stolen Food";
 		text = "A few of your people acted greedy and stole extra food from the stores. They awat your judgement.";
 		option1 = "Execute them";
@@ -125,4 +136,23 @@ class StolenFood : RandEvent{
 		//They are sent to a dangerous mission
 	}
 	
+}
+
+class Refugees:RandEvent{
+	public Refugees(){
+		title = "Refugees";
+		text = "A group of refugees arrive at your camp. They seek shelter.";
+		option1 = "Accept them";
+		option2 = "Kill them, loot their stuff.";
+		option3 = "Send them away.";
+	}
+	override public void ChoseO1(){
+		//Gain pop
+	}
+	override public void ChoseO2(){
+		//Got loot, lose rep
+	}
+	override public void ChoseO3(){
+		//They are gone
+	}
 }
