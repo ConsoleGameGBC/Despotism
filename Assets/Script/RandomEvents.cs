@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -42,9 +43,9 @@ public class RandomEvents : MonoBehaviour {
 		//RandEvent eventInProgress = EventList.
 		eventNo = Random.Range (0, numOfEvents);
 		RandEvent eventInProgress = EventArray [eventNo];
-		eventTopicObj.GetComponent<UILabel> ().text = EventArray [eventNo].title;
-		eventContentObj.GetComponent<UILabel> ().text = EventArray [eventNo].text;
-		eventOptionContent.GetComponent<UILabel> ().text = EventArray [eventNo].option1;
+		eventTopicObj.GetComponent<GUIText> ().text = EventArray [eventNo].title;
+        eventContentObj.GetComponent<GUIText>().text = EventArray[eventNo].text;
+        eventOptionContent.GetComponent<GUIText>().text = EventArray[eventNo].option1;
 		//eventTopicObj.GetComponent<UILabel> ().text = 
 
 	}
@@ -53,17 +54,17 @@ public class RandomEvents : MonoBehaviour {
 		switch(optNum){
 		case 1:
 			return EventArray [eventNo].option1;
-			break;
+			
 		case 2:
 			return EventArray[eventNo].option2;
-			break;
+			
 		case 3:
 			return EventArray[eventNo].option3;
-			break;
+			
 		default:
 			Debug.Log("Error in getOptionText");
 			return null;
-			break;
+			
 		}
 	}
 
