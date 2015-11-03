@@ -19,6 +19,11 @@ public class UI : MonoBehaviour {
     Quaternion FocusRot;
     Vector3 UnfocusPos;
     Quaternion UnfocusRot;
+
+    GameObject MulitaryUI;
+    Vector3 MulitaryPos;
+    Quaternion MulitaryRot;
+
     public float speed = 10f;
     public float step;
     bool fold = true;
@@ -30,7 +35,8 @@ public class UI : MonoBehaviour {
     public enum UIChoice
     {
         MainMenu,
-        TurnReport
+        TurnReport,
+        Mulitary
     } ;
     UIChoice lastUI = new UIChoice();
     public UIChoice currentUI = new UIChoice();
@@ -45,6 +51,11 @@ public class UI : MonoBehaviour {
         MainMenu = GameObject.Find("MainMenu");
         MenuPosition = GameObject.Find("MenuPlaceHolder").transform.position;
         MenuRotation = GameObject.Find("MenuPlaceHolder").transform.rotation;
+
+        MulitaryUI = GameObject.Find("MulitaryUI");
+        MulitaryPos = MulitaryUI.transform.position;
+        MulitaryRot = MulitaryUI.transform.rotation;
+
         TurnReport = GameObject.Find("TurnReport");
         ReportPosition = TurnReport.transform.position;
         ReportRotation = TurnReport.transform.rotation;
@@ -166,6 +177,14 @@ public class UI : MonoBehaviour {
                         temp = true;
                     }
                     break;
+                case (UIChoice.Mulitary):
+                    MulitaryUI.transform.position = Vector3.MoveTowards(MulitaryUI.transform.position, MulitaryPos, step);
+                    MulitaryUI.transform.rotation = Quaternion.RotateTowards(MulitaryUI.transform.rotation, MulitaryRot, step * 50);
+                    if (MulitaryUI.transform.position == MulitaryPos && MulitaryUI.transform.rotation == MulitaryRot)
+                    {
+                        temp = true;
+                    }
+                    break;
 
             }
             if(temp == true)
@@ -191,6 +210,16 @@ public class UI : MonoBehaviour {
 
                         }
                         break;
+                    case (UIChoice.Mulitary):
+                        MulitaryUI.transform.position = Vector3.MoveTowards(MulitaryUI.transform.position, FocusLocationPos, step);
+                        MulitaryUI.transform.rotation = Quaternion.RotateTowards(MulitaryUI.transform.rotation, FocusLocationRot, step * 50);
+                        if (MulitaryUI.transform.position == FocusLocationPos && MulitaryUI.transform.rotation == FocusLocationRot)
+                        {
+                            switchingUI = false;
+                            controlDisable = false;
+
+                        }
+                        break;
 
                 }
             }
@@ -210,6 +239,12 @@ public class UI : MonoBehaviour {
                 CurrentUI = TurnReport;
                 LeftPage = GameObject.Find("TurnReportLeftPage");
                 RightPage = GameObject.Find("TurnReportRightPage");
+                switchingUI = true;
+                break;
+            case (UIChoice.Mulitary):
+                CurrentUI = MulitaryUI;
+                LeftPage = GameObject.Find("MulitaryLeftPage");
+                RightPage = GameObject.Find("MulitaryRightPage");
                 switchingUI = true;
                 break;
             default:
