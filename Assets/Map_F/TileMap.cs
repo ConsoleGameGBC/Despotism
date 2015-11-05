@@ -26,7 +26,7 @@ public class TileMap : MonoBehaviour {
 		// Initialize our map tiles to be grass
 		for(x=0; x < mapSizeX; x++) {
 			for(y=0; y < mapSizeX; y++) {
-                tiles[x, y] = Random.Range(0, 5); ; 
+                tiles[x, y] = Random.Range(0, 4); ; 
 			}
 		}
 
