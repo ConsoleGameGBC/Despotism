@@ -98,6 +98,7 @@ public class Resource : MonoBehaviour {
     {
         return Fuel;
     }
+
     public void setResources()
     {
 		foodAmountObj.GetComponent<Text>().text = Food.ToString();
@@ -114,6 +115,19 @@ public class Resource : MonoBehaviour {
         workerPopObj.GetComponent<Text>().text = popWorker.ToString();
         elderYouthPopObj.GetComponent<Text>().text = (popElder + popYouth).ToString();
 
+        reportFoodStockObj.GetComponent<Text>().text = Food.ToString();
+        reportFoodWorkerSoldierObj.GetComponent<Text>().text = (popWorker + popSoldier).ToString();
+        reportFoodGiveawayObj.GetComponent<Text>().text = (popUnemployed + popElder + popYouth).ToString();
+        reportFoodProductionObj.GetComponent<Text>().text = "0";
+        reportFoodImportObj.GetComponent<Text>().text = "0";
+        reportFoodExportObj.GetComponent<Text>().text = "0";
+
+        reportWaterStockObj.GetComponent<Text>().text = Water.ToString();
+        reportWaterWorkerSoldierObj.GetComponent<Text>().text = (popWorker + popSoldier).ToString();
+        reportWaterGiveawayObj.GetComponent<Text>().text = (popUnemployed + popElder + popYouth).ToString();
+        reportWaterFarmObj.GetComponent<Text>().text = "0";
+        reportWaterImportObj.GetComponent<Text>().text = "0";
+        reportWaterExportObj.GetComponent<Text>().text = "0";
 
     }
 
