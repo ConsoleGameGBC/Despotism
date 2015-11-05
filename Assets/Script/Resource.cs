@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -50,7 +50,19 @@ public class Resource : MonoBehaviour {
     [SerializeField]
     GameObject elderYouthPopObj;
 
+	[SerializeField] GameObject reportFoodStockObj;
+	[SerializeField] GameObject reportFoodWorkerSoldierObj;
+	[SerializeField] GameObject reportFoodGiveawayObj;
+	[SerializeField] GameObject reportFoodProductionObj;
+	[SerializeField] GameObject reportFoodImportObj;
+	[SerializeField] GameObject reportFoodExportObj;
 
+	[SerializeField] GameObject reportWaterStockObj;
+	[SerializeField] GameObject reportWaterWorkerSoldierObj;
+	[SerializeField] GameObject reportWaterGiveawayObj;
+	[SerializeField] GameObject reportWaterFarmObj;
+	[SerializeField] GameObject reportWaterImportObj;
+	[SerializeField] GameObject reportWaterExportObj;
 
 
     // Use this for initialization
