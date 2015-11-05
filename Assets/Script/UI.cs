@@ -35,6 +35,8 @@ public class UI : MonoBehaviour {
     bool startFolding;
     bool switchingUI;
     bool controlDisable;
+
+	int RandomEventOption = 0;
 	// Use this for initialization
 
     enum UIChoice
@@ -91,10 +93,11 @@ public class UI : MonoBehaviour {
 
 	void MulitaryChoice(int value)
 	{
+		Debug.Log (MulitaryStatus);
 		switch(MulitaryStatus)
 		{
 		case (0):
-			switch (mulitaryAction + value) 
+			switch (mulitaryAction += value) 
 			{
 				case(MulitaryAction.Attack):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
@@ -103,6 +106,7 @@ public class UI : MonoBehaviour {
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Explore";
 					break;
 				default:
+					mulitaryAction -= value;
 					break;
 			}
 			break;
@@ -125,7 +129,8 @@ public class UI : MonoBehaviour {
 
 	void MulitaryChoice(bool temp)
 	{
-		if(temp)
+		Debug.Log ("MulitaryChoice AnimationTriggers");
+		if(temp == true)
 		{
 			MulitaryStatus++;
 		}
@@ -133,9 +138,24 @@ public class UI : MonoBehaviour {
 		{
 			MulitaryStatus--;
 		}
-
-
 	}
+
+	void TurnChoice(int value)
+	{
+		switch(RandomEventOption += value)
+		{
+		case (0):
+			break;
+		case (1):
+			break;
+		case (2):
+			break;
+		default:
+			RandomEventOption -= value;
+			break;
+		}
+	}
+
 
 	// Update is called once per frame
 	void Update () {
@@ -180,6 +200,12 @@ public class UI : MonoBehaviour {
 			{
 				turnEnd ();
 			}
+
+			if(Input.GetButtonDown("B"))
+			{
+				turnEnd ();
+			}
+
 			if(Input.GetButtonDown("X"))
 			{
 				if (fold == false)
@@ -188,7 +214,7 @@ public class UI : MonoBehaviour {
 					{
 						case (UIChoice.Mulitary):
 							if(MulitaryActionAssigned == false)
-							MulitaryChoice(true);
+								MulitaryChoice(true);
 							break;
 					}
 				}
@@ -202,7 +228,7 @@ public class UI : MonoBehaviour {
 					{
 					case (UIChoice.Mulitary):
 						if(MulitaryActionAssigned == false)
-						MulitaryChoice(false);
+							MulitaryChoice(false);
 						break;
 					}
 				}
@@ -239,6 +265,9 @@ public class UI : MonoBehaviour {
 					case (UIChoice.Mulitary):
 						MulitaryChoice(1);
 						break;
+					case (UIChoice.TurnReport):
+						TurnChoice(1);
+						break;
 					}
                 }
                 else
@@ -257,6 +286,9 @@ public class UI : MonoBehaviour {
 					{
 					case (UIChoice.Mulitary):
 						MulitaryChoice(-1);
+						break;
+					case (UIChoice.TurnReport):
+						TurnChoice(-1);
 						break;
 					}
 

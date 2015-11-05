@@ -69,7 +69,7 @@ public class Resource : MonoBehaviour {
 
     public void setResources()
     {
-        foodAmountObj.GetComponent<Text>().text = Food.ToString();
+		foodAmountObj.GetComponent<Text>().text = Food.ToString();
         waterAmountObj.GetComponent<Text>().text = Water.ToString();
         fuelAmountObj.GetComponent<Text>().text = Fuel.ToString();
         medicalAmountObj.GetComponent<Text>().text = Medical.ToString();
