@@ -99,6 +99,7 @@ public class Resource : MonoBehaviour {
 			Water = 0;
 			// Some people are dehydrated. Add code.
 		}
+		setResources ();
 		
 	}
 

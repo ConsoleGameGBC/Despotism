@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
@@ -28,7 +29,7 @@ public class UI : MonoBehaviour {
     Vector3 StockPos;
     Quaternion StockRot;
 
-    public float speed = 10f;
+    public float speed = 20f;
     public float step;
     bool fold = true;
     bool startFolding;
@@ -36,15 +37,26 @@ public class UI : MonoBehaviour {
     bool controlDisable;
 	// Use this for initialization
 
-    public enum UIChoice
+    enum UIChoice
     {
         MainMenu,
         TurnReport,
         Mulitary,
         Stock
     } ;
+
+	public enum MulitaryAction
+	{
+		Attack,
+		Explore
+	};
+
     UIChoice lastUI = new UIChoice();
-    public UIChoice currentUI = new UIChoice();
+    UIChoice currentUI = new UIChoice();
+	MulitaryAction mulitaryAction = new MulitaryAction ();
+	int MulitaryStatus = 0;
+	bool MulitaryActionAssigned = false;
+
 	void Start () {
         Cursor.visible = false;
         MainCamera = GameObject.Find("Main Camera");
@@ -73,8 +85,58 @@ public class UI : MonoBehaviour {
         CurrentUI = MainMenu;
         LeftPage = GameObject.Find("MainMenuLeftPage");
         RightPage = GameObject.Find("MainMenuRightPage");
+
+		MulitaryChoice (0);
 	}
-	
+
+	void MulitaryChoice(int value)
+	{
+		switch(MulitaryStatus)
+		{
+		case (0):
+			switch (mulitaryAction + value) 
+			{
+				case(MulitaryAction.Attack):
+					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
+					break;
+				case(MulitaryAction.Explore):
+					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Explore";
+					break;
+				default:
+					break;
+			}
+			break;
+		case(1): //Enable Map
+			break;
+		case(2):
+			MulitaryStatus = 0;
+			MulitaryActionAssigned = true;
+			break;
+		}
+	}
+
+	void turnEnd()
+	{
+		MulitaryActionAssigned = false;
+		currentUI = UIChoice.TurnReport;
+		LeftPage = GameObject.Find("TurnReportLeftPage");
+		RightPage = GameObject.Find("TurnReportRightPage");
+	}
+
+	void MulitaryChoice(bool temp)
+	{
+		if(temp)
+		{
+			MulitaryStatus++;
+		}
+		else
+		{
+			MulitaryStatus--;
+		}
+
+
+	}
+
 	// Update is called once per frame
 	void Update () {
         step = speed * Time.deltaTime;
@@ -114,6 +176,39 @@ public class UI : MonoBehaviour {
         }
         if (controlDisable == false)
         {
+			if(Input.GetButtonDown("A"))
+			{
+				turnEnd ();
+			}
+			if(Input.GetButtonDown("X"))
+			{
+				if (fold == false)
+				{
+					switch(currentUI)
+					{
+						case (UIChoice.Mulitary):
+							if(MulitaryActionAssigned == false)
+							MulitaryChoice(true);
+							break;
+					}
+				}
+			}
+
+			if(Input.GetButtonDown("Y"))
+			{
+				if (fold == false)
+				{
+					switch(currentUI)
+					{
+					case (UIChoice.Mulitary):
+						if(MulitaryActionAssigned == false)
+						MulitaryChoice(false);
+						break;
+					}
+				}
+			}
+
+
             if (Input.GetButtonDown("Up"))
             {
                 if (fold == true)
@@ -123,6 +218,7 @@ public class UI : MonoBehaviour {
                     startFolding = true;
 
                 }
+	
             }
             else if (Input.GetButtonDown("Down"))
             {
@@ -138,8 +234,12 @@ public class UI : MonoBehaviour {
             {
                 if (fold == false)
                 {
-
-
+					switch(currentUI)
+					{
+					case (UIChoice.Mulitary):
+						MulitaryChoice(1);
+						break;
+					}
                 }
                 else
                 {
@@ -153,7 +253,12 @@ public class UI : MonoBehaviour {
             {
                 if (fold == false)
                 {
-
+					switch(currentUI)
+					{
+					case (UIChoice.Mulitary):
+						MulitaryChoice(-1);
+						break;
+					}
 
                 }
                 else

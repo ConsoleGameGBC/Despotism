@@ -28,7 +28,7 @@ public class Intro : MonoBehaviour {
 
     public void assignIntroText()
     {
-        introTextObject.GetComponent<GUIText>().text = introText;
-        goalTextObject.GetComponent<GUIText>().text = goalText;
+        introTextObject.GetComponent<Text>().text = introText;
+		goalTextObject.GetComponent<Text>().text = goalText;
     }
 }
