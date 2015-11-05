@@ -22,9 +22,9 @@ public class RandomEvents : MonoBehaviour {
 		myManager = this.gameObject;
 
 		EventArray = new RandEvent[3];
-		EventArray [0] = new VisitingMerchant (myManager);
-		EventArray[1] = new StolenFood (myManager);
-		EventArray [2] = new Refugees (myManager);
+		EventArray [0] = new VisitingMerchant ();
+		EventArray[1] = new StolenFood ();
+		EventArray [2] = new Refugees ();
 
 		//RandEvent[] eventTable = new RandEvent[2];
 
@@ -108,8 +108,7 @@ abstract class RandEvent{
 	public string option1;
 	public string option2;
 	public string option3;
-    protected GameObject manager;
-    protected Resource myResourceClass;
+
 	/*
 	RandEvent(string titl, string tex, string o1, string o2, string o3){
 		title = titl;
@@ -119,14 +118,6 @@ abstract class RandEvent{
 		option3 = o3;
 	}
 	*/
-
-    public RandEvent(GameObject obj)
-    {
-        manager = obj;
-        myResourceClass = manager.GetComponent<Resource>();
-
-    }
-   //public  RandEvent() { }
 	
 	abstract public void ChoseO1();
 	abstract public void ChoseO2();
@@ -139,27 +130,22 @@ abstract class RandEvent{
 
 class VisitingMerchant : RandEvent{
 	
-	public VisitingMerchant(GameObject obj) : base(obj){
+	public VisitingMerchant(){
 		title = "Traveling Merchant";
-		text = "A Merchant is visiting. He offers to sell us 50 food for 50 fuel.";
+		text = "A Merchant is visiting. He offers to sell us food.";
 		option1 = "Buy food";
 		option2 = "Kill him and loot his stuff.";
-		option3 = "Send him away."; 
+		option3 = "Send him away.";
 	}
 	
 	
 	override public void ChoseO1(){
 		//Bought food
-        if(myResourceClass.getFuel() >= 50)
-        {
-            myResourceClass.changeFuel(-50);
-            myResourceClass.changeFood(50);
-        }
+
 		
 	}
 	override public void ChoseO2(){
-        //Killed the poor guy
-        myResourceClass.changeFood(50);
+		//Killed the poor guy
 	}
 	override public void ChoseO3(){
 		//Nothing happens
@@ -168,46 +154,37 @@ class VisitingMerchant : RandEvent{
 }
 
 class StolenFood : RandEvent{
-	public StolenFood(GameObject obj) : base(obj)
-    {
-        title = "Stolen Food";
+	public StolenFood(){
+		title = "Stolen Food";
 		text = "A few of your people acted greedy and stole extra food from the stores. They awat your judgement.";
 		option1 = "Execute them";
 		option2 = "Forgive them.";
 		option3 = "Send them on a dangerous mission.";
 	}
 	override public void ChoseO1(){
-        myResourceClass.changeUnemployed(-3);
 		//Lose population
 	}
 	override public void ChoseO2(){
 		//They are forgiven
 	}
 	override public void ChoseO3(){
-        //They are sent to a dangerous mission
-        myResourceClass.changeUnemployed(-3);
-    }
+		//They are sent to a dangerous mission
+	}
 	
 }
 
 class Refugees:RandEvent{
-	public Refugees(GameObject obj) : base(obj)
-    {
-        title = "Refugees";
+	public Refugees(){
+		title = "Refugees";
 		text = "A group of refugees arrive at your camp. They seek shelter.";
 		option1 = "Accept them";
 		option2 = "Kill them, loot their stuff.";
 		option3 = "Send them away.";
 	}
 	override public void ChoseO1(){
-        myResourceClass.changeUnemployed(10);
 		//Gain pop
 	}
 	override public void ChoseO2(){
-        myResourceClass.changeFood(10);
-        myResourceClass.changeWater(10);
-        myResourceClass.changeMedical(3);
-        myResourceClass.changeFuel(2);
 		//Got loot, lose rep
 	}
 	override public void ChoseO3(){

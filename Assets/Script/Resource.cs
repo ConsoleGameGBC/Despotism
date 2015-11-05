@@ -55,7 +55,6 @@ public class Resource : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        setInitialResources();
         setResources();
 		
 		
@@ -67,25 +66,7 @@ public class Resource : MonoBehaviour {
 		
 		
 	}
-    void setInitialResources()
-    {
-        popSoldier = Random.Range(50, 70);
-        popElder = Random.Range(10, 30);
-        popYouth = Random.Range(12, 20);
-        popWorker = Random.Range(50, 80);
-        popUnemployed = Random.Range(10, 20);
 
-        Food = Random.Range(660, 1500);
-        Water = Random.Range(660, 1500);
-        Medical = Random.Range(200, 500);
-        Fuel = Random.Range(200, 500);
-        Power = 0;
-    }
-
-    public int getFuel()
-    {
-        return Fuel;
-    }
     public void setResources()
     {
         foodAmountObj.GetComponent<Text>().text = Food.ToString();
