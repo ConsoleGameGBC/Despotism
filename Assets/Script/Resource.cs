@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Resource : MonoBehaviour {
@@ -68,38 +69,84 @@ public class Resource : MonoBehaviour {
 
     public void setResources()
     {
-        foodAmountObj.GetComponent<GUIText>().text = Food.ToString();
-        waterAmountObj.GetComponent<GUIText>().text = Water.ToString();
-        fuelAmountObj.GetComponent<GUIText>().text = Fuel.ToString();
-        medicalAmountObj.GetComponent<GUIText>().text = Medical.ToString();
-        powerAmountObj.GetComponent<GUIText>().text = Power.ToString();
+        foodAmountObj.GetComponent<Text>().text = Food.ToString();
+        waterAmountObj.GetComponent<Text>().text = Water.ToString();
+        fuelAmountObj.GetComponent<Text>().text = Fuel.ToString();
+        medicalAmountObj.GetComponent<Text>().text = Medical.ToString();
+        powerAmountObj.GetComponent<Text>().text = Power.ToString();
 
         Population = popUnemployed + popSoldier + popWorker + popElder + popYouth;
 
-        totalPopObj.GetComponent<GUIText>().text = Population.ToString();
-        unemployedPopObj.GetComponent<GUIText>().text = popUnemployed.ToString();
-        soldierPopObj.GetComponent<GUIText>().text = popSoldier.ToString();
-        workerPopObj.GetComponent<GUIText>().text = popWorker.ToString();
-        elderYouthPopObj.GetComponent<GUIText>().text = (popElder + popYouth).ToString();
+        totalPopObj.GetComponent<Text>().text = Population.ToString();
+        unemployedPopObj.GetComponent<Text>().text = popUnemployed.ToString();
+        soldierPopObj.GetComponent<Text>().text = popSoldier.ToString();
+        workerPopObj.GetComponent<Text>().text = popWorker.ToString();
+        elderYouthPopObj.GetComponent<Text>().text = (popElder + popYouth).ToString();
 
 
     }
+
+    void decreasePop()
+    {
+        while(Population < popUnemployed + popSoldier + popWorker + popElder + popYouth)
+        {
+            switch(Random.Range(1, 6))
+            {
+                case 1:
+                    if (popUnemployed > 0)
+                        popUnemployed--;
+                    break;
+                case 2:
+                    if (popSoldier > 0)
+                        popSoldier--;
+                    break;
+                case 3:
+                    if (popWorker > 0)
+                        popWorker--;
+                    break;
+                case 4:
+                    if (popElder > 0)
+                        popElder--;
+                    break;
+                case 5:
+                    if (popYouth > 0)
+                        popYouth--;
+                    break;
+            }
+
+        }
+    }
 	
 	public void endTurn(){
-		if (Food >= Population) {
-			Food -= Population;
-		} else {
-			Food = 0;
-			// Some people starve. Decide what to do?
-		}
+        Population = popUnemployed + popSoldier + popWorker + popElder + popYouth;
+
 		
 		if (Water > Population) {
 			Water -= Population;
 		} else {
+            int difference = Population - Water;
 			Water = 0;
+            Population -= difference;
+            decreasePop();
 			// Some people are dehydrated. Add code.
 		}
-		setResources ();
+
+        if (Food >= Population)
+        {
+            Food -= Population;
+        }
+        else
+        {
+
+            int difference = Population - Food;
+            Food = 0;
+            Population -= difference;
+            decreasePop();
+
+            // Some people starve. Decide what to do?
+        }
+
+        setResources ();
 		
 	}
 

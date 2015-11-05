@@ -43,9 +43,9 @@ public class RandomEvents : MonoBehaviour {
 		//RandEvent eventInProgress = EventList.
 		eventNo = Random.Range (0, numOfEvents);
 		RandEvent eventInProgress = EventArray [eventNo];
-		eventTopicObj.GetComponent<GUIText> ().text = EventArray [eventNo].title;
-        eventContentObj.GetComponent<GUIText>().text = EventArray[eventNo].text;
-        eventOptionContent.GetComponent<GUIText>().text = EventArray[eventNo].option1;
+		eventTopicObj.GetComponent<Text> ().text = EventArray [eventNo].title;
+        eventContentObj.GetComponent<Text>().text = EventArray[eventNo].text;
+        eventOptionContent.GetComponent<Text>().text = EventArray[eventNo].option1;
 		//eventTopicObj.GetComponent<UILabel> ().text = 
 
 	}
