@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
+    GameObject SunCenter;
+    GameObject Sun;
     GameObject LeftPage;
     GameObject RightPage;
     GameObject CurrentUI;
@@ -21,6 +23,8 @@ public class UI : MonoBehaviour {
     Vector3 UnfocusPos;
     Quaternion UnfocusRot;
 
+    Resource resource;
+    RandomEvents randomEvents;
     GameObject MulitaryUI;
     Vector3 MulitaryPos;
     Quaternion MulitaryRot;
@@ -35,6 +39,8 @@ public class UI : MonoBehaviour {
     bool startFolding;
     bool switchingUI;
     bool controlDisable;
+    bool turnIsEnd;
+    int TimePassing = 0;
 	// Use this for initialization
 
     enum UIChoice
@@ -55,10 +61,18 @@ public class UI : MonoBehaviour {
     UIChoice currentUI = new UIChoice();
 	MulitaryAction mulitaryAction = new MulitaryAction ();
 	int MulitaryStatus = 0;
+    int RandomEventOptionStatus = 0;
 	bool MulitaryActionAssigned = false;
 
 	void Start () {
         //Cursor.visible = false;
+
+        SunCenter = GameObject.Find("Center");
+        Sun = GameObject.Find("Sun");
+
+        resource = GameObject.Find("GameManager").GetComponent<Resource>();
+        randomEvents = GameObject.Find("TurnReport").GetComponent<RandomEvents>();
+
         MainCamera = GameObject.Find("Main Camera");
         UnfocusPos = MainCamera.transform.position;
         UnfocusRot = MainCamera.transform.rotation;
@@ -126,15 +140,8 @@ public class UI : MonoBehaviour {
         }
 
         controlDisable = true;
-
-        if (currentUI != UIChoice.TurnReport)
-        {
-            lastUI = currentUI;
-            currentUI = UIChoice.TurnReport;
-            UIChanged(currentUI, false);
-        }
-
-		MulitaryActionAssigned = false;
+        turnIsEnd = true;
+       
 	}
 
 	void MulitaryChoice(bool temp)
@@ -151,8 +158,79 @@ public class UI : MonoBehaviour {
 
 	}
 
+    void ReportChoice(int value)
+    {
+        RandomEventOptionStatus += value;
+        switch (RandomEventOptionStatus)
+        {
+            case (0):
+                GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
+                break;
+            case (1):
+                GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
+                break;
+            case (2):
+                GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
+                break;
+            default:
+                RandomEventOptionStatus -= value;
+                break;
+        }
+    }
+
+
+
 	// Update is called once per frame
 	void Update () {
+
+        if(TimePassing > 0)
+        {        
+            float SunSpeed = 50;
+            Sun.transform.LookAt(SunCenter.transform.position);
+            SunCenter.transform.Rotate(Vector3.forward * Time.deltaTime * SunSpeed );
+            if(SunCenter.transform.rotation.eulerAngles.z >= 359.0f)
+            {
+                Quaternion temp = Quaternion.identity;
+                temp = Quaternion.EulerAngles(0, 0, 0);
+                SunCenter.transform.rotation = temp;
+                TimePassing = 0;
+                controlDisable = false;
+            }
+
+            if (SunCenter.transform.rotation.eulerAngles.z > 0 && SunCenter.transform.rotation.eulerAngles.z < 180)
+            {
+                if(Sun.GetComponent<Light>().intensity > 0)
+                {
+                    Sun.GetComponent<Light>().intensity -= 0.1f * SunSpeed * Time.deltaTime;
+                }
+            }
+            else if (Sun.GetComponent<Light>().intensity < 8)
+            {
+                Sun.GetComponent<Light>().intensity += 0.1f * SunSpeed * Time.deltaTime;
+            }
+        }
+
+        if (turnIsEnd == true && currentUI != UIChoice.TurnReport && startFolding == false)
+        {
+            lastUI = currentUI;
+            currentUI = UIChoice.TurnReport;
+            UIChanged(currentUI, false);
+            MulitaryActionAssigned = false;
+            controlDisable = true;
+            TimePassing = 1;
+            turnIsEnd = false;
+        }
+        else if (turnIsEnd == true && currentUI == UIChoice.TurnReport)
+        {
+            MulitaryActionAssigned = false;
+            controlDisable = true;
+            TimePassing = 1;
+            turnIsEnd = false;
+        }
+
+
+
+
         step = speed * Time.deltaTime;
         if (fold == true && startFolding == true)
         {
@@ -255,8 +333,11 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
-						MulitaryChoice(1);
+						MulitaryChoice(-1);
 						break;
+                    case (UIChoice.TurnReport):
+                        ReportChoice(-1);
+                        break;
 					}
                 }
                 else
@@ -274,8 +355,11 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
-						MulitaryChoice(-1);
+						MulitaryChoice(1);
 						break;
+                    case (UIChoice.TurnReport):
+                        ReportChoice(1);
+                        break;
 					}
 
                 }
@@ -327,7 +411,7 @@ public class UI : MonoBehaviour {
                     break;
 
             }
-            if(temp == true)
+            if(temp == true && TimePassing == 0)
             {
                 switch (currentUI)
                 {
