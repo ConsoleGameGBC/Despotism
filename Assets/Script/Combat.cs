@@ -47,7 +47,7 @@ public class Combat : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+	    
 	}
 	
 	// Update is called once per frame
@@ -55,8 +55,16 @@ public class Combat : MonoBehaviour {
 	
 	}
 
+    public void changePaperBack()
+    {
+        combatResultUIObj.SetActive(false);
+        combatUIObj.SetActive(true);
+    }
+
     public string combatResult(bool isExplored, int terrainType, int soldierNum)
     {
+        int totalplayerLoss = 0;
+        int playerCasMelee = 0;
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
         enemyNum = Random.Range(5, 15);
         terrainType = Random.Range(1, 5);
@@ -122,9 +130,10 @@ public class Combat : MonoBehaviour {
                 break;
         }
 
-        Debug.Log(soldierNum + " " + terrainRange + " " + playerRange);
-        float enemyCas = soldierNum * terrainRange * playerRange * Random.Range(0.8f, 2.0f);
-        float playerCas = enemyNum * terrainRange * enemyRange * Random.Range(0.8f, 2.0f);
+        Debug.Log("enemyCas" + soldierNum + " " + terrainRange + " " + playerRange);
+        Debug.Log("playerCas" + enemyNum + " " + terrainRange + " " + enemyRange);
+        float enemyCas = soldierNum * terrainRange * playerRange * Random.Range(1.8f, 3.0f);
+        float playerCas = enemyNum * terrainRange * enemyRange * Random.Range(1.8f, 3.0f);
         Debug.Log("enemycas" +enemyCas);
         Debug.Log("playercas" +playerCas);
 
@@ -142,21 +151,35 @@ public class Combat : MonoBehaviour {
 
         if(soldierNum > 0 && enemyNum > 0)
         {
-             enemyCas = soldierNum * terrainMelee * enemyMelee * Random.Range(0.8f, 2.0f);
-             playerCas = enemyNum * terrainMelee * playerMelee * Random.Range(0.8f, 2.0f);
 
-            if ((int)enemyCas > enemyNum)
-                enemyCas = enemyNum;
+            totalplayerLoss = (int)playerCas;
+            enemyCas = 0;
+            playerCas = 0;
 
-            if ((int)playerCas > soldierNum)
-                playerCas = soldierNum;
+            int enemyCasMelee = 0;
+            //int playerCasMelee = 0;
+            while ((int)enemyCas != enemyNum && (int)playerCas != soldierNum)
+            {
+                enemyCas = soldierNum * terrainMelee * playerMelee * Random.Range(0.8f, 2.5f);
+                playerCas = enemyNum * terrainMelee * enemyMelee * Random.Range(0.8f, 2.5f);
 
-            soldierNum -= (int)playerCas;
-            enemyNum -= (int)enemyCas;
+
+                if ((int)enemyCas > enemyNum)
+                    enemyCas = enemyNum;
+
+                if ((int)playerCas > soldierNum)
+                    playerCas = soldierNum;
+
+                enemyCasMelee += (int)enemyCas;
+                playerCasMelee += (int)playerCas;
+
+                soldierNum -= (int)playerCas;
+                enemyNum -= (int)enemyCas;
+            }
 
 
-            myString += " On melee we killed " + ((int)enemyCas).ToString() + " and we lost "
-            + ((int)playerCas).ToString() + " soldiers";
+            myString += " On melee we killed " + (enemyCasMelee).ToString() + " and we lost "
+            + (playerCasMelee).ToString() + " soldiers";
         }
 
         if (soldierNum > 0)
@@ -168,13 +191,18 @@ public class Combat : MonoBehaviour {
             myString += "We lost the fight.";
         }
 
-        soldiers = soldierNum;
+        //soldiers = soldierNum;
+        totalplayerLoss += playerCasMelee;
+        //change this later
+        //this.gameObject.GetComponent<Resource>.soldiers -= totalplayerLoss;
 
         combatResultUIObj.SetActive(true);
         combatUIObj.SetActive(false);
 
 
         combatResultTextObj.GetComponent<Text>().text = myString;
+
+
 
         return myString;
     }

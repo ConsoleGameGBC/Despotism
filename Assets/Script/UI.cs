@@ -109,6 +109,8 @@ public class UI : MonoBehaviour {
         MulitaryStatusChoice(0);
 	}
 
+
+
 	void MulitaryStatusChoice(int value)
 	{
         Debug.Log(MulitaryStatus);
@@ -183,7 +185,7 @@ public class UI : MonoBehaviour {
                     myCombatClass.combatResult(false, 1, 20);
                     break;
                 case (MulitaryAction.Explore):
-                    myCombatClass.explorationResult(false, 1, 10);
+                    myCombatClass.explorationResult(false, 1, 20);
                     break;
                 default:
                     Debug.Log("Error in combat call");

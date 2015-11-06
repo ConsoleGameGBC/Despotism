@@ -234,6 +234,7 @@ public class Resource : MonoBehaviour {
 
 
         this.gameObject.GetComponent<RandomEvents>().publishEvent();
+        this.gameObject.GetComponent<Combat>().changePaperBack();
 		
 	}
 
