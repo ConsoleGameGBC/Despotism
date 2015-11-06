@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class Combat : MonoBehaviour {
+    [SerializeField]
+    GameObject combatUIObj;
+
+    [SerializeField]
+    GameObject combatResultUIObj;
 
     int soldiers;
     int enemyNum;
@@ -154,6 +159,10 @@ public class Combat : MonoBehaviour {
         }
 
         soldiers = soldierNum;
+
+        combatResultUIObj.SetActive(true);
+        combatUIObj.SetActive(false);
+
 
         return myString;
     }
