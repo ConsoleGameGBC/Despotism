@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
+    GameObject SunCenter;
+    GameObject Sun;
     GameObject LeftPage;
     GameObject RightPage;
     GameObject CurrentUI;
@@ -35,6 +37,8 @@ public class UI : MonoBehaviour {
     bool startFolding;
     bool switchingUI;
     bool controlDisable;
+    bool turnIsEnd;
+    int TimePassing = 0;
 	// Use this for initialization
 
     enum UIChoice
@@ -59,6 +63,10 @@ public class UI : MonoBehaviour {
 
 	void Start () {
         //Cursor.visible = false;
+
+        SunCenter = GameObject.Find("Center");
+        Sun = GameObject.Find("Sun");
+
         MainCamera = GameObject.Find("Main Camera");
         UnfocusPos = MainCamera.transform.position;
         UnfocusRot = MainCamera.transform.rotation;
@@ -126,15 +134,8 @@ public class UI : MonoBehaviour {
         }
 
         controlDisable = true;
-
-        if (currentUI != UIChoice.TurnReport)
-        {
-            lastUI = currentUI;
-            currentUI = UIChoice.TurnReport;
-            UIChanged(currentUI, false);
-        }
-
-		MulitaryActionAssigned = false;
+        turnIsEnd = true;
+       
 	}
 
 	void MulitaryChoice(bool temp)
@@ -151,8 +152,60 @@ public class UI : MonoBehaviour {
 
 	}
 
+
+
+
 	// Update is called once per frame
 	void Update () {
+
+        if(TimePassing > 0)
+        {        
+            float SunSpeed = 50;
+            Sun.transform.LookAt(SunCenter.transform.position);
+            SunCenter.transform.Rotate(Vector3.forward * Time.deltaTime * SunSpeed );
+            if(SunCenter.transform.rotation.eulerAngles.z >= 359.0f)
+            {
+                Quaternion temp = Quaternion.identity;
+                temp = Quaternion.EulerAngles(0, 0, 0);
+                SunCenter.transform.rotation = temp;
+                TimePassing = 0;
+                controlDisable = false;
+            }
+
+            if (SunCenter.transform.rotation.eulerAngles.z > 0 && SunCenter.transform.rotation.eulerAngles.z < 180)
+            {
+                if(Sun.GetComponent<Light>().intensity > 0)
+                {
+                    Sun.GetComponent<Light>().intensity -= 0.1f * SunSpeed * Time.deltaTime;
+                }
+            }
+            else if (Sun.GetComponent<Light>().intensity < 8)
+            {
+                Sun.GetComponent<Light>().intensity += 0.1f * SunSpeed * Time.deltaTime;
+            }
+        }
+
+        if (turnIsEnd == true && currentUI != UIChoice.TurnReport && startFolding == false)
+        {
+            lastUI = currentUI;
+            currentUI = UIChoice.TurnReport;
+            UIChanged(currentUI, false);
+            MulitaryActionAssigned = false;
+            controlDisable = true;
+            TimePassing = 1;
+            turnIsEnd = false;
+        }
+        else if (turnIsEnd == true && currentUI == UIChoice.TurnReport)
+        {
+            MulitaryActionAssigned = false;
+            controlDisable = true;
+            TimePassing = 1;
+            turnIsEnd = false;
+        }
+
+
+
+
         step = speed * Time.deltaTime;
         if (fold == true && startFolding == true)
         {
@@ -327,7 +380,7 @@ public class UI : MonoBehaviour {
                     break;
 
             }
-            if(temp == true)
+            if(temp == true && TimePassing == 0)
             {
                 switch (currentUI)
                 {
