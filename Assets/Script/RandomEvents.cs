@@ -10,7 +10,7 @@ public class RandomEvents : MonoBehaviour {
 	GameObject myManager;
     
 	[SerializeField] GameObject eventTopicObj;
-	[SerializeField] GameObject eventContentObj;
+	[SerializeField]  GameObject eventContentObj;
 	[SerializeField] GameObject eventOptionContent;
 
 	public int eventNo;
@@ -50,6 +50,13 @@ public class RandomEvents : MonoBehaviour {
 		//eventTopicObj.GetComponent<UILabel> ().text = 
 
 	}
+
+    public void showResult(string result)
+    {
+        eventContentObj.GetComponent<Text>().text += "\n" + result;
+        eventOptionContent.GetComponent<Text>().text = result;
+    }
+
 
     public string outputOption(int value)
     {
@@ -126,8 +133,12 @@ public abstract class RandEvent{
 	public string option1;
 	public string option2;
 	public string option3;
+    protected string result1;
+    protected string result2;
+    protected string result3;
     protected GameObject manager;
     public Resource myResourceClass;
+    protected RandomEvents myEventClass;
 	/*
 	RandEvent(string titl, string tex, string o1, string o2, string o3){
 		title = titl;
@@ -141,12 +152,21 @@ public abstract class RandEvent{
     public RandEvent(GameObject obj)
     {
         myResourceClass = GameObject.Find("GameManager").GetComponent<Resource>();
+        myEventClass = GameObject.Find("GameManager").GetComponent<RandomEvents>();
     }
+
+    
    //public  RandEvent() { }
 	
 	abstract public void ChoseO1();
 	abstract public void ChoseO2();
 	abstract public void ChoseO3();
+
+    protected void updateResult(string myStr)
+    {
+        //manager.GetComponent<RandomEvents>().showResult(myStr);
+        myEventClass.showResult(myStr);
+    }
 	
 }
 
@@ -160,7 +180,10 @@ class VisitingMerchant : RandEvent{
 		text = "A Merchant is visiting. He offers to sell us 50 food for 50 fuel.";
 		option1 = "Buy food";
 		option2 = "Kill him and loot his stuff.";
-		option3 = "Send him away."; 
+		option3 = "Send him away.";
+        result1 = "We bought food from the merchant. ";
+        result2 = "We killed the merchant and loot his stuff.";
+        result3 = "We sent him away.";
 	}
 	
 	
@@ -171,15 +194,18 @@ class VisitingMerchant : RandEvent{
             myResourceClass.changeFuel(-50);
             myResourceClass.changeFood(50);
         }
+        updateResult(result1);
 		
 	}
 	override public void ChoseO2(){
+        updateResult(result2);
         //Killed the poor guy
         myResourceClass.changeFood(50);
 	}
 	override public void ChoseO3(){
-		//Nothing happens
-	}
+        //Nothing happens
+        updateResult(result3);
+    }
 	
 }
 
@@ -191,15 +217,21 @@ class StolenFood : RandEvent{
 		option1 = "Execute them";
 		option2 = "Forgive them.";
 		option3 = "Send them on a dangerous mission.";
+        result1 = "They are executed by our soldiers. Our tribe learned a lesson.";
+        result2 = "They are forgiven.";
+        result3 = "They are dead, our conscience clean.";
 	}
 	override public void ChoseO1(){
+        updateResult(result1);
         myResourceClass.changeUnemployed(-3);
 		//Lose population
 	}
 	override public void ChoseO2(){
-		//They are forgiven
-	}
+        updateResult(result2);
+        //They are forgiven
+    }
 	override public void ChoseO3(){
+        updateResult(result3);
         //They are sent to a dangerous mission
         myResourceClass.changeUnemployed(-3);
     }
@@ -214,12 +246,17 @@ class Refugees:RandEvent{
 		option1 = "Accept them";
 		option2 = "Kill them, loot their stuff.";
 		option3 = "Send them away.";
+        result1 = "We have new unemployed tribesmen";
+        result2 = "We killed them and loot their stuff.";
+        result3 = "They are gone.";
 	}
 	override public void ChoseO1(){
+        updateResult(result1);
         myResourceClass.changeUnemployed(10);
 		//Gain pop
 	}
 	override public void ChoseO2(){
+        updateResult(result2);
         myResourceClass.changeFood(10);
         myResourceClass.changeWater(10);
         myResourceClass.changeMedical(3);
@@ -227,6 +264,7 @@ class Refugees:RandEvent{
 		//Got loot, lose rep
 	}
 	override public void ChoseO3(){
-		//They are gone
-	}
+        updateResult(result3);
+        //They are gone
+    }
 }

@@ -72,7 +72,7 @@ public class UI : MonoBehaviour {
         Sun = GameObject.Find("Sun");
 
         resource = GameObject.Find("GameManager").GetComponent<Resource>();
-        randomEvents = GameObject.Find("TurnReport").GetComponent<RandomEvents>();
+        randomEvents = GameObject.Find("GameManager").GetComponent<RandomEvents>();
 
         MainCamera = GameObject.Find("Main Camera");
         UnfocusPos = MainCamera.transform.position;

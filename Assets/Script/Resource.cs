@@ -231,6 +231,9 @@ public class Resource : MonoBehaviour {
         MedicalChange = 0;
 
         setResources ();
+
+
+        this.gameObject.GetComponent<RandomEvents>().publishEvent();
 		
 	}
 
