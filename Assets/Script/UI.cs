@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
+    
+
     GameObject SunCenter;
     GameObject Sun;
     GameObject LeftPage;
@@ -59,6 +61,7 @@ public class UI : MonoBehaviour {
 
     UIChoice lastUI = new UIChoice();
     UIChoice currentUI = new UIChoice();
+    Combat myCombatClass;
 	MulitaryAction mulitaryAction = new MulitaryAction ();
 	int MulitaryStatus = 0;
     int RandomEventOptionStatus = 0;
@@ -70,6 +73,8 @@ public class UI : MonoBehaviour {
 
         SunCenter = GameObject.Find("Center");
         Sun = GameObject.Find("Sun");
+
+        myCombatClass = GameObject.Find("GameManager").GetComponent<Combat>();
 
         resource = GameObject.Find("GameManager").GetComponent<Resource>();
         randomEvents = GameObject.Find("GameManager").GetComponent<RandomEvents>();
@@ -101,11 +106,12 @@ public class UI : MonoBehaviour {
         LeftPage = GameObject.Find("MainMenuLeftPage");
         RightPage = GameObject.Find("MainMenuRightPage");
 
-		MulitaryChoice (0);
+        MulitaryStatusChoice(0);
 	}
 
-	void MulitaryChoice(int value)
+	void MulitaryStatusChoice(int value)
 	{
+        Debug.Log(MulitaryStatus);
 		switch(MulitaryStatus)
 		{
 		case (0):
@@ -125,9 +131,11 @@ public class UI : MonoBehaviour {
 		case(1): //Enable Map
 			break;
 		case(2):
-			MulitaryStatus = 0;
+                callCombat();
+                MulitaryStatus = 0;
 			MulitaryActionAssigned = true;
-			break;
+               
+            break;
 		}
 	}
 
@@ -166,6 +174,24 @@ public class UI : MonoBehaviour {
 
 
 	}
+    void callCombat()
+    {
+        if (MulitaryStatus == 2) {
+            switch (mulitaryAction)
+            {
+                case (MulitaryAction.Attack):
+                    myCombatClass.combatResult(false, 1, 20);
+                    break;
+                case (MulitaryAction.Explore):
+                    myCombatClass.explorationResult(false, 1, 10);
+                    break;
+                default:
+                    Debug.Log("Error in combat call");
+                    break;
+            }
+        }
+    }
+
 
     void ReportChoice(int value)
     {
@@ -299,7 +325,10 @@ public class UI : MonoBehaviour {
 						case (UIChoice.Mulitary):
                             if (MulitaryActionAssigned == false)
                             {
+                                Debug.Log("k button");
                                 MulitaryChoice(true);
+                                MulitaryStatusChoice(0);
+                                
                             }
 							break;
                         case (UIChoice.TurnReport):
@@ -358,7 +387,7 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
-						MulitaryChoice(-1);
+                            MulitaryStatusChoice(-1);
 						break;
                     case (UIChoice.TurnReport):
                         ReportChoice(-1);
@@ -380,7 +409,7 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
-						MulitaryChoice(1);
+                            MulitaryStatusChoice(1);
 						break;
                     case (UIChoice.TurnReport):
                         ReportChoice(1);

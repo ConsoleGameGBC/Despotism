@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Combat : MonoBehaviour {
@@ -7,6 +8,9 @@ public class Combat : MonoBehaviour {
 
     [SerializeField]
     GameObject combatResultUIObj;
+
+    [SerializeField]
+    GameObject combatResultTextObj;
 
     int soldiers;
     int enemyNum;
@@ -53,7 +57,10 @@ public class Combat : MonoBehaviour {
 
     public string combatResult(bool isExplored, int terrainType, int soldierNum)
     {
-        //GENERATE ENEMY TYPE FOR PROTOTYPE
+        //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
+        enemyNum = Random.Range(5, 15);
+        terrainType = Random.Range(1, 5);
+        //soldierNum = 20;
         int enemyType = 1;
         switch (terrainType)
         {
@@ -115,8 +122,11 @@ public class Combat : MonoBehaviour {
                 break;
         }
 
-        float enemyCas = soldierNum * terrainRange * playerRange * Random.Range(0.5f, 2.0f);
-        float playerCas = enemyNum * terrainRange * playerRange * Random.Range(0.5f, 2.0f);
+        Debug.Log(soldierNum + " " + terrainRange + " " + playerRange);
+        float enemyCas = soldierNum * terrainRange * playerRange * Random.Range(0.8f, 2.0f);
+        float playerCas = enemyNum * terrainRange * enemyRange * Random.Range(0.8f, 2.0f);
+        Debug.Log("enemycas" +enemyCas);
+        Debug.Log("playercas" +playerCas);
 
         if ((int)enemyCas > enemyNum)
             enemyCas = enemyNum;
@@ -132,8 +142,8 @@ public class Combat : MonoBehaviour {
 
         if(soldierNum > 0 && enemyNum > 0)
         {
-             enemyCas = soldierNum * terrainMelee * enemyMelee * Random.Range(0.5f, 2.0f);
-             playerCas = enemyNum * terrainMelee * playerMelee * Random.Range(0.5f, 2.0f);
+             enemyCas = soldierNum * terrainMelee * enemyMelee * Random.Range(0.8f, 2.0f);
+             playerCas = enemyNum * terrainMelee * playerMelee * Random.Range(0.8f, 2.0f);
 
             if ((int)enemyCas > enemyNum)
                 enemyCas = enemyNum;
@@ -163,6 +173,8 @@ public class Combat : MonoBehaviour {
         combatResultUIObj.SetActive(true);
         combatUIObj.SetActive(false);
 
+
+        combatResultTextObj.GetComponent<Text>().text = myString;
 
         return myString;
     }
@@ -195,6 +207,7 @@ public class Combat : MonoBehaviour {
             this.GetComponent<Resource>().changeUnemployed(temp);
         }
 
+        combatResultTextObj.GetComponent<Text>().text = myString;
         return myString;
     }
 
