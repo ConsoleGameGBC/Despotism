@@ -4,6 +4,13 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
+    //Parth Variables
+
+    public AudioManager m_AudioManager;
+
+
+    //
+
     GameObject LeftPage;
     GameObject RightPage;
     GameObject CurrentUI;
@@ -231,6 +238,9 @@ public class UI : MonoBehaviour {
             {
                 if (fold == true)
                 {
+
+                    m_AudioManager.PlaySound();
+
                     controlDisable = true;
                     fold = false;
                     startFolding = true;
@@ -242,6 +252,8 @@ public class UI : MonoBehaviour {
             {
                 if (fold == false)
                 {
+                    m_AudioManager.PlaySound();
+
                     controlDisable = true;
                     fold = true;
                     startFolding = true;
