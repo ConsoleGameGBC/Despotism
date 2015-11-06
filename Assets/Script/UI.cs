@@ -58,7 +58,7 @@ public class UI : MonoBehaviour {
 	bool MulitaryActionAssigned = false;
 
 	void Start () {
-        Cursor.visible = false;
+        //Cursor.visible = false;
         MainCamera = GameObject.Find("Main Camera");
         UnfocusPos = MainCamera.transform.position;
         UnfocusRot = MainCamera.transform.rotation;
@@ -94,7 +94,7 @@ public class UI : MonoBehaviour {
 		switch(MulitaryStatus)
 		{
 		case (0):
-			switch (mulitaryAction + value) 
+			switch (mulitaryAction += value) 
 			{
 				case(MulitaryAction.Attack):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
@@ -103,6 +103,7 @@ public class UI : MonoBehaviour {
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Explore";
 					break;
 				default:
+                    mulitaryAction -= value;
 					break;
 			}
 			break;
@@ -117,10 +118,23 @@ public class UI : MonoBehaviour {
 
 	void turnEnd()
 	{
+        if (fold == false)
+        {
+            fold = true;
+            startFolding = true;
+
+        }
+
+        controlDisable = true;
+
+        if (currentUI != UIChoice.TurnReport)
+        {
+            lastUI = currentUI;
+            currentUI = UIChoice.TurnReport;
+            UIChanged(currentUI, false);
+        }
+
 		MulitaryActionAssigned = false;
-		currentUI = UIChoice.TurnReport;
-		LeftPage = GameObject.Find("TurnReportLeftPage");
-		RightPage = GameObject.Find("TurnReportRightPage");
 	}
 
 	void MulitaryChoice(bool temp)
@@ -187,8 +201,10 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 						case (UIChoice.Mulitary):
-							if(MulitaryActionAssigned == false)
-							MulitaryChoice(true);
+                            if (MulitaryActionAssigned == false)
+                            {
+                                MulitaryChoice(true);
+                            }
 							break;
 					}
 				}
@@ -201,8 +217,10 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
-						if(MulitaryActionAssigned == false)
-						MulitaryChoice(false);
+                        if (MulitaryActionAssigned == false)
+                        {
+                            MulitaryChoice(false);
+                        }
 						break;
 					}
 				}

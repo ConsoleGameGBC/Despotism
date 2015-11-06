@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TileMap : MonoBehaviour {
 
-	public GameObject selectedUnit;
+	//public GameObject selectedUnit;
 	public GameObject master;
 	public TileType[] tileTypes;
 
@@ -67,11 +67,11 @@ public class TileMap : MonoBehaviour {
 		return new Vector3(x, y, 0);
 	}
 
-	public void MoveSelectedUnitTo(int x, int y) {
-		selectedUnit.GetComponent<Unit>().tileX = x;
-		selectedUnit.GetComponent<Unit>().tileY = y;
-		selectedUnit.transform.position = TileCoordToWorldCoord(x,y);
-	}
+    public void MoveSelectedUnitTo(int x, int y) {
+    //    selectedUnit.GetComponent<Unit>().tileX = x;
+    //    selectedUnit.GetComponent<Unit>().tileY = y;
+    //    selectedUnit.transform.position = TileCoordToWorldCoord(x,y);
+    }
 
     void OnGUI()
     {
