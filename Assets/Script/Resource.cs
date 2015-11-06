@@ -118,7 +118,10 @@ public class Resource : MonoBehaviour {
         Fuel = Random.Range(200, 500);
         Power = 0;
     }
-
+    public int getSoldierNum()
+    {
+        return popSoldier;
+    }
     public int getFuel()
     {
         return Fuel;
