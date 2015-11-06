@@ -37,8 +37,8 @@ public class Resource : MonoBehaviour {
     [SerializeField]
     GameObject powerChangeObj;
 
-    [SerializeField]
-    GameObject powerChange;
+    //[SerializeField]
+    //GameObject powerChange;
 
     [SerializeField]
     GameObject foodAmountObj;
@@ -240,42 +240,51 @@ public class Resource : MonoBehaviour {
 	public void changeFood(int amount){
 		Food += amount;
         FoodChange += amount;
+        setResources();
 	}
 	
 	public void changeWater(int amount){
 		Water += amount;
         WaterChange += amount;
+        setResources();
 	}
 	
 	public void changeFuel(int amount){
 		Fuel += amount;
         FuelChange += amount;
+        setResources();
 	}
 
     public void changeMedical(int amount)
     {
         Medical += amount;
         MedicalChange += amount;
+        setResources();
     }
 
     public void changeUnemployed(int amount)
     {
         popUnemployed += amount;
+        setResources();
     }
     public void changeSoldier(int amount)
     {
         popSoldier += amount;
+        setResources();
     }
     public void changeWorker(int amount)
     {
         popWorker += amount;
+        setResources();
     }
     public void changeElder(int amount)
     {
         popElder += amount;
+        setResources();
     }
     public void changeYouth(int amount)
     {
         popYouth += amount;
+        setResources();
     }
 }

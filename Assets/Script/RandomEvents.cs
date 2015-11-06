@@ -8,6 +8,7 @@ public class RandomEvents : MonoBehaviour {
 
 	int temp = 0;
 	GameObject myManager;
+    
 	[SerializeField] GameObject eventTopicObj;
 	[SerializeField] GameObject eventContentObj;
 	[SerializeField] GameObject eventOptionContent;
@@ -20,7 +21,7 @@ public class RandomEvents : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		myManager = this.gameObject;
-
+       
 		EventArray = new RandEvent[3];
 		EventArray [0] = new VisitingMerchant (myManager);
 		EventArray[1] = new StolenFood (myManager);
@@ -126,7 +127,7 @@ public abstract class RandEvent{
 	public string option2;
 	public string option3;
     protected GameObject manager;
-    protected Resource myResourceClass;
+    public Resource myResourceClass;
 	/*
 	RandEvent(string titl, string tex, string o1, string o2, string o3){
 		title = titl;
@@ -139,9 +140,7 @@ public abstract class RandEvent{
 
     public RandEvent(GameObject obj)
     {
-        manager = obj;
-        myResourceClass = manager.GetComponent<Resource>();
-
+        myResourceClass = GameObject.Find("GameManager").GetComponent<Resource>();
     }
    //public  RandEvent() { }
 	

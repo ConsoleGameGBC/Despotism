@@ -133,7 +133,6 @@ public class UI : MonoBehaviour {
 
     void RandomEventChoice()
     {
-        RandomEventFinished = true;
         randomEvents.madeChoice(RandomEventOptionStatus);
         
         // GameObject.Find("RandEventContent").GetComponent<Text>().text = 
@@ -170,21 +169,24 @@ public class UI : MonoBehaviour {
 
     void ReportChoice(int value)
     {
-        RandomEventOptionStatus += value;
-        switch (RandomEventOptionStatus)
+        if (RandomEventFinished == false)
         {
-            case (0):
-                GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
-                break;
-            case (1):
-                GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
-                break;
-            case (2):
-                GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
-                break;
-            default:
-                RandomEventOptionStatus -= value;
-                break;
+            RandomEventOptionStatus += value;
+            switch (RandomEventOptionStatus)
+            {
+                case (0):
+                    GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
+                    break;
+                case (1):
+                    GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
+                    break;
+                case (2):
+                    GameObject.Find("OptionContent").GetComponent<Text>().text = randomEvents.outputOption(RandomEventOptionStatus);
+                    break;
+                default:
+                    RandomEventOptionStatus -= value;
+                    break;
+            }
         }
     }
 
@@ -226,6 +228,7 @@ public class UI : MonoBehaviour {
             currentUI = UIChoice.TurnReport;
             UIChanged(currentUI, false);
             MulitaryActionAssigned = false;
+            RandomEventFinished = false;
             controlDisable = true;
             TimePassing = 1;
             turnIsEnd = false;
@@ -233,6 +236,7 @@ public class UI : MonoBehaviour {
         else if (turnIsEnd == true && currentUI == UIChoice.TurnReport)
         {
             MulitaryActionAssigned = false;
+            RandomEventFinished = false;
             controlDisable = true;
             TimePassing = 1;
             turnIsEnd = false;
@@ -280,7 +284,11 @@ public class UI : MonoBehaviour {
         {
 			if(Input.GetButtonDown("A"))
 			{
-				turnEnd ();
+                if (RandomEventFinished == true)
+                {
+                    turnEnd();
+                    resource.endTurn();
+                }
 			}
 			if(Input.GetButtonDown("X"))
 			{
@@ -297,6 +305,7 @@ public class UI : MonoBehaviour {
                         case (UIChoice.TurnReport):
                             if (RandomEventFinished == false)
                             {
+                                RandomEventFinished = true;
                                 RandomEventChoice();
                             }
                             break;
