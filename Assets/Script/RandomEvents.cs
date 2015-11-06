@@ -12,9 +12,9 @@ public class RandomEvents : MonoBehaviour {
 	[SerializeField] GameObject eventContentObj;
 	[SerializeField] GameObject eventOptionContent;
 
-	int eventNo;
+	public int eventNo;
 	//List<RandEvent> EventList = new List<RandEvent> ();
-	RandEvent[] EventArray;
+	public RandEvent[] EventArray;
 	int numOfEvents = 3;
 
 	// Use this for initialization
@@ -49,6 +49,23 @@ public class RandomEvents : MonoBehaviour {
 		//eventTopicObj.GetComponent<UILabel> ().text = 
 
 	}
+
+    public string outputOption(int value)
+    {
+        switch(value)
+        {
+            case(0):
+                return EventArray[eventNo].option1;
+                
+            case(1):
+                return EventArray[eventNo].option2;
+                
+            case(2):
+                return EventArray[eventNo].option3;
+        }
+        return "Error";
+        
+    }
 
 	public string getOptionText(int optNum){
 		switch(optNum){
@@ -102,7 +119,7 @@ public class RandomEvents : MonoBehaviour {
 	
 }
 
-abstract class RandEvent{
+public abstract class RandEvent{
 	public string title;
 	public string text;
 	public string option1;
