@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class Combat : MonoBehaviour {
+    [SerializeField]
+    GameObject combatUIObj;
+
+    [SerializeField]
+    GameObject combatResultUIObj;
 
     int soldiers;
     int enemyNum;
@@ -46,8 +51,25 @@ public class Combat : MonoBehaviour {
 	
 	}
 
-    public string combatResult(int enemyNum, int enemyType, int terrainType, int soldierNum)
+    public string combatResult(bool isExplored, int terrainType, int soldierNum)
     {
+        //GENERATE ENEMY TYPE FOR PROTOTYPE
+        int enemyType = 1;
+        switch (terrainType)
+        {
+            case 1:
+                enemyType = 1;
+                break;
+            case 2:
+                enemyType = 2;
+                break;
+            case 3:
+                enemyType = 1;
+                break;
+            case 4:
+                enemyType = 3;
+                break;
+        }
 
         string myString = "We have encountered " + enemyNum.ToString() + " ";
         switch (enemyType)
@@ -138,12 +160,16 @@ public class Combat : MonoBehaviour {
 
         soldiers = soldierNum;
 
+        combatResultUIObj.SetActive(true);
+        combatUIObj.SetActive(false);
+
+
         return myString;
     }
 
-    public string explorationResult(int enemyNum, int enemyType, int terrainType, int soldierNum)
+    public string explorationResult(bool isExplored, int terrainType, int soldierNum)
     {
-        string myString = combatResult(enemyNum, enemyType, terrainType, soldierNum);
+        string myString = combatResult(isExplored, terrainType, soldierNum);
 
         if(soldiers > 0)
         {

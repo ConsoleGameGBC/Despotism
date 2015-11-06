@@ -10,6 +10,13 @@ public class Resource : MonoBehaviour {
     int Power;
     int Medical;
 
+    int FoodChange = 0;
+    int WaterChange = 0;
+    int FuelChange = 0;
+    int PowerChange = 0;
+    int MedicalChange = 0;
+
+
     int Population;
 
     int popUnemployed;
@@ -18,7 +25,20 @@ public class Resource : MonoBehaviour {
     int popElder;
     int popYouth;
 
-    
+
+    [SerializeField]
+    GameObject foodChangeObj;
+    [SerializeField]
+    GameObject waterChangeObj;
+    [SerializeField]
+    GameObject fuelChangeObj;
+    [SerializeField]
+    GameObject medicalChangeObj;
+    [SerializeField]
+    GameObject powerChangeObj;
+
+    [SerializeField]
+    GameObject powerChange;
 
     [SerializeField]
     GameObject foodAmountObj;
@@ -56,6 +76,11 @@ public class Resource : MonoBehaviour {
 	[SerializeField] GameObject reportFoodProductionObj;
 	[SerializeField] GameObject reportFoodImportObj;
 	[SerializeField] GameObject reportFoodExportObj;
+    [SerializeField]
+    GameObject reportFoodEstimate;
+    [SerializeField]
+    GameObject reportWaterEstimate;
+
 
 	[SerializeField] GameObject reportWaterStockObj;
 	[SerializeField] GameObject reportWaterWorkerSoldierObj;
@@ -121,6 +146,9 @@ public class Resource : MonoBehaviour {
         reportFoodProductionObj.GetComponent<Text>().text = "0";
         reportFoodImportObj.GetComponent<Text>().text = "0";
         reportFoodExportObj.GetComponent<Text>().text = "0";
+
+        reportFoodEstimate.GetComponent<Text>().text = (Food - Population).ToString();
+        reportWaterEstimate.GetComponent<Text>().text = (Water - Population).ToString();
 
         reportWaterStockObj.GetComponent<Text>().text = Water.ToString();
         reportWaterWorkerSoldierObj.GetComponent<Text>().text = (popWorker + popSoldier).ToString();
@@ -191,6 +219,17 @@ public class Resource : MonoBehaviour {
             // Some people starve. Decide what to do?
         }
 
+        foodChangeObj.GetComponent<Text>().text = FoodChange.ToString();
+        FoodChange = 0;
+        waterChangeObj.GetComponent<Text>().text = WaterChange.ToString();
+        WaterChange = 0;
+        fuelChangeObj.GetComponent<Text>().text = FuelChange.ToString();
+        FuelChange = 0;
+        powerChangeObj.GetComponent<Text>().text = PowerChange.ToString();
+        PowerChange = 0;
+        medicalChangeObj.GetComponent<Text>().text = MedicalChange.ToString();
+        MedicalChange = 0;
+
         setResources ();
 		
 	}
@@ -200,19 +239,23 @@ public class Resource : MonoBehaviour {
 	
 	public void changeFood(int amount){
 		Food += amount;
+        FoodChange += amount;
 	}
 	
 	public void changeWater(int amount){
 		Water += amount;
+        WaterChange += amount;
 	}
 	
 	public void changeFuel(int amount){
 		Fuel += amount;
+        FuelChange += amount;
 	}
 
     public void changeMedical(int amount)
     {
         Medical += amount;
+        MedicalChange += amount;
     }
 
     public void changeUnemployed(int amount)
