@@ -190,11 +190,12 @@ public class Combat : MonoBehaviour {
         {
             myString += "We lost the fight.";
         }
+        //this is for the exploration/loot thing
+        soldiers = soldierNum;
 
-        //soldiers = soldierNum;
         totalplayerLoss += playerCasMelee;
         //change this later
-        //this.gameObject.GetComponent<Resource>.soldiers -= totalplayerLoss;
+        this.gameObject.GetComponent<Resource>().changeSoldier(-totalplayerLoss);
 
         combatResultUIObj.SetActive(true);
         combatUIObj.SetActive(false);
@@ -213,6 +214,8 @@ public class Combat : MonoBehaviour {
 
         if(soldiers > 0)
         {
+            myString += "\n";
+
             myString += "We looted: ";
             int temp = Random.Range(0, 40);
             myString += temp.ToString() + " food, ";
