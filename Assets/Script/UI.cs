@@ -63,6 +63,7 @@ public class UI : MonoBehaviour {
 	int MulitaryStatus = 0;
     int RandomEventOptionStatus = 0;
 	bool MulitaryActionAssigned = false;
+    bool RandomEventFinished = false;
 
 	void Start () {
         //Cursor.visible = false;
@@ -129,6 +130,15 @@ public class UI : MonoBehaviour {
 			break;
 		}
 	}
+
+    void RandomEventChoice()
+    {
+        RandomEventFinished = true;
+        randomEvents.madeChoice(RandomEventOptionStatus);
+        
+        // GameObject.Find("RandEventContent").GetComponent<Text>().text = 
+        
+    }
 
 	void turnEnd()
 	{
@@ -284,6 +294,12 @@ public class UI : MonoBehaviour {
                                 MulitaryChoice(true);
                             }
 							break;
+                        case (UIChoice.TurnReport):
+                            if (RandomEventFinished == false)
+                            {
+                                RandomEventChoice();
+                            }
+                            break;
 					}
 				}
 			}

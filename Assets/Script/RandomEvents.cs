@@ -87,13 +87,13 @@ public class RandomEvents : MonoBehaviour {
 
 	public void madeChoice(int optNum){
 		switch (optNum) {
-		case 1:
+		case 0:
 			EventArray[eventNo].ChoseO1();
 			break;
-		case 2:
+		case 1:
 			EventArray[eventNo].ChoseO2();
 			break;
-		case 3:
+		case 2:
 			EventArray[eventNo].ChoseO3();
 			break;
 		default:
