@@ -7,7 +7,7 @@ public class ClickableTile : MonoBehaviour {
 	public int tileY;
 	public TileMap map;
 
-   // void OnMouseUp() {
+    //void OnMouseUp() {
      //   Debug.Log(gameObject.tag);
    //  Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
     //   // Debug.Log(tileX + "," + tileY);
@@ -17,6 +17,16 @@ public class ClickableTile : MonoBehaviour {
 
     void Update()
     {
+		//if(Input.GetKeyDown("m"))
+		  // {
+			//Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
+
+		//}
+
+
+
+
+
         if (Input.GetKeyDown("w"))
         {
             tileY++;
@@ -24,7 +34,7 @@ public class ClickableTile : MonoBehaviour {
 			{
 				tileY=19;
 			}
-         // Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
+       // Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
             map.MoveSelectedUnitTo(tileX, tileY);
           //  Debug.Log(tileX + "," + tileY);
           
@@ -37,7 +47,7 @@ public class ClickableTile : MonoBehaviour {
 			{
 				tileY=0;
 			}
-        //    Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
+         //   Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
             map.MoveSelectedUnitTo(tileX, tileY);
         }
         else if (Input.GetKeyDown("a"))
@@ -49,7 +59,7 @@ public class ClickableTile : MonoBehaviour {
 
 			}
        
-        //    Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
+          // Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
             map.MoveSelectedUnitTo(tileX, tileY);
         }
         else if (Input.GetKeyDown("d"))
@@ -60,7 +70,7 @@ public class ClickableTile : MonoBehaviour {
 			{
 				tileX=19;
 			}
-           // Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
+           //Debug.Log(gameObject.tag + "  " + tileX + "," + tileY);
             map.MoveSelectedUnitTo(tileX, tileY);
         }
        

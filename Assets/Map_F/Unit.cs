@@ -11,19 +11,19 @@ public class Unit : MonoBehaviour {
     void Update()
     {
 
-        Debug.Log(tileX + "," + tileY);
+       // Debug.Log(tileX + "," + tileY);
     }
 
-    void OnTriggerEnter(Collider other)
-    {
+    //void OnTriggerEnter(Collider other)
+    //{
         //Destroy(other.gameObject);
         //    Debug.Log(tileX + "," + tileY);
         //  Debug.Log(other.gameObject.tag);
 
-        switch (other.transform.name)
-        {
+       // switch (other.transform.name)
+       // {
 
-            case "Yellow": Debug.Log(other.gameObject.tag); break;
-        }
-    }
+          //  case "Yellow": Debug.Log(other.gameObject.tag); break;
+       // }
+   // }
 }
