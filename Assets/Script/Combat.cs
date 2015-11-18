@@ -12,6 +12,9 @@ public class Combat : MonoBehaviour {
     [SerializeField]
     GameObject combatResultTextObj;
 
+    [SerializeField]
+    GameObject actionExplanationObj;
+
     int soldiers;
     int enemyNum;
 
@@ -59,6 +62,38 @@ public class Combat : MonoBehaviour {
     {
         combatResultUIObj.SetActive(false);
         combatUIObj.SetActive(true);
+    }
+
+    public void changeActionExplanation(bool isExplore, int terraintType)
+    {
+        string temp = "We can send a force to ";
+
+        if (isExplore)
+            temp += "explore this ";
+        else
+            temp += "clean up this ";
+
+        switch (terraintType)
+        {
+            case 1:
+                temp += "urban area.";
+                break;
+            case 2:
+                temp += "hilly area.";
+                break;
+            case 3:
+                temp += "forest.";
+                break;
+            case 4:
+                temp += "flatland.";
+                break;
+            default:
+                Debug.Log("Error in changeActionExplaination. Default terraintype.");
+                break;
+        }
+
+        actionExplanationObj.GetComponent<Text>().text = temp;
+
     }
 
     public string combatResult(bool isExplored, int terrainType, int soldierNum)
