@@ -111,7 +111,13 @@ public class RandomEvents : MonoBehaviour {
 	}
 
 
-	public void addFood(int amount)
+    public void combatCalculator(bool isDefensive, int terrainType, int soldierNum)
+    {
+
+
+    }
+
+    public void addFood(int amount)
 		
 	{
 	}
@@ -267,4 +273,33 @@ class Refugees:RandEvent{
         updateResult(result3);
         //They are gone
     }
+}
+
+class Attacked : RandEvent
+{
+    public Attacked(GameObject obj) : base(obj)
+    {
+        title = "Attacked!";
+        text = "Zombies are attacking the camp!";
+        option1 = "Send only our soldiers to the defence";
+        option2 = "Send every fit adult to the defences";
+        option3 = "Send everyone to the defences, including the elderly and the youngsters";
+        result1 = "Our defences held.";
+        result2 = "Our defences held, but at what cost?";
+        result3 = "Our defences held, but at what cost?";
+    }
+
+    override public void ChoseO1()
+    {
+        updateResult(result1);
+    }
+    override public void ChoseO2()
+    {
+        updateResult(result2);
+    }
+    override public void ChoseO3()
+    {
+        updateResult(result3);
+    }
+
 }
