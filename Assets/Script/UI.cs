@@ -179,13 +179,13 @@ public class UI : MonoBehaviour {
 				switch (assignAction += value) 
 				{
 				case(AssignAction.Assign):
-					GameObject.Find("AssignAction").GetComponent<Text>().text = "assign";
+					GameObject.Find("AssignAction").GetComponent<Text>().text = "Assign";
 					break;
 				case(AssignAction.Transfer):
-					GameObject.Find("AssignAction").GetComponent<Text>().text = "transfer";
+					GameObject.Find("AssignAction").GetComponent<Text>().text = "Transfer";
 					break;
 				default:
-					mulitaryAction -= value;
+					assignAction -= value;
 					break;
 				}
 				break;
@@ -479,6 +479,9 @@ public class UI : MonoBehaviour {
                     case (UIChoice.TurnReport):
                         ReportChoice(-1);
                         break;
+					case (UIChoice.Assign):
+						AssignStatusChoice(-1);
+						break;
 					}
                 }
                 else
@@ -496,11 +499,14 @@ public class UI : MonoBehaviour {
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
-                            MulitaryStatusChoice(1);
+                      	MulitaryStatusChoice(1);
 						break;
                     case (UIChoice.TurnReport):
                         ReportChoice(1);
                         break;
+					case (UIChoice.Assign):
+						AssignStatusChoice(1);
+						break;
 					}
 
                 }
