@@ -83,6 +83,7 @@ public class UI : MonoBehaviour {
 	AssignPop assignPopFrom = new AssignPop ();
 	bool AssignActionAssigned = false;
 	int AssignStatus = 0;
+	int AssignAmount = 0;
 
     UIChoice lastUI = new UIChoice();
     UIChoice currentUI = new UIChoice();
@@ -121,33 +122,33 @@ public class UI : MonoBehaviour {
 
         StockUI = GameObject.Find("StockUI");
         StockPos = StockUI.transform.position;
-        StockRot = StockUI.transform.rotation;
+	        StockRot = StockUI.transform.rotation;
 
-		AssignUI = GameObject.Find("AssignUI");
-		AssignPos = AssignUI.transform.position;
-		AssignRot = AssignUI.transform.rotation;
+			AssignUI = GameObject.Find("AssignUI");
+			AssignPos = AssignUI.transform.position;
+			AssignRot = AssignUI.transform.rotation;
 
-        TurnReport = GameObject.Find("TurnReport");
-        ReportPosition = TurnReport.transform.position;
-        ReportRotation = TurnReport.transform.rotation;
-        FocusLocationPos = GameObject.Find("FocusLocation").transform.position;
-        FocusLocationRot = GameObject.Find("FocusLocation").transform.rotation;
-        CurrentUI = MainMenu;
-        LeftPage = GameObject.Find("MainMenuLeftPage");
-        RightPage = GameObject.Find("MainMenuRightPage");
+	        TurnReport = GameObject.Find("TurnReport");
+	        ReportPosition = TurnReport.transform.position;
+	        ReportRotation = TurnReport.transform.rotation;
+	        FocusLocationPos = GameObject.Find("FocusLocation").transform.position;
+	        FocusLocationRot = GameObject.Find("FocusLocation").transform.rotation;
+	        CurrentUI = MainMenu;
+	        LeftPage = GameObject.Find("MainMenuLeftPage");
+	        RightPage = GameObject.Find("MainMenuRightPage");
 
-        MulitaryStatusChoice(0);
-	}
+	        MulitaryStatusChoice(0);
+		}
 
 
 
-	void MulitaryStatusChoice(int value)
-	{
-        //Debug.Log(MulitaryStatus);
-		switch(MulitaryStatus)
+		void MulitaryStatusChoice(int value)
 		{
-		case (0):
-			switch (mulitaryAction += value) 
+	        //Debug.Log(MulitaryStatus);
+			switch(MulitaryStatus)
+			{
+			case (0):
+				switch (mulitaryAction += value) 
 			{
 				case(MulitaryAction.Attack):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
@@ -189,12 +190,43 @@ public class UI : MonoBehaviour {
 					break;
 				}
 				break;
-			case(1): //Enable Map
+			case(1): 
+				if(assignAction == AssignAction.Assign)
+				{	
+					if (AssignAmount + value < 10 && AssignAmount > 0)
+					{
+						AssignAmount += value;
+					}
+				}
+				else if(assignAction == AssignAction.Transfer)
+				{
+					if (AssignAmount > 0)
+					{
+						AssignAmount += value;
+					}
+				}
 				break;
-			case(2):
-				callCombat();
-				MulitaryStatus = 0;
-				MulitaryActionAssigned = true;
+			case(2): 
+					switch (assignPopFrom += value)
+					{
+						case(AssignPop.Soldier):
+							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Soldiers";
+				  			break;
+						case(AssignPop.Worker):
+							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Workers";
+							break;
+						case(AssignPop.Unemployed):
+							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Unemployed";
+							break;
+						default:
+							assignAction -= value;
+							break;
+					}
+				break;
+			case(4):
+				
+				AssignStatus = 0;
+				AssignActionAssigned = true;
 				
 				break;
 		}
