@@ -35,8 +35,12 @@ public class UI : MonoBehaviour {
     Vector3 StockPos;
     Quaternion StockRot;
 
+	GameObject AssignUI;
+	Vector3 AssignPos;
+	Quaternion AssignRot;
+
     public float speed = 20f;
-    public float step;
+    float step;
     bool fold = true;
     bool startFolding;
     bool switchingUI;
@@ -47,10 +51,12 @@ public class UI : MonoBehaviour {
 
     enum UIChoice
     {
-        MainMenu,
+        
         TurnReport,
         Mulitary,
-        Stock
+        Stock,
+		Assign,
+		MainMenu
     } ;
 
 	public enum MulitaryAction
@@ -59,8 +65,28 @@ public class UI : MonoBehaviour {
 		Explore
 	};
 
+	public enum AssignAction
+	{
+		Assign,
+		Transfer
+	};
+
+	public enum AssignPop
+	{
+		Worker,
+		Soldier,
+		Unemployed
+	};
+
+	AssignAction assignAction = new AssignAction ();
+	AssignPop assignPopTo = new AssignPop ();
+	AssignPop assignPopFrom = new AssignPop ();
+	bool AssignActionAssigned = false;
+	int AssignStatus = 0;
+
     UIChoice lastUI = new UIChoice();
     UIChoice currentUI = new UIChoice();
+
     Combat myCombatClass;
 	MulitaryAction mulitaryAction = new MulitaryAction ();
 	int MulitaryStatus = 0;
@@ -97,6 +123,10 @@ public class UI : MonoBehaviour {
         StockPos = StockUI.transform.position;
         StockRot = StockUI.transform.rotation;
 
+		AssignUI = GameObject.Find("AssignUI");
+		AssignPos = AssignUI.transform.position;
+		AssignRot = AssignUI.transform.rotation;
+
         TurnReport = GameObject.Find("TurnReport");
         ReportPosition = TurnReport.transform.position;
         ReportRotation = TurnReport.transform.rotation;
@@ -113,7 +143,7 @@ public class UI : MonoBehaviour {
 
 	void MulitaryStatusChoice(int value)
 	{
-        Debug.Log(MulitaryStatus);
+        //Debug.Log(MulitaryStatus);
 		switch(MulitaryStatus)
 		{
 		case (0):
@@ -140,6 +170,36 @@ public class UI : MonoBehaviour {
             break;
 		}
 	}
+
+	void AssignStatusChoice(int value)
+	{
+		switch(AssignStatus)
+		{
+			case (0):
+				switch (assignAction += value) 
+				{
+				case(AssignAction.Assign):
+					GameObject.Find("AssignAction").GetComponent<Text>().text = "assign";
+					break;
+				case(AssignAction.Transfer):
+					GameObject.Find("AssignAction").GetComponent<Text>().text = "transfer";
+					break;
+				default:
+					mulitaryAction -= value;
+					break;
+				}
+				break;
+			case(1): //Enable Map
+				break;
+			case(2):
+				callCombat();
+				MulitaryStatus = 0;
+				MulitaryActionAssigned = true;
+				
+				break;
+		}
+	}
+
 
     void RandomEventChoice()
     {
@@ -176,6 +236,16 @@ public class UI : MonoBehaviour {
 
 
 	}
+
+	void AssignChoice(bool temp)
+	{
+		if (temp) {
+			AssignStatus++;
+		} else {
+			AssignStatus--;
+		}
+	}
+
     void callCombat()
     {
         if (MulitaryStatus == 2) {
@@ -256,6 +326,7 @@ public class UI : MonoBehaviour {
             currentUI = UIChoice.TurnReport;
             UIChanged(currentUI, false);
             MulitaryActionAssigned = false;
+			AssignActionAssigned = false;
             RandomEventFinished = false;
             controlDisable = true;
             TimePassing = 1;
@@ -264,6 +335,7 @@ public class UI : MonoBehaviour {
         else if (turnIsEnd == true && currentUI == UIChoice.TurnReport)
         {
             MulitaryActionAssigned = false;
+			AssignActionAssigned = false;
             RandomEventFinished = false;
             controlDisable = true;
             TimePassing = 1;
@@ -327,7 +399,6 @@ public class UI : MonoBehaviour {
 						case (UIChoice.Mulitary):
                             if (MulitaryActionAssigned == false)
                             {
-                                Debug.Log("k button");
                                 MulitaryChoice(true);
                                 MulitaryStatusChoice(0);
                                 
@@ -340,6 +411,14 @@ public class UI : MonoBehaviour {
                                 RandomEventChoice();
                             }
                             break;
+						case (UIChoice.Assign):
+							if (AssignActionAssigned == false)
+							{
+								AssignChoice(true);
+								AssignStatusChoice(0);
+								
+							}
+							break;
 					}
 				}
 			}
@@ -350,13 +429,19 @@ public class UI : MonoBehaviour {
 				{
 					switch(currentUI)
 					{
-					case (UIChoice.Mulitary):
-                        if (MulitaryActionAssigned == false)
-                        {
-                            MulitaryChoice(false);
-                        }
-						break;
-					}
+						case (UIChoice.Mulitary):
+	                        if (MulitaryActionAssigned == false)
+	                        {
+	                            MulitaryChoice(false);
+	                        }
+							break;
+						case (UIChoice.Assign):
+							if (AssignActionAssigned == false)
+							{
+								AssignChoice(false);
+							}
+							break;
+						}
 				}
 			}
 
@@ -465,6 +550,14 @@ public class UI : MonoBehaviour {
                         temp = true;
                     }
                     break;
+				case (UIChoice.Assign):
+				AssignUI.transform.position = Vector3.MoveTowards(AssignUI.transform.position, AssignPos, step);
+				AssignUI.transform.rotation = Quaternion.RotateTowards(AssignUI.transform.rotation, AssignRot, step * 50);
+					if (AssignUI.transform.position == AssignPos && AssignUI.transform.rotation == AssignRot)
+					{
+						temp = true;
+					}
+					break;
 
             }
             if(temp == true && TimePassing == 0)
@@ -510,6 +603,16 @@ public class UI : MonoBehaviour {
 
                         }
                         break;
+				case (UIChoice.Assign):
+					AssignUI.transform.position = Vector3.MoveTowards(AssignUI.transform.position, FocusLocationPos, step);
+					AssignUI.transform.rotation = Quaternion.RotateTowards(AssignUI.transform.rotation, FocusLocationRot, step * 50);
+					if (AssignUI.transform.position == FocusLocationPos && AssignUI.transform.rotation == FocusLocationRot)
+					{
+						switchingUI = false;
+						controlDisable = false;
+						
+					}
+					break;
 
                 }
             }
@@ -543,6 +646,12 @@ public class UI : MonoBehaviour {
                 RightPage = GameObject.Find("StockUIRightPage");
                 switchingUI = true;
                 break;
+			case (UIChoice.Assign):
+				CurrentUI = AssignUI;
+				LeftPage = GameObject.Find("AssignLeftPage");
+				RightPage = GameObject.Find("AssignRightPage");
+				switchingUI = true;
+				break;
             default:
                 if(temp2 == false)
                 {
