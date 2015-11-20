@@ -90,7 +90,7 @@ public class UI : MonoBehaviour {
 
     Combat myCombatClass;
 	MulitaryAction mulitaryAction = new MulitaryAction ();
-	int MulitaryStatus = 0;
+	public int MulitaryStatus = 0;
     int RandomEventOptionStatus = 0;
 	bool MulitaryActionAssigned = false;
     bool RandomEventFinished = false;
