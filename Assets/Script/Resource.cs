@@ -386,6 +386,7 @@ public class Resource : MonoBehaviour {
     {
         return popUnemployed;
     }
+    public int getYouthNElderPop() { return popYouth + popElder; }
 
     public void trainUnempToSoldier(int amount)
     {

@@ -358,14 +358,21 @@ class Attacked : RandEvent
 
     override public void ChoseO1()
     {
+        manager.GetComponent<RandomEvents>().combatCalculator(true, 1, manager.GetComponent<Resource>().getSoldierPop(), 1);
         updateResult(result1);
     }
     override public void ChoseO2()
     {
+        int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop();
+        manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
         updateResult(result2);
     }
     override public void ChoseO3()
     {
+        int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop()
+            + manager.GetComponent<Resource>().getYouthNElderPop();
+        manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
+
         updateResult(result3);
     }
 
