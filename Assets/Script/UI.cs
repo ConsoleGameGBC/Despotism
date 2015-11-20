@@ -368,7 +368,7 @@ public class UI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(Input.GetAxis("YAxis"));
+        //Debug.Log(Input.GetAxis("YAxis"));
         if(TimePassing > 0)
         {        
             float SunSpeed = 50;
@@ -468,6 +468,44 @@ public class UI : MonoBehaviour {
                     resource.endTurn();
                 }
 			}
+
+            if (Input.GetButtonDown("LeftB") && MulitaryStatus != 1)
+            {
+                if (fold == false)
+                {
+                    controlDisable = true;
+                    fold = true;
+                    startFolding = true;
+                }
+                else
+                {
+                    controlDisable = true;
+                    lastUI = currentUI;
+                    currentUI--;
+                    UIChanged(currentUI, false);
+                }
+
+            }
+
+            if (Input.GetButtonDown("RightB") && MulitaryStatus != 1)
+            {
+                if (fold == false)
+                {
+                    controlDisable = true;
+                    fold = true;
+                    startFolding = true;
+                }
+                else
+                {
+                    controlDisable = true;
+                    lastUI = currentUI;
+                    currentUI--;
+                    UIChanged(currentUI, false);
+                }
+
+            }
+
+
 			if(Input.GetButtonDown("X"))
 			{
 				if (fold == false)
