@@ -111,9 +111,91 @@ public class RandomEvents : MonoBehaviour {
 	}
 
 
-    public void combatCalculator(bool isDefensive, int terrainType, int soldierNum)
+    public void combatCalculator(bool isDefensive, int terrainType, int soldierNum, int strLevel)
     {
+        float playerRange = 0.35f;
+        float enemyRange = 0.0f;
 
+        int totalplayerLoss = 0;
+        int playerCasMelee = 0;
+        //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
+        int enemyNum = Random.Range(30, 80);
+
+
+        float enemyCas = soldierNum * playerRange * Random.Range(1.8f, 3.0f);
+        float playerCas = enemyNum * enemyRange * Random.Range(1.8f, 3.0f);
+        Debug.Log("enemycas" + enemyCas);
+        Debug.Log("playercas" + playerCas);
+
+        if ((int)enemyCas > enemyNum)
+            enemyCas = enemyNum;
+
+        if ((int)playerCas > soldierNum)
+            playerCas = soldierNum;
+
+        soldierNum -= (int)playerCas;
+        enemyNum -= (int)enemyCas;
+
+        myString += " On range we killed " + ((int)enemyCas).ToString() + " and we lost "
+            + ((int)playerCas).ToString() + " soldiers";
+
+        if (soldierNum > 0 && enemyNum > 0)
+        {
+
+            totalplayerLoss = (int)playerCas;
+            enemyCas = 0;
+            playerCas = 0;
+
+            int enemyCasMelee = 0;
+            //int playerCasMelee = 0;
+            while ((int)enemyCas != enemyNum && (int)playerCas != soldierNum)
+            {
+                enemyCas = soldierNum * terrainMelee * playerMelee * Random.Range(0.8f, 2.5f);
+                playerCas = enemyNum * terrainMelee * enemyMelee * Random.Range(0.8f, 2.5f);
+
+
+                if ((int)enemyCas > enemyNum)
+                    enemyCas = enemyNum;
+
+                if ((int)playerCas > soldierNum)
+                    playerCas = soldierNum;
+
+                enemyCasMelee += (int)enemyCas;
+                playerCasMelee += (int)playerCas;
+
+                soldierNum -= (int)playerCas;
+                enemyNum -= (int)enemyCas;
+            }
+
+
+            myString += " On melee we killed " + (enemyCasMelee).ToString() + " and we lost "
+            + (playerCasMelee).ToString() + " soldiers";
+        }
+
+        if (soldierNum > 0)
+        {
+            myString += " We won the fight.";
+        }
+        else
+        {
+            myString += "We lost the fight.";
+        }
+        //this is for the exploration/loot thing
+        soldiers = soldierNum;
+
+        totalplayerLoss += playerCasMelee;
+        //change this later
+        this.gameObject.GetComponent<Resource>().changeSoldier(-totalplayerLoss);
+
+        combatResultUIObj.SetActive(true);
+        combatUIObj.SetActive(false);
+
+
+        combatResultTextObj.GetComponent<Text>().text = myString;
+
+
+
+        return myString;
 
     }
 
