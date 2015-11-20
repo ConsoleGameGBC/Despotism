@@ -155,9 +155,11 @@ public class UI : MonoBehaviour {
 			{
 				case(MulitaryAction.Attack):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
+                    myCombatClass.changeActionExplanation(false,TerrainType);
 					break;
 				case(MulitaryAction.Explore):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Explore";
+                    myCombatClass.changeActionExplanation(true, TerrainType);
 					break;
 				default:
                     mulitaryAction -= value;

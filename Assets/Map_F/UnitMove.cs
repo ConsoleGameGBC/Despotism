@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class UnitMove : MonoBehaviour {
 
@@ -7,12 +8,14 @@ public class UnitMove : MonoBehaviour {
 
     public int countX = 19;
     public int countY = 19;
+    Combat myCombatClass;
     UI uiManager;
 	int countC = 0;
 
     void Start()
     {
         uiManager = GameObject.Find("PaperWork").GetComponent<UI>();
+        myCombatClass = GameObject.Find("GameManager").GetComponent<Combat>();
     }
 
 	// Update is called once per frame
@@ -22,7 +25,24 @@ public class UnitMove : MonoBehaviour {
 
         if (uiManager.MulitaryStatus == 1)
         {
-
+            myCombatClass.changeActionExplanation(false, uiManager.TerrainType);
+            GameObject.Find("Cordinate").GetComponent<Text>().text = "X: " + countX + " Y: "+ countY + " "; 
+            switch (uiManager.TerrainType)
+            {
+                case 1:
+                    GameObject.Find("Cordinate").GetComponent<Text>().text += "Flatland";
+                    break;
+                case 2:
+                    GameObject.Find("Cordinate").GetComponent<Text>().text += "Forest";
+                    break;
+                case 3:
+                    GameObject.Find("Cordinate").GetComponent<Text>().text += "Urban";
+                    break;
+                case 4:
+                    GameObject.Find("Cordinate").GetComponent<Text>().text += "Hill";
+                    break;
+            }
+            
             if (transform.localPosition.y < -0.28)
             {
                 countY = 0;
