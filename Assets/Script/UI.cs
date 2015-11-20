@@ -41,7 +41,7 @@ public class UI : MonoBehaviour {
 	Vector3 AssignPos;
 	Quaternion AssignRot;
 
-    int turn = 0;
+    
 
     public float speed = 20f;
     float step;
