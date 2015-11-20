@@ -368,4 +368,41 @@ public class Resource : MonoBehaviour {
         popYouth += amount;
         setResources();
     }
+    
+    public int getSoldierPop()
+    {
+        return popSoldier;
+    }
+    public int getWorkerPop()
+    {
+        return popWorker;
+    }
+    public int getUnemployedPop()
+    {
+        return popUnemployed;
+    }
+
+    public void trainUnempToSoldier(int amount)
+    {
+        changeUnemployed(-amount);
+        changeSoldier(amount);
+    }
+    public void trainUnempToWorker(int amount)
+    {
+        changeUnemployed(-amount);
+        changeWorker(amount);
+    }
+    public void trainWorkerToSoldier(int amount)
+    {
+        changeWorker(-amount);
+        changeSoldier(amount);
+    }
+    public void trainSoldierToWorker(int amount)
+    {
+        changeSoldier(-amount);
+        changeWorker(amount);
+    }
+
+
+
 }
