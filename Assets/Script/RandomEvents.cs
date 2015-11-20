@@ -116,6 +116,9 @@ public class RandomEvents : MonoBehaviour {
         float playerRange = 0.35f;
         float enemyRange = 0.0f;
 
+        float playerMelee = 0.30f;
+        float enemyMelee = 0.15f;
+
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
@@ -136,9 +139,6 @@ public class RandomEvents : MonoBehaviour {
         soldierNum -= (int)playerCas;
         enemyNum -= (int)enemyCas;
 
-        myString += " On range we killed " + ((int)enemyCas).ToString() + " and we lost "
-            + ((int)playerCas).ToString() + " soldiers";
-
         if (soldierNum > 0 && enemyNum > 0)
         {
 
@@ -150,8 +150,8 @@ public class RandomEvents : MonoBehaviour {
             //int playerCasMelee = 0;
             while ((int)enemyCas != enemyNum && (int)playerCas != soldierNum)
             {
-                enemyCas = soldierNum * terrainMelee * playerMelee * Random.Range(0.8f, 2.5f);
-                playerCas = enemyNum * terrainMelee * enemyMelee * Random.Range(0.8f, 2.5f);
+                enemyCas = soldierNum * playerMelee * Random.Range(0.8f, 2.5f);
+                playerCas = enemyNum * enemyMelee * Random.Range(0.8f, 2.5f);
 
 
                 if ((int)enemyCas > enemyNum)
@@ -167,35 +167,14 @@ public class RandomEvents : MonoBehaviour {
                 enemyNum -= (int)enemyCas;
             }
 
-
-            myString += " On melee we killed " + (enemyCasMelee).ToString() + " and we lost "
-            + (playerCasMelee).ToString() + " soldiers";
         }
 
-        if (soldierNum > 0)
-        {
-            myString += " We won the fight.";
-        }
-        else
-        {
-            myString += "We lost the fight.";
-        }
-        //this is for the exploration/loot thing
-        soldiers = soldierNum;
 
         totalplayerLoss += playerCasMelee;
         //change this later
         this.gameObject.GetComponent<Resource>().changeSoldier(-totalplayerLoss);
 
-        combatResultUIObj.SetActive(true);
-        combatUIObj.SetActive(false);
 
-
-        combatResultTextObj.GetComponent<Text>().text = myString;
-
-
-
-        return myString;
 
     }
 
