@@ -22,6 +22,7 @@ public class UnitMove : MonoBehaviour {
 
         if (uiManager.MulitaryStatus == 1)
         {
+
             if (transform.localPosition.y < -0.28)
             {
                 countY = 0;

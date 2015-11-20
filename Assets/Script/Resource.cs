@@ -20,7 +20,7 @@ public class Resource : MonoBehaviour {
     int Population;
 
     int popUnemployed;
-    int popSoldier;
+    public int popSoldier;
     int popWorker;
     int popElder;
     int popYouth;

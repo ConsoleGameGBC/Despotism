@@ -2,13 +2,17 @@
 using System.Collections;
 
 public class Grass : MonoBehaviour {
-
+    UI UI;
+    void Start()
+    {
+        UI = GameObject.Find("PaperWork").GetComponent<UI>();
+    }
 	// Use this for initialization
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Unit")
+        if (UI.MulitaryStatus == 1 && other.gameObject.tag == "Unit")
         {
-            Debug.Log("Grassland");
+            UI.TerrainType = 1;
         }
     }
 }

@@ -30,6 +30,8 @@ public class UI : MonoBehaviour {
     GameObject MulitaryUI;
     Vector3 MulitaryPos;
     Quaternion MulitaryRot;
+    int SoldierNum = 1;
+
 
     GameObject StockUI;
     Vector3 StockPos;
@@ -41,8 +43,9 @@ public class UI : MonoBehaviour {
 
     public float speed = 20f;
     float step;
-    bool fold = true;
+    public bool fold = true;
     bool startFolding;
+    public int TerrainType = 1;
     bool switchingUI;
     bool controlDisable;
     bool turnIsEnd;
@@ -142,7 +145,7 @@ public class UI : MonoBehaviour {
 
 
 
-		void MulitaryStatusChoice(int value)
+		public void MulitaryStatusChoice(int value)
 		{
 	        //Debug.Log(MulitaryStatus);
 			switch(MulitaryStatus)
@@ -160,13 +163,24 @@ public class UI : MonoBehaviour {
                     mulitaryAction -= value;
 					break;
 			}
+            
 			break;
 		case(1): //Enable Map
+            
 			break;
-		case(2):
+        case (2):
+            
+            if (SoldierNum + value <= resource.popSoldier && SoldierNum + value > 0)
+                {
+                    SoldierNum += value;
+                }
+                 
+                GameObject.Find("MilitaryAssignText").GetComponent<Text>().text = SoldierNum.ToString();
+            break;
+		case(3):
                 callCombat();
                 MulitaryStatus = 0;
-			MulitaryActionAssigned = true;
+			    MulitaryActionAssigned = true;
                
             break;
 		}
@@ -283,7 +297,7 @@ public class UI : MonoBehaviour {
        
 	}
 
-	void MulitaryChoice(bool temp)
+	public void MulitaryChoice(bool temp)
 	{
 		if(temp)
 		{
@@ -308,14 +322,14 @@ public class UI : MonoBehaviour {
 
     void callCombat()
     {
-        if (MulitaryStatus == 2) {
+        if (MulitaryStatus == 3) {
             switch (mulitaryAction)
             {
                 case (MulitaryAction.Attack):
-                    myCombatClass.combatResult(false, 1, 20);
+                    myCombatClass.combatResult(false, TerrainType, SoldierNum);
                     break;
                 case (MulitaryAction.Explore):
-                    myCombatClass.explorationResult(false, 1, 20);
+                    myCombatClass.explorationResult(false, TerrainType, SoldierNum);
                     break;
                 default:
                     Debug.Log("Error in combat call");
@@ -508,7 +522,7 @@ public class UI : MonoBehaviour {
 			}
 
 
-            if (Input.GetButtonDown("Up"))
+            if (Input.GetButtonDown("Up") && MulitaryStatus != 1)
             {
                 if (fold == true)
                 {
@@ -519,7 +533,7 @@ public class UI : MonoBehaviour {
                 }
 	
             }
-            else if (Input.GetButtonDown("Down"))
+            else if (Input.GetButtonDown("Down") && MulitaryStatus != 1)
             {
                 if (fold == false)
                 {
@@ -529,7 +543,7 @@ public class UI : MonoBehaviour {
 
                 }
             }
-            else if (Input.GetButtonDown("Left"))
+            else if (Input.GetButtonDown("Left") && MulitaryStatus != 1)
             {
                 if (fold == false)
                 {
@@ -554,7 +568,7 @@ public class UI : MonoBehaviour {
                     UIChanged(currentUI, false);
                 }
             }
-            else if (Input.GetButtonDown("Right"))
+            else if (Input.GetButtonDown("Right") && MulitaryStatus != 1)
             {
                 if (fold == false)
                 {

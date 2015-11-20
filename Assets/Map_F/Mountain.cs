@@ -2,13 +2,17 @@
 using System.Collections;
 
 public class Mountain : MonoBehaviour {
-
-	// Use this for initialization
+    UI UI;
+    void Start()
+    {
+        UI = GameObject.Find("PaperWork").GetComponent<UI>();
+    }
+    // Use this for initialization
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Unit")
+        if (UI.MulitaryStatus == 1 && other.gameObject.tag == "Unit")
         {
-            Debug.Log("Mountain");
+            UI.TerrainType = 4;
         }
     }
 }

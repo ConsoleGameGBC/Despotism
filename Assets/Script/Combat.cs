@@ -76,16 +76,16 @@ public class Combat : MonoBehaviour {
         switch (terraintType)
         {
             case 1:
-                temp += "urban area.";
+                temp += "flatland.";
                 break;
             case 2:
-                temp += "hilly area.";
-                break;
-            case 3:
                 temp += "forest.";
                 break;
+            case 3:
+                temp += "urban area. ";
+                break;
             case 4:
-                temp += "flatland.";
+                temp += "hilly area.";
                 break;
             default:
                 Debug.Log("Error in changeActionExplaination. Default terraintype.");
@@ -102,7 +102,7 @@ public class Combat : MonoBehaviour {
         int playerCasMelee = 0;
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
         enemyNum = Random.Range(5, 15);
-        terrainType = Random.Range(1, 5);
+        //terrainType = Random.Range(1, 5);
         //soldierNum = 20;
         int enemyType = 1;
         switch (terrainType)
