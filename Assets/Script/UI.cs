@@ -198,10 +198,10 @@ public class UI : MonoBehaviour {
 				switch (assignAction += value) 
 				{
 				case(AssignAction.Assign):
-					GameObject.Find("AssignAction").GetComponent<Text>().text = "Assign";
+					GameObject.Find("AssignAction").GetComponent<Text>().text = "Train";
 					break;
 				case(AssignAction.Transfer):
-					GameObject.Find("AssignAction").GetComponent<Text>().text = "Transfer";
+					GameObject.Find("AssignAction").GetComponent<Text>().text = "Hastened Train";
 					break;
 				default:
 					assignAction -= value;
