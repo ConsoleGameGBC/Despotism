@@ -192,28 +192,29 @@ public class UI : MonoBehaviour {
 				break;
 			case(1): 
 				if(assignAction == AssignAction.Assign)
-				{	
-					if (AssignAmount + value < 10 && AssignAmount > 0)
+				{
+                    if (AssignAmount + value <= 10 && AssignAmount + value > 0)
 					{
 						AssignAmount += value;
 					}
 				}
 				else if(assignAction == AssignAction.Transfer)
 				{
-					if (AssignAmount > 0)
+                    if (AssignAmount + value > 0)
 					{
 						AssignAmount += value;
 					}
 				}
+                GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
 				break;
 			case(2): 
 					switch (assignPopFrom += value)
 					{
 						case(AssignPop.Soldier):
-							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Soldiers";
+							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Soldier";
 				  			break;
 						case(AssignPop.Worker):
-							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Workers";
+							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Worker";
 							break;
 						case(AssignPop.Unemployed):
 							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Unemployed";
@@ -223,8 +224,35 @@ public class UI : MonoBehaviour {
 							break;
 					}
 				break;
+            case (3):
+                switch (assignPopTo += value)
+                {
+                    case (AssignPop.Soldier):
+                        GameObject.Find("AssignToType").GetComponent<Text>().text = "Soldier";
+                        break;
+                    case (AssignPop.Worker):
+                        GameObject.Find("AssignToType").GetComponent<Text>().text = "Worker";
+                        break;
+                    case (AssignPop.Unemployed):
+                        GameObject.Find("AssignToType").GetComponent<Text>().text = "Unemployed";
+                        break;
+                    default:
+                        assignAction -= value;
+                        break;
+                }
+                break;
 			case(4):
-				
+                if (assignPopTo == assignPopFrom)
+                {
+                    GameObject.Find("AssignDetailText").GetComponent<Text>().text = "False assignment will not be permitted.";
+                }
+                else
+                {
+                    if (AssignAmount>1)
+                    GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + "s has been " + assignAction + " to " + assignPopTo + ".";
+                    else if(AssignAmount == 1)
+                    GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + " has been " + assignAction + " to " + assignPopTo + ".";
+                }
 				AssignStatus = 0;
 				AssignActionAssigned = true;
 				
@@ -357,6 +385,7 @@ public class UI : MonoBehaviour {
             lastUI = currentUI;
             currentUI = UIChoice.TurnReport;
             UIChanged(currentUI, false);
+            GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
             MulitaryActionAssigned = false;
 			AssignActionAssigned = false;
             RandomEventFinished = false;
@@ -369,6 +398,7 @@ public class UI : MonoBehaviour {
             MulitaryActionAssigned = false;
 			AssignActionAssigned = false;
             RandomEventFinished = false;
+            GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
             controlDisable = true;
             TimePassing = 1;
             turnIsEnd = false;
