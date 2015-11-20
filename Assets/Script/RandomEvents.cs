@@ -172,8 +172,14 @@ public class RandomEvents : MonoBehaviour {
 
         totalplayerLoss += playerCasMelee;
         //change this later
-        this.gameObject.GetComponent<Resource>().changeSoldier(-totalplayerLoss);
-
+        if(this.gameObject.GetComponent<Resource>().getSoldierPop() <= totalplayerLoss) //If number of deaths are lower then number of soldiers
+        this.gameObject.GetComponent<Resource>().changeSoldier(-totalplayerLoss);       //kill that many soldiers
+        else
+        {
+            this.gameObject.GetComponent<Resource>().changeSoldier(-this.gameObject.GetComponent<Resource>().getSoldierPop());
+            totalplayerLoss -= this.gameObject.GetComponent<Resource>().getSoldierPop();
+            this.gameObject.GetComponent<Resource>().decreasePop(totalplayerLoss);
+        }
 
 
     }

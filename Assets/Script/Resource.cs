@@ -201,8 +201,13 @@ public class Resource : MonoBehaviour {
         reportWaterExportObj.GetComponent<Text>().text = "0";
 
     }
-
-    void decreasePop()
+   public void decreasePop(int amount)
+    {
+        Population -= amount;
+        decreasePop();
+    }
+     
+   public void decreasePop()
     {
         while(Population < popUnemployed + popSoldier + popWorker + popElder + popYouth)
         {
