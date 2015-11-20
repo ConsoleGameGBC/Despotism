@@ -3,6 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Resource : MonoBehaviour {
+    int turnNum = 0;
+    int turnsToWin = 30;
+    int popToLose = 50;
+
+    float productionSpeed = 1.3f;
+    float scavangeSpeed = 0.8f;
+
+    float workerMorale = 1.0f;
+    float soldierMorale = 1.0f;
+    float unemployedMorale = 1.0f;
+
+
+
 
     int Food;
     int Water;
@@ -220,11 +233,37 @@ public class Resource : MonoBehaviour {
         }
     }
 	
+    public void WinGame()
+    {
+
+    }
+
+    public void LoseGame()
+    {
+
+    }
+
+
 	public void endTurn(){
+        turnNum++;
+
+        if (turnNum >= turnsToWin)
+            WinGame();
+
         Population = popUnemployed + popSoldier + popWorker + popElder + popYouth;
 
-		
-		if (Water > Population) {
+
+        //PRODUCTION
+        changeFood((int)(popWorker * productionSpeed *workerMorale));
+        changeWater((int)(popWorker * productionSpeed * workerMorale));
+        //SCAVANGE
+        changeFood((int)(popUnemployed * scavangeSpeed *unemployedMorale));
+        changeWater((int)(popUnemployed * scavangeSpeed * unemployedMorale));
+
+
+
+
+        if (Water > Population) {
             //Water -= Population;
             changeWater(-Population);
 		} else {
@@ -269,6 +308,10 @@ public class Resource : MonoBehaviour {
 
         this.gameObject.GetComponent<RandomEvents>().publishEvent();
         this.gameObject.GetComponent<Combat>().changePaperBack();
+
+
+        if (Population < popToLose)
+            LoseGame();
 		
 	}
 
