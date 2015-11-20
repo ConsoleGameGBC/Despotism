@@ -41,6 +41,8 @@ public class UI : MonoBehaviour {
 	Vector3 AssignPos;
 	Quaternion AssignRot;
 
+    int turn = 0;
+
     public float speed = 20f;
     float step;
     public bool fold = true;
@@ -207,24 +209,7 @@ public class UI : MonoBehaviour {
 				}
 				break;
 			case(1): 
-				if(assignAction == AssignAction.Assign)
-				{
-                    if (AssignAmount + value <= 10 && AssignAmount + value > 0)
-					{
-						AssignAmount += value;
-					}
-				}
-				else if(assignAction == AssignAction.Transfer)
-				{
-                    if (AssignAmount + value > 0)
-					{
-						AssignAmount += value;
-					}
-				}
-                GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
-				break;
-			case(2): 
-					switch (assignPopFrom += value)
+                    switch (assignPopFrom += value)
 					{
 						case(AssignPop.Soldier):
 							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Soldier";
@@ -240,8 +225,8 @@ public class UI : MonoBehaviour {
 							break;
 					}
 				break;
-            case (3):
-                switch (assignPopTo += value)
+			case(2): 
+                   switch (assignPopTo += value)
                 {
                     case (AssignPop.Soldier):
                         GameObject.Find("AssignToType").GetComponent<Text>().text = "Soldier";
@@ -257,6 +242,23 @@ public class UI : MonoBehaviour {
                         break;
                 }
                 break;
+            case (3):
+                if(assignAction == AssignAction.Assign)
+				{
+                    if (AssignAmount + value <= 10 && AssignAmount + value > 0)
+					{
+						AssignAmount += value;
+					}
+				}
+				else if(assignAction == AssignAction.Transfer)
+				{
+                    if (AssignAmount + value > 0)
+					{
+						AssignAmount += value;
+					}
+				}
+                GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
+				break;
 			case(4):
                 if (assignPopTo == assignPopFrom)
                 {
