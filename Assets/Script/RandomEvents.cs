@@ -16,16 +16,17 @@ public class RandomEvents : MonoBehaviour {
 	public int eventNo;
 	//List<RandEvent> EventList = new List<RandEvent> ();
 	public RandEvent[] EventArray;
-	int numOfEvents = 3;
+	int numOfEvents = 4;
 
 	// Use this for initialization
 	void Start () {
 		myManager = this.gameObject;
        
-		EventArray = new RandEvent[3];
+		EventArray = new RandEvent[numOfEvents];
 		EventArray [0] = new VisitingMerchant (myManager);
 		EventArray[1] = new StolenFood (myManager);
 		EventArray [2] = new Refugees (myManager);
+        EventArray[3] = new Attacked(myManager);
 
 		//RandEvent[] eventTable = new RandEvent[2];
 
@@ -358,21 +359,27 @@ class Attacked : RandEvent
 
     override public void ChoseO1()
     {
-        manager.GetComponent<RandomEvents>().combatCalculator(true, 1, manager.GetComponent<Resource>().getSoldierPop(), 1);
+        //manager.GetComponent<RandomEvents>().combatCalculator(true, 1, manager.GetComponent<Resource>().getSoldierPop(), 1);
+        myEventClass.combatCalculator(true, 1, myResourceClass.getSoldierPop(), 1);
         updateResult(result1);
     }
     override public void ChoseO2()
     {
-        int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop();
-        manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
+        //int temp = 50;
+        //int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop();
+        int temp = myResourceClass.getSoldierPop() + myResourceClass.getWorkerPop() + myResourceClass.getUnemployedPop();
+        //manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
+        myEventClass.combatCalculator(true, 1, temp, 1);
+
         updateResult(result2);
     }
     override public void ChoseO3()
     {
-        int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop()
-            + manager.GetComponent<Resource>().getYouthNElderPop();
-        manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
-
+        // int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop()
+        //   + manager.GetComponent<Resource>().getYouthNElderPop();
+        //manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
+        int temp = myResourceClass.getSoldierPop() + myResourceClass.getWorkerPop() + myResourceClass.getUnemployedPop() + myResourceClass.getYouthNElderPop();
+        myEventClass.combatCalculator(true, 1, temp, 1);
         updateResult(result3);
     }
 
