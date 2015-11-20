@@ -221,7 +221,7 @@ public class UI : MonoBehaviour {
 							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Unemployed";
 							break;
 						default:
-							assignAction -= value;
+                            assignPopFrom -= value;
 							break;
 					}
 				break;
@@ -238,24 +238,58 @@ public class UI : MonoBehaviour {
                         GameObject.Find("AssignToType").GetComponent<Text>().text = "Unemployed";
                         break;
                     default:
-                        assignAction -= value;
+                        assignPopTo -= value;
                         break;
                 }
                 break;
             case (3):
                 if(assignAction == AssignAction.Assign)
 				{
-                    if (AssignAmount + value <= 10 && AssignAmount + value > 0)
-					{
-						AssignAmount += value;
-					}
+                    switch (assignPopFrom)
+                    {
+                        case (AssignPop.Soldier):
+                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getSoldierPop() && AssignAmount + value > 0)
+                            {
+                                AssignAmount += value;
+                            }
+                            break;
+                        case (AssignPop.Worker):
+                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0)
+                            {
+                                AssignAmount += value;
+                            }
+                            break;
+                        case (AssignPop.Unemployed):
+                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0)
+                            {
+                                AssignAmount += value;
+                            }
+                            break;
+                    }
 				}
 				else if(assignAction == AssignAction.Transfer)
 				{
-                    if (AssignAmount + value > 0)
-					{
-						AssignAmount += value;
-					}
+                    switch (assignPopFrom)
+                    {
+                        case (AssignPop.Soldier):
+                            if (AssignAmount + value <= resource.getSoldierPop() && AssignAmount + value > 0)
+                            {
+                                AssignAmount += value;
+                            }
+                            break;
+                        case (AssignPop.Worker):
+                            if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0)
+                            {
+                                AssignAmount += value;
+                            }
+                            break;
+                        case (AssignPop.Unemployed):
+                            if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0)
+                            {
+                                AssignAmount += value;
+                            }
+                            break;
+                    }
 				}
                 GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
 				break;
@@ -475,9 +509,18 @@ public class UI : MonoBehaviour {
             {
                 if (fold == false)
                 {
-                    controlDisable = true;
-                    fold = true;
-                    startFolding = true;
+                    switch (currentUI)
+                    {
+                        case (UIChoice.Mulitary):
+                            MulitaryStatusChoice(-1);
+                            break;
+                        case (UIChoice.TurnReport):
+                            ReportChoice(-1);
+                            break;
+                        case (UIChoice.Assign):
+                            AssignStatusChoice(-1);
+                            break;
+                    }
                 }
                 else
                 {
@@ -486,26 +529,35 @@ public class UI : MonoBehaviour {
                     currentUI--;
                     UIChanged(currentUI, false);
                 }
-
             }
 
             if (Input.GetButtonDown("RightB") && MulitaryStatus != 1)
             {
-                if (fold == false)
+             if (fold == false)
                 {
-                    controlDisable = true;
-                    fold = true;
-                    startFolding = true;
+					switch(currentUI)
+					{
+					case (UIChoice.Mulitary):
+                      	MulitaryStatusChoice(1);
+						break;
+                    case (UIChoice.TurnReport):
+                        ReportChoice(1);
+                        break;
+					case (UIChoice.Assign):
+						AssignStatusChoice(1);
+						break;
+					}
+
                 }
                 else
                 {
                     controlDisable = true;
                     lastUI = currentUI;
-                    currentUI--;
-                    UIChanged(currentUI, false);
+                    currentUI++;
+                    UIChanged(currentUI, true);
                 }
-
             }
+
 
 
 			if(Input.GetButtonDown("X"))
