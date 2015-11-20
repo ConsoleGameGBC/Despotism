@@ -50,7 +50,7 @@ public class UnitMove : MonoBehaviour {
             }
             if (transform.localPosition.y > -0.28)
             {
-                if (Input.GetButtonDown("Down"))
+                if (Input.GetAxis("YAxis") > 0.5)
                 {
 
                     countY--;
@@ -69,7 +69,7 @@ public class UnitMove : MonoBehaviour {
             //if(up)
             if (transform.localPosition.y < 4.46)
             {
-                if (Input.GetButtonDown("Up"))
+                if (Input.GetAxis("YAxis") < -0.5)
                 {
                     countY++;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
@@ -89,7 +89,7 @@ public class UnitMove : MonoBehaviour {
 
             if (transform.localPosition.x > 0.58)
             {
-                if (Input.GetButtonDown("Left"))
+                if (Input.GetAxis("XAxis") < -0.5)
                 {
                     countX--;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
@@ -105,7 +105,7 @@ public class UnitMove : MonoBehaviour {
             }
             if (transform.localPosition.x < 5.08)
             {
-                if (Input.GetButtonDown("Right"))
+                if (Input.GetAxis("XAxis") > 0.5)
                 {
                     countX++;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
