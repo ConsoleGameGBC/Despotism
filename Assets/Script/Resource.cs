@@ -4,8 +4,8 @@ using System.Collections;
 
 public class Resource : MonoBehaviour {
     int turnNum = 0;
-    int turnsToWin = 30;
-    int popToLose = 50;
+    int turnsToWin = 60;
+    int popToLose = 100;
 
     float productionSpeed = 1.3f;
     float scavangeSpeed = 0.8f;
@@ -240,12 +240,12 @@ public class Resource : MonoBehaviour {
 	
     public void WinGame()
     {
-
+        Application.LoadLevel(1);
     }
 
     public void LoseGame()
     {
-
+        Application.LoadLevel(2);
     }
 
 
