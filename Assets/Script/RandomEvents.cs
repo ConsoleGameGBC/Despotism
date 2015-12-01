@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 public class RandomEvents : MonoBehaviour {
 
@@ -16,17 +16,41 @@ public class RandomEvents : MonoBehaviour {
 	public int eventNo;
 	//List<RandEvent> EventList = new List<RandEvent> ();
 	public RandEvent[] EventArray;
-	int numOfEvents = 4;
+	int numOfEvents;
 
 	// Use this for initialization
 	void Start () {
 		myManager = this.gameObject;
-       
-		EventArray = new RandEvent[numOfEvents];
-		EventArray [0] = new VisitingMerchant (myManager);
-		EventArray[1] = new StolenFood (myManager);
-		EventArray [2] = new Refugees (myManager);
+
+        /*
+        RandEvent[] EventArray = {
+        new VisitingMerchant(myManager),
+        new StolenFood(myManager),
+        new Refugees (myManager),
+        new Attacked(myManager),
+        new Brahmin(myManager),
+        new Brahmin2(myManager)
+        };
+        */
+        /*
+        EventArray = new RandEvent[4];
+        EventArray[0] = new VisitingMerchant(myManager);
+        EventArray[1] = new StolenFood(myManager);
+        EventArray[2] = new Refugees(myManager);
         EventArray[3] = new Attacked(myManager);
+        */
+
+         EventArray = new RandEvent[] {
+            new VisitingMerchant(myManager),
+           new StolenFood(myManager),
+          new Refugees(myManager),
+           new Attacked(myManager),
+           new Brahmin(myManager),
+           new Brahmin2(myManager)
+         };
+
+        Debug.Log("EVENT ARRAY IS " + EventArray.Length.ToString());
+        numOfEvents = EventArray.Length;
 
 		//RandEvent[] eventTable = new RandEvent[2];
 
@@ -43,8 +67,8 @@ public class RandomEvents : MonoBehaviour {
 	public void publishEvent(){
 
 		//RandEvent eventInProgress = EventList.
-		eventNo = Random.Range (0, numOfEvents);
-		RandEvent eventInProgress = EventArray [eventNo];
+		eventNo = UnityEngine.Random.Range (0, numOfEvents);
+		RandEvent eventInProgress = EventArray[eventNo];
 		eventTopicObj.GetComponent<Text> ().text = EventArray [eventNo].title;
         eventContentObj.GetComponent<Text>().text = EventArray[eventNo].text;
         eventOptionContent.GetComponent<Text>().text = EventArray[eventNo].option1;
@@ -123,11 +147,11 @@ public class RandomEvents : MonoBehaviour {
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
-        int enemyNum = Random.Range(30, 80);
+        int enemyNum = UnityEngine.Random.Range(30, 80);
 
 
-        float enemyCas = soldierNum * playerRange * Random.Range(1.8f, 3.0f);
-        float playerCas = enemyNum * enemyRange * Random.Range(1.8f, 3.0f);
+        float enemyCas = soldierNum * playerRange * UnityEngine.Random.Range(1.8f, 3.0f);
+        float playerCas = enemyNum * enemyRange * UnityEngine.Random.Range(1.8f, 3.0f);
         Debug.Log("enemycas" + enemyCas);
         Debug.Log("playercas" + playerCas);
 
@@ -151,8 +175,8 @@ public class RandomEvents : MonoBehaviour {
             //int playerCasMelee = 0;
             while ((int)enemyCas != enemyNum && (int)playerCas != soldierNum)
             {
-                enemyCas = soldierNum * playerMelee * Random.Range(0.8f, 2.5f);
-                playerCas = enemyNum * enemyMelee * Random.Range(0.8f, 2.5f);
+                enemyCas = soldierNum * playerMelee * UnityEngine.Random.Range(0.8f, 2.5f);
+                playerCas = enemyNum * enemyMelee * UnityEngine.Random.Range(0.8f, 2.5f);
 
 
                 if ((int)enemyCas > enemyNum)
@@ -340,6 +364,68 @@ class Refugees:RandEvent{
 	override public void ChoseO3(){
         updateResult(result3);
         //They are gone
+    }
+}
+
+class Brahmin : RandEvent
+{
+    public Brahmin(GameObject obj):base(obj)
+    {
+        title = "Stray Animals";
+        text = "It's uncanny! A group of stray cattle is seen close to our encampment! They seem to be healthy and not infected with the virus...";
+        option1 = "It's time for a feast!";
+        option2 = "Tell the men to add the animals to our inventory";
+        option3 = "Do nothing. They might be infected.";
+        result1 = "We have a feast! Everyone's morele increased.";
+        result2 = "We have more food now.";
+        result3 = "We don't risk the health of our tribe.";
+    }
+    public override void ChoseO1()
+    {
+        updateResult(result1);
+
+    }
+
+    public override void ChoseO2()
+    {
+        updateResult(result2);
+        myResourceClass.changeFood(200);
+    }
+
+    public override void ChoseO3()
+    {
+        updateResult(result3);
+    }
+}
+
+class Brahmin2 : RandEvent
+{
+    public Brahmin2(GameObject obj) : base(obj)
+    {
+        title = "Stray Animals";
+        text = "It's uncanny! A group of stray cattle is seen close to our encampment! They seem to be healthy and not infected with the virus...";
+        option1 = "It's time for a feast!";
+        option2 = "Tell the men to add the animals to our inventory";
+        option3 = "Do nothing. They might be infected.";
+        result1 = "Some of the cattle were infected! Many of our people got sick and die, a few of them turn into zombies.";
+        result2 = "some of the cattle were infected! Some people got sick and die.";
+        result3 = "We don't risk the health of our tribe.";
+    }
+    public override void ChoseO1()
+    {
+        updateResult(result1);
+        myResourceClass.decreasePop(50);
+    }
+
+    public override void ChoseO2()
+    {
+        updateResult(result2);
+        myResourceClass.decreasePop(20);
+    }
+
+    public override void ChoseO3()
+    {
+        updateResult(result3);
     }
 }
 
