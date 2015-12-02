@@ -12,10 +12,12 @@ public class UnitMove : MonoBehaviour {
     UI uiManager;
 	int countC = 0;
 
+
     void Start()
     {
         uiManager = GameObject.Find("PaperWork").GetComponent<UI>();
         myCombatClass = GameObject.Find("GameManager").GetComponent<Combat>();
+
     }
 
 	// Update is called once per frame
@@ -101,7 +103,7 @@ public class UnitMove : MonoBehaviour {
 
             if (transform.localPosition.x > 5.08)
             {
-                countY = 19;
+                countX = 19;
             }
             if (transform.localPosition.x < 5.08)
             {
@@ -114,7 +116,7 @@ public class UnitMove : MonoBehaviour {
                 }
             }
 
-
+            myCombatClass.getNewCoordinates(countX, countY);
         }
 	}
 

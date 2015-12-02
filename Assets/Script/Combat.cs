@@ -48,15 +48,48 @@ public class Combat : MonoBehaviour {
     float terrainRange;
     float terrainMelee;
 
-	// Use this for initialization
-	void Start () {
-	    
+    int currentX = 0;
+    int currentY = 0;
+
+    // Use this for initialization
+    void Start() {
+        bool[,] exploredMap = new bool[20, 20];
+        bool[,] dangerMap = new bool[20, 20];
+        bool[,] lootMap = new bool[20, 20];
+
+        for (int i = 0; i < 20; i++)
+        {
+            for(int j = 0; j<20; j++)
+            {
+                exploredMap[i,j] = false;
+
+                int r = UnityEngine.Random.Range(0, 100);
+                dangerMap[i, j] = r < 50 ? true : false;
+                r = UnityEngine.Random.Range(0, 100);
+                lootMap[i, j] = r < 50 ? true : false;
+
+            }
+        }
+
+        
+
 	}
 	
+
+
+
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    public void getNewCoordinates(int X, int Y)
+    {
+        currentX = X;
+        currentY = Y;
+
+        Debug.Log("x in combat " + X+ " y in combat " + Y);
+    }
 
     public void changePaperBack()
     {
