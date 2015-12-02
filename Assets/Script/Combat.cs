@@ -108,6 +108,9 @@ public class Combat : MonoBehaviour {
         if(exploredMap[currentX,currentY]==false && isExplore == false)
         {
             temp += "WARNING! Attacking a location without scouting it first is very dangerous.\n\n";
+        } else if(exploredMap[currentX,currentY] && isExplore)
+        {
+            temp += "WARNING! We have already scouted this region. We will not learn more by sending more scouts.\n\n";
         }
 
 
@@ -142,9 +145,9 @@ public class Combat : MonoBehaviour {
 
     }
 
-    public string combatResult(bool isExplored, int terrainType, int soldierNum)
+    public string combatResult(bool isExploration, int terrainType, int soldierNum)
     {
-        string myString = explorationResult(isExplored, terrainType, soldierNum);
+        string myString = explorationResult(isExploration, terrainType, soldierNum);
 
         if (soldiers > 0 && lootMap[currentX,currentY] == true)
         {
@@ -180,10 +183,13 @@ public class Combat : MonoBehaviour {
         return myString;
     }
 
-    public string explorationResult(bool isExplored, int terrainType, int soldierNum)
+    public string explorationResult(bool isExploration, int terrainType, int soldierNum)
     {
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
+
+        
+
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
         enemyNum = Random.Range(5, 15);
         //terrainType = Random.Range(1, 5);

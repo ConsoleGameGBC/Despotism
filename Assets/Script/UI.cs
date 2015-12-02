@@ -367,7 +367,7 @@ public class UI : MonoBehaviour {
                     myCombatClass.combatResult(false, TerrainType, SoldierNum);
                     break;
                 case (MulitaryAction.Explore):
-                    myCombatClass.explorationResult(false, TerrainType, SoldierNum);
+                    myCombatClass.explorationResult(true, TerrainType, SoldierNum);
                     break;
                 default:
                     Debug.Log("Error in combat call");
