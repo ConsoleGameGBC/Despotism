@@ -59,7 +59,7 @@ public class UI : MonoBehaviour {
     [Header("Erdem's UI Thingy")]
     float timeSinceLastXChange = 5;
     [SerializeField]
-    float inputDelay = 0.5f;
+    float inputDelay = 0.3f;
 
     enum UIChoice
     {
@@ -644,8 +644,9 @@ public class UI : MonoBehaviour {
 
                 }
             }
-            else if (Input.GetAxis("XAxis") < -0.5 && MulitaryStatus != 1)
+            else if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") < -0.5 && MulitaryStatus != 1)
             {
+                timeSinceLastXChange = 0;
                 if (fold == false)
                 {
 					switch(currentUI)
@@ -669,8 +670,9 @@ public class UI : MonoBehaviour {
                     UIChanged(currentUI, false);
                 }
             }
-            else if (Input.GetAxis("XAxis") > 0.5 && MulitaryStatus != 1)
+            else if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") > 0.5 && MulitaryStatus != 1)
             {
+                timeSinceLastXChange = 0;
                 if (fold == false)
                 {
 					switch(currentUI)
@@ -800,6 +802,9 @@ public class UI : MonoBehaviour {
                 }
             }
         }
+
+
+        timeSinceLastXChange += Time.deltaTime;
 	}
     void UIChanged(UIChoice temp, bool temp2)
     {
