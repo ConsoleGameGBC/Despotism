@@ -51,11 +51,15 @@ public class Combat : MonoBehaviour {
     int currentX = 0;
     int currentY = 0;
 
+    bool[,] exploredMap = new bool[20, 20];
+    bool[,] dangerMap = new bool[20, 20];
+    bool[,] lootMap = new bool[20, 20];
+
     // Use this for initialization
     void Start() {
-        bool[,] exploredMap = new bool[20, 20];
-        bool[,] dangerMap = new bool[20, 20];
-        bool[,] lootMap = new bool[20, 20];
+        //bool[,] exploredMap = new bool[20, 20];
+        //bool[,] dangerMap = new bool[20, 20];
+        //bool[,] lootMap = new bool[20, 20];
 
         for (int i = 0; i < 20; i++)
         {
@@ -99,7 +103,16 @@ public class Combat : MonoBehaviour {
 
     public void changeActionExplanation(bool isExplore, int terraintType)
     {
-        string temp = "We can send a force to ";
+        string temp = "";
+
+        if(exploredMap[currentX,currentY]==false && isExplore == false)
+        {
+            temp += "WARNING! Attacking a location without scouting it first is very dangerous.\n\n";
+        }
+
+
+
+        temp += "We can send a force to ";
 
         if (isExplore)
             temp += "explore this ";
@@ -130,6 +143,44 @@ public class Combat : MonoBehaviour {
     }
 
     public string combatResult(bool isExplored, int terrainType, int soldierNum)
+    {
+        string myString = explorationResult(isExplored, terrainType, soldierNum);
+
+        if (soldiers > 0 && lootMap[currentX,currentY] == true)
+        {
+            myString += "\n";
+
+            myString += "We looted: ";
+            int temp = Random.Range(0, 50);
+            myString += temp.ToString() + " food, ";
+            this.GetComponent<Resource>().changeFood(temp);
+
+            temp = Random.Range(0, 50);
+            myString += temp.ToString() + " water, ";
+            this.GetComponent<Resource>().changeWater(temp);
+
+            temp = Random.Range(0, 50);
+            myString += temp.ToString() + " fuel, ";
+            this.GetComponent<Resource>().changeFuel(temp);
+
+            temp = Random.Range(0, 50);
+            myString += temp.ToString() + " medicine, ";
+            this.GetComponent<Resource>().changeMedical(temp);
+
+            temp = Random.Range(0, 10);
+            if (temp > 5)
+            {
+                temp -= 4;
+                myString += "We also found " + temp.ToString() + " survivors.";
+                this.GetComponent<Resource>().changeUnemployed(temp);
+            }
+        }
+
+        combatResultTextObj.GetComponent<Text>().text = myString;
+        return myString;
+    }
+
+    public string explorationResult(bool isExplored, int terrainType, int soldierNum)
     {
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
@@ -202,8 +253,8 @@ public class Combat : MonoBehaviour {
         Debug.Log("playerCas" + enemyNum + " " + terrainRange + " " + enemyRange);
         float enemyCas = soldierNum * terrainRange * playerRange * Random.Range(1.8f, 3.0f);
         float playerCas = enemyNum * terrainRange * enemyRange * Random.Range(1.8f, 3.0f);
-        Debug.Log("enemycas" +enemyCas);
-        Debug.Log("playercas" +playerCas);
+        Debug.Log("enemycas" + enemyCas);
+        Debug.Log("playercas" + playerCas);
 
         if ((int)enemyCas > enemyNum)
             enemyCas = enemyNum;
@@ -217,7 +268,7 @@ public class Combat : MonoBehaviour {
         myString += " On range we killed " + ((int)enemyCas).ToString() + " and we lost "
             + ((int)playerCas).ToString() + " soldiers";
 
-        if(soldierNum > 0 && enemyNum > 0)
+        if (soldierNum > 0 && enemyNum > 0)
         {
 
             totalplayerLoss = (int)playerCas;
@@ -274,40 +325,15 @@ public class Combat : MonoBehaviour {
 
 
         return myString;
-    }
 
-    public string explorationResult(bool isExplored, int terrainType, int soldierNum)
-    {
-        string myString = combatResult(isExplored, terrainType, soldierNum);
 
-        if(soldiers > 0)
-        {
-            myString += "\n";
 
-            myString += "We looted: ";
-            int temp = Random.Range(0, 40);
-            myString += temp.ToString() + " food, ";
-            this.GetComponent<Resource>().changeFood(temp);
 
-            temp = Random.Range(0, 40);
-            myString += temp.ToString() + " water, ";
-            this.GetComponent<Resource>().changeWater(temp);
 
-            temp = Random.Range(0, 40);
-            myString += temp.ToString() + " fuel, ";
-            this.GetComponent<Resource>().changeFuel(temp);
 
-            temp = Random.Range(0, 40);
-            myString += temp.ToString() + " medicine, ";
-            this.GetComponent<Resource>().changeMedical(temp);
 
-            temp = Random.Range(0, 5);
-            myString += "We also found " + temp.ToString() + " survivors.";
-            this.GetComponent<Resource>().changeUnemployed(temp);
-        }
 
-        combatResultTextObj.GetComponent<Text>().text = myString;
-        return myString;
+
     }
 
 
