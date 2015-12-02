@@ -236,6 +236,9 @@ public class Resource : MonoBehaviour {
             }
 
         }
+
+        if (Population < popToLose)
+            LoseGame();
     }
 	
     public void WinGame()
@@ -409,6 +412,31 @@ public class Resource : MonoBehaviour {
         changeWorker(amount);
     }
 
+    public void changeWorkerMorale(float amount)
+    {
+        workerMorale += amount;
+        if (workerMorale > 1)
+            workerMorale = 1;
+
+        if (workerMorale <= 0)
+            LoseGame();
+    }
+    public void changeSoldierMorale(float amount)
+    {
+        soldierMorale += amount;
+        if (soldierMorale > 1)
+            soldierMorale = 1;
+        if (soldierMorale <= 0)
+            LoseGame();
+    }
+    public void changeUnemployedMorale(float amount)
+    {
+        unemployedMorale += amount;
+        if (unemployedMorale > 1)
+            unemployedMorale = 1;
+        if (unemployedMorale <= 0)
+            LoseGame();
+    }
 
 
 }

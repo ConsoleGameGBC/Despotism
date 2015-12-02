@@ -207,17 +207,11 @@ public class RandomEvents : MonoBehaviour {
         }
 
 
+
+        myManager.GetComponent<Resource>().decreasePop(0);
     }
 
-    public void addFood(int amount)
-		
-	{
-	}
-	
-	public void addWater(int x)
-	{
-		
-	}
+   
 
 
 
@@ -279,8 +273,8 @@ class VisitingMerchant : RandEvent{
 		option1 = "Buy food";
 		option2 = "Kill him and loot his stuff.";
 		option3 = "Send him away.";
-        result1 = "We bought food from the merchant. ";
-        result2 = "We killed the merchant and loot his stuff.";
+        result1 = "We bought food from the merchant.";
+        result2 = "We killed the merchant and loot his stuff. This affected our people's morale.";
         result3 = "We sent him away.";
 	}
 	
@@ -298,7 +292,10 @@ class VisitingMerchant : RandEvent{
 	override public void ChoseO2(){
         updateResult(result2);
         //Killed the poor guy
-        myResourceClass.changeFood(50);
+        myResourceClass.changeFood(65);
+        myResourceClass.changeWorkerMorale(-0.1f);
+        myResourceClass.changeUnemployedMorale(-0.1f);
+
 	}
 	override public void ChoseO3(){
         //Nothing happens
@@ -317,21 +314,27 @@ class StolenFood : RandEvent{
 		option3 = "Send them on a dangerous mission.";
         result1 = "They are executed by our soldiers. Our tribe learned a lesson.";
         result2 = "They are forgiven.";
-        result3 = "They are dead, our conscience clean.";
+        result3 = "Most of them don't come back from the mission. Not everyone's happy with your desicion.";
 	}
 	override public void ChoseO1(){
         updateResult(result1);
-        myResourceClass.changeUnemployed(-3);
+        myResourceClass.decreasePop(8);
 		//Lose population
 	}
 	override public void ChoseO2(){
         updateResult(result2);
+        myResourceClass.changeSoldierMorale(-0.1f);
         //They are forgiven
     }
 	override public void ChoseO3(){
         updateResult(result3);
         //They are sent to a dangerous mission
-        myResourceClass.changeUnemployed(-3);
+        myResourceClass.decreasePop(4);
+        myResourceClass.changeFood(20);
+        myResourceClass.changeWater(10);
+        myResourceClass.changeWorkerMorale(-0.05f);
+        myResourceClass.changeUnemployedMorale(-0.05f);
+
     }
 	
 }
@@ -345,7 +348,7 @@ class Refugees:RandEvent{
 		option2 = "Kill them, loot their stuff.";
 		option3 = "Send them away.";
         result1 = "We have new unemployed tribesmen";
-        result2 = "We killed them and loot their stuff.";
+        result2 = "We killed them and loot their stuff. Most people doesn't like your desicion.";
         result3 = "They are gone.";
 	}
 	override public void ChoseO1(){
@@ -359,6 +362,9 @@ class Refugees:RandEvent{
         myResourceClass.changeWater(10);
         myResourceClass.changeMedical(3);
         myResourceClass.changeFuel(2);
+        myResourceClass.changeSoldierMorale(-0.05f);
+        myResourceClass.changeWorkerMorale(-0.1f);
+        myResourceClass.changeUnemployedMorale(-0.1f);
 		//Got loot, lose rep
 	}
 	override public void ChoseO3(){
