@@ -12,6 +12,9 @@ public class UnitMove : MonoBehaviour {
     UI uiManager;
 	int countC = 0;
 
+    [Header("Erdem's UI Thingy")]
+    float timeSinceLastXChange = 5;
+    float inputDelay = 0.3f;
 
     void Start()
     {
@@ -22,7 +25,7 @@ public class UnitMove : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+        
        // bool up = Input.GetButtonDown("g");
 
         if (uiManager.MulitaryStatus == 1)
@@ -52,8 +55,9 @@ public class UnitMove : MonoBehaviour {
             }
             if (transform.localPosition.y > -0.28)
             {
-                if (Input.GetAxis("YAxis") > 0.5)
+                if (timeSinceLastXChange > inputDelay && Input.GetAxis("YAxis") > 0.5)
                 {
+                    timeSinceLastXChange = 0;
 
                     countY--;
 
@@ -71,8 +75,9 @@ public class UnitMove : MonoBehaviour {
             //if(up)
             if (transform.localPosition.y < 4.46)
             {
-                if (Input.GetAxis("YAxis") < -0.5)
+                if (timeSinceLastXChange > inputDelay && Input.GetAxis("YAxis") < -0.5)
                 {
+                    timeSinceLastXChange = 0;
                     countY++;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
                     transform.localPosition += new Vector3(0, 0.25f, 0);
@@ -91,8 +96,9 @@ public class UnitMove : MonoBehaviour {
 
             if (transform.localPosition.x > 0.58)
             {
-                if (Input.GetAxis("XAxis") < -0.5)
+                if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") < -0.5)
                 {
+                    timeSinceLastXChange = 0;
                     countX--;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
                     transform.localPosition += new Vector3(-0.25f, 0, 0);
@@ -107,8 +113,9 @@ public class UnitMove : MonoBehaviour {
             }
             if (transform.localPosition.x < 5.08)
             {
-                if (Input.GetAxis("XAxis") > 0.5)
+                if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") > 0.5)
                 {
+                    timeSinceLastXChange = 0;
                     countX++;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
                     transform.localPosition += new Vector3(0.25f, 0, 0);
@@ -118,6 +125,9 @@ public class UnitMove : MonoBehaviour {
 
             myCombatClass.getNewCoordinates(countX, countY);
         }
+
+
+        timeSinceLastXChange += Time.deltaTime;
 	}
 
     void OnTriggerEnter(Collider other)

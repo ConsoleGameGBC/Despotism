@@ -52,7 +52,14 @@ public class UI : MonoBehaviour {
     bool controlDisable;
     bool turnIsEnd;
     int TimePassing = 0;
-	// Use this for initialization
+    // Use this for initialization
+
+   
+    
+    [Header("Erdem's UI Thingy")]
+    float timeSinceLastXChange = 5;
+    [SerializeField]
+    float inputDelay = 0.5f;
 
     enum UIChoice
     {
