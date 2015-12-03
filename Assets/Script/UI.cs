@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
 
-    
 
+    Text HelpUILeft;
+    Text HelpUIRight;
     GameObject SunCenter;
     GameObject Sun;
     GameObject LeftPage;
@@ -25,6 +26,7 @@ public class UI : MonoBehaviour {
     Vector3 UnfocusPos;
     Quaternion UnfocusRot;
 
+    GameObject Tips;
     Resource resource;
     RandomEvents randomEvents;
     GameObject MulitaryUI;
@@ -41,10 +43,10 @@ public class UI : MonoBehaviour {
 	Vector3 AssignPos;
 	Quaternion AssignRot;
 
-    
-
+    bool showTips;
     public float speed = 20f;
     float step;
+    float TipTime;
     public bool fold = true;
     bool startFolding;
     public int TerrainType = 1;
@@ -118,6 +120,11 @@ public class UI : MonoBehaviour {
         resource = GameObject.Find("GameManager").GetComponent<Resource>();
         randomEvents = GameObject.Find("GameManager").GetComponent<RandomEvents>();
 
+        HelpUILeft = GameObject.Find("HelpUILeft").GetComponent<Text>();
+        HelpUIRight = GameObject.Find("HelpUIRight").GetComponent<Text>();
+
+        Tips = GameObject.Find("Tips");
+
         MainCamera = GameObject.Find("Main Camera");
         UnfocusPos = MainCamera.transform.position;
         UnfocusRot = MainCamera.transform.rotation;
@@ -149,7 +156,7 @@ public class UI : MonoBehaviour {
 	        LeftPage = GameObject.Find("MainMenuLeftPage");
 	        RightPage = GameObject.Find("MainMenuRightPage");
 
-	        MulitaryStatusChoice(0);
+	        //MulitaryStatusChoice(0);
 		}
 
 
@@ -160,8 +167,10 @@ public class UI : MonoBehaviour {
 			switch(MulitaryStatus)
 			{
 			case (0):
+                showTips = true;
+                Tips.GetComponentInChildren<Text>().text = "Left & Right to choose military action,, A to confirm.";
 				switch (mulitaryAction += value) 
-			{
+			    {
 				case(MulitaryAction.Attack):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
                     myCombatClass.changeActionExplanation(false,TerrainType);
@@ -173,14 +182,16 @@ public class UI : MonoBehaviour {
 				default:
                     mulitaryAction -= value;
 					break;
-			}
+			    }
             
 			break;
 		case(1): //Enable Map
-            
+            showTips = true;
+            Tips.GetComponentInChildren<Text>().text = "Up,Down,Left & Right to move around the map, A to confirm.";
 			break;
         case (2):
-            
+            showTips = true;
+            Tips.GetComponentInChildren<Text>().text = "Left & Right to adjust number of soldier for current action, A to confirm.";
             if (SoldierNum + value <= resource.popSoldier && SoldierNum + value > 0)
                 {
                     SoldierNum += value;
@@ -189,6 +200,8 @@ public class UI : MonoBehaviour {
                 GameObject.Find("MilitaryAssignText").GetComponent<Text>().text = SoldierNum.ToString();
             break;
 		case(3):
+                showTips = true;
+                Tips.GetComponentInChildren<Text>().text = "We have received the result of this action. Press down to zoom out.";
                 callCombat();
                 MulitaryStatus = 0;
 			    MulitaryActionAssigned = true;
@@ -202,6 +215,8 @@ public class UI : MonoBehaviour {
 		switch(AssignStatus)
 		{
 			case (0):
+                showTips = true;
+                Tips.GetComponentInChildren<Text>().text = "Left & Right to choose assign action, A to confirm.";
 				switch (assignAction += value) 
 				{
 				case(AssignAction.Assign):
@@ -216,6 +231,8 @@ public class UI : MonoBehaviour {
 				}
 				break;
 			case(1): 
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Left & Right to choose population type, A to confirm.";
                     switch (assignPopFrom += value)
 					{
 						case(AssignPop.Soldier):
@@ -233,6 +250,8 @@ public class UI : MonoBehaviour {
 					}
 				break;
 			case(2): 
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Left & Right to choose population type, A to confirm.";
                    switch (assignPopTo += value)
                 {
                     case (AssignPop.Soldier):
@@ -250,6 +269,8 @@ public class UI : MonoBehaviour {
                 }
                 break;
             case (3):
+                showTips = true;
+                Tips.GetComponentInChildren<Text>().text = "Left & Right to adjust number of people for current action, A to confirm";
                 if(assignAction == AssignAction.Assign)
 				{
                     switch (assignPopFrom)
@@ -301,6 +322,8 @@ public class UI : MonoBehaviour {
                 GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
 				break;
 			case(4):
+                showTips = true;
+                Tips.GetComponentInChildren<Text>().text = "Assign action processed, press Down to zoom out";
                 if (assignPopTo == assignPopFrom)
                 {
                     GameObject.Find("AssignDetailText").GetComponent<Text>().text = "False assignment will not be permitted.";
@@ -388,6 +411,8 @@ public class UI : MonoBehaviour {
     {
         if (RandomEventFinished == false)
         {
+            showTips = true;
+            Tips.GetComponentInChildren<Text>().text = "Left & Right to switch between solutions, A to confirm.";
             RandomEventOptionStatus += value;
             switch (RandomEventOptionStatus)
             {
@@ -411,7 +436,57 @@ public class UI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(Input.GetAxis("YAxis"));
+        Debug.Log(TipTime);
+        if (showTips == true)
+        {
+            TipTime += Time.deltaTime;
+            if (Tips.GetComponent<RectTransform>().localPosition.x > 325)
+            {
+                Tips.GetComponent<RectTransform>().Translate(-1 * speed, 0, 0);
+            }
+        }
+        else if (showTips == false && Tips.GetComponent<RectTransform>().position.x < 1125)
+        {
+            Tips.GetComponent<RectTransform>().Translate(1 * speed, 0, 0);
+        }
+        if(TipTime > 5)
+        {
+            showTips = false;
+            TipTime = 0;
+        }
+        if (fold == false)
+        {
+            switch (currentUI)
+            {
+                case (UIChoice.Stock):
+                    HelpUILeft.text = "Stock";
+                    HelpUIRight.text = "Stock";
+                    break;
+                case (UIChoice.TurnReport):
+                    HelpUILeft.text = "TurnReport";
+                    HelpUIRight.text = "TurnReport";
+                    break;
+                case (UIChoice.Assign):
+                    HelpUILeft.text = "Assign";
+                    HelpUIRight.text = "Assign";
+                    break;
+                 case (UIChoice.Mulitary):
+                    HelpUILeft.text = "Mulitary";
+                    HelpUIRight.text = "Mulitary";
+                    break;
+                 case (UIChoice.MainMenu):
+                    HelpUILeft.text = "MainMenu";
+                    HelpUIRight.text = "MainMenu";
+                    break;
+            }
+
+        }
+        else
+        {
+            HelpUILeft.text = "";
+            HelpUIRight.text = "";
+        }
+
         if(TimePassing > 0)
         {        
             float SunSpeed = 50;
@@ -499,6 +574,7 @@ public class UI : MonoBehaviour {
             {
                 controlDisable = false;
                 startFolding = false;
+
             }
         }
         if (controlDisable == false)
@@ -509,6 +585,13 @@ public class UI : MonoBehaviour {
                 {
                     turnEnd();
                     resource.endTurn();
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Another peacful day has passed.";
+                }
+                else
+                {
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Events under Turn report have to be handled before ending today.";
                 }
 			}
 
@@ -531,6 +614,8 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Left & Right to switch the report.";
                     controlDisable = true;
                     lastUI = currentUI;
                     currentUI--;
@@ -558,6 +643,8 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Left & Right to switch the report";
                     controlDisable = true;
                     lastUI = currentUI;
                     currentUI++;
@@ -630,7 +717,8 @@ public class UI : MonoBehaviour {
                     controlDisable = true;
                     fold = false;
                     startFolding = true;
-
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Up & Down to zoom in or out of the report";
                 }
 	
             }
@@ -641,6 +729,8 @@ public class UI : MonoBehaviour {
                     controlDisable = true;
                     fold = true;
                     startFolding = true;
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Up & Down to zoom in or out of the report";
 
                 }
             }
@@ -664,6 +754,8 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Left & Right to switch between Report";
                     controlDisable = true;
                     lastUI = currentUI;
                     currentUI--;
@@ -691,6 +783,8 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+                    showTips = true;
+                    Tips.GetComponentInChildren<Text>().text = "Left & Right to switch between Report";
                     controlDisable = true;
                     lastUI = currentUI;
                     currentUI++;
@@ -765,7 +859,6 @@ public class UI : MonoBehaviour {
                         {
                             switchingUI = false;
                             controlDisable = false;
-
                         }
                         break;
                     case (UIChoice.Mulitary):
@@ -785,7 +878,6 @@ public class UI : MonoBehaviour {
                         {
                             switchingUI = false;
                             controlDisable = false;
-
                         }
                         break;
 				case (UIChoice.Assign):
@@ -795,7 +887,6 @@ public class UI : MonoBehaviour {
 					{
 						switchingUI = false;
 						controlDisable = false;
-						
 					}
 					break;
 
