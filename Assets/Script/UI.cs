@@ -267,9 +267,9 @@ public class UI : MonoBehaviour {
                     case (AssignPop.Worker):
                         GameObject.Find("AssignToType").GetComponent<Text>().text = "Worker";
                         break;
-                    case (AssignPop.Unemployed):
-                        GameObject.Find("AssignToType").GetComponent<Text>().text = "Unemployed";
-                        break;
+                    //case (AssignPop.Unemployed):
+                    //    GameObject.Find("AssignToType").GetComponent<Text>().text = "Unemployed";
+                    //    break;
                     default:
                         assignPopTo -= value;
                         break;
@@ -337,6 +337,7 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+                    trainingFunc();
                     if (AssignAmount>1)
                     GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + "s has been " + assignAction + " to " + assignPopTo + ".";
                     else if(AssignAmount == 1)
@@ -349,6 +350,58 @@ public class UI : MonoBehaviour {
 		}
 	}
 
+    void trainingFunc()
+    {
+        switch (assignPopFrom)
+        {
+            case (AssignPop.Soldier):
+                if(assignAction == AssignAction.Assign)
+                {
+                    resource.trainSoldierToWorker(AssignAmount,false);
+                }
+                else
+                {
+                    resource.trainSoldierToWorker(AssignAmount, true);
+                }
+                break;
+            case (AssignPop.Worker):
+                if (assignAction == AssignAction.Assign)
+                {
+                    resource.trainWorkerToSoldier(AssignAmount, false);
+                }
+                else
+                {
+                    resource.trainWorkerToSoldier(AssignAmount, true);
+                }
+                break;
+            case (AssignPop.Unemployed):
+                switch(assignPopTo)
+                {
+                    case (AssignPop.Soldier):
+                        if (assignAction == AssignAction.Assign)
+                        {
+                            resource.trainUnempToSoldier(AssignAmount, false);
+                        }
+                        else
+                        {
+                            resource.trainUnempToSoldier(AssignAmount, true);
+                        }
+                        break;
+                    case (AssignPop.Worker):
+                        if (assignAction == AssignAction.Assign)
+                        {
+                            resource.trainUnempToWorker(AssignAmount, false);
+                        }
+                        else
+                        {
+                            resource.trainUnempToWorker(AssignAmount, true);
+                        }
+                        break;
+                }
+                break;
+        }
+
+    }
 
     void RandomEventChoice()
     {
