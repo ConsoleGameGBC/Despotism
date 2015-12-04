@@ -157,7 +157,7 @@ public class UI : MonoBehaviour {
 	        LeftPage = GameObject.Find("MainMenuLeftPage");
 	        RightPage = GameObject.Find("MainMenuRightPage");
 
-            SoldierNum; = resource.popSoldier;
+            SoldierNum = resource.popSoldier;
 	        //MulitaryStatusChoice(0);
 		}
 
