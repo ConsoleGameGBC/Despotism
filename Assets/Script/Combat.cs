@@ -113,14 +113,33 @@ public class Combat : MonoBehaviour {
             temp += "WARNING! We have already scouted this region. We will not learn more by sending more scouts.\n\n";
         }
 
+        if (exploredMap[currentX, currentY])
+        {
+            if (dangerMap[currentX, currentY]) {
+                temp += "This is a very dangerous region ";
+            }
+            else
+            {
+                temp += "This is a mildly dangerous region ";
+            }
 
+            if (lootMap[currentX, currentY])
+            {
+                temp += "with RESOURCES we can LOOT.\n";
+            }
+            else
+            {
+                temp += "that is already looted.\n";
+            }
+
+        }
 
         temp += "We can send a force to ";
 
         if (isExplore)
             temp += "explore this ";
         else
-            temp += "clean up this ";
+            temp += "clean up and loot this ";
 
         switch (terraintType)
         {
@@ -154,19 +173,19 @@ public class Combat : MonoBehaviour {
             myString += "\n";
 
             myString += "We looted: ";
-            int temp = Random.Range(0, 50);
+            int temp = Random.Range(0, 100);
             myString += temp.ToString() + " food, ";
             this.GetComponent<Resource>().changeFood(temp);
 
-            temp = Random.Range(0, 50);
+            temp = Random.Range(0, 100);
             myString += temp.ToString() + " water, ";
             this.GetComponent<Resource>().changeWater(temp);
 
-            temp = Random.Range(0, 50);
+            temp = Random.Range(0, 100);
             myString += temp.ToString() + " fuel, ";
             this.GetComponent<Resource>().changeFuel(temp);
 
-            temp = Random.Range(0, 50);
+            temp = Random.Range(0, 100);
             myString += temp.ToString() + " medicine, ";
             this.GetComponent<Resource>().changeMedical(temp);
 
@@ -179,6 +198,7 @@ public class Combat : MonoBehaviour {
             }
         }
 
+        lootMap[currentX, currentY] = false;
         combatResultTextObj.GetComponent<Text>().text = myString;
         return myString;
     }
@@ -188,10 +208,21 @@ public class Combat : MonoBehaviour {
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
 
-        
+        if(dangerMap[currentX,currentY] && exploredMap[currentX,currentY] == false && isExploration == false)
+        {
+            enemyNum = Random.Range(30, 60);
+        }else if(dangerMap[currentX, currentY] || exploredMap[currentX, currentY] == false)
+        {
+            enemyNum = Random.Range(15, 25);
+        }
+        else
+        {
+            enemyNum = Random.Range(5, 15);
+        }
+
 
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
-        enemyNum = Random.Range(5, 15);
+        //enemyNum = Random.Range(5, 15);
         //terrainType = Random.Range(1, 5);
         //soldierNum = 20;
         int enemyType = 1;
@@ -210,6 +241,7 @@ public class Combat : MonoBehaviour {
                 enemyType = 3;
                 break;
         }
+        Debug.Log("Terrain type num is" + terrainType);
 
         string myString = "We have encountered " + enemyNum.ToString() + " ";
         switch (enemyType)
@@ -328,16 +360,9 @@ public class Combat : MonoBehaviour {
 
         combatResultTextObj.GetComponent<Text>().text = myString;
 
-
+        exploredMap[currentX, currentY] = true;
 
         return myString;
-
-
-
-
-
-
-
 
 
     }
