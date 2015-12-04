@@ -49,7 +49,9 @@ public class RandomEvents : MonoBehaviour {
            new Brahmin2(myManager),
            new bards(myManager),
            new hotHouse(myManager),
-           new waterSource(myManager)
+           new waterSource(myManager),
+           new storageFire(myManager),
+           new rainyDay(myManager)
          };
 
         Debug.Log("EVENT ARRAY IS " + EventArray.Length.ToString());
@@ -265,7 +267,86 @@ public abstract class RandEvent{
 	
 }
 
-//travelling bards
+
+class rainyDay : RandEvent
+{
+    public rainyDay(GameObject obj) : base(obj)
+    {
+        title = "Rainy Day";
+        text = "It's raining today. We can save a lot of water. Some people want to use this chance to clean themselves up. Some even want to wash their clothes! Being clean may cheer them up, if you think we can spare the water.";
+        option1 = "No. We need every drop.";
+        option2 = "Let them clean themselves a bit. We can spare some.";
+        option3 = "Let them bathe, and wash their clothes. We don't need today's water.";
+        result1 = "We save the water, it's too valuable";
+        result2 = "We save some water, and your people are happy to be cleaner";
+        result3 = "We don't save any water but your people are very grateful to be clean";
+    }
+
+    public override void ChoseO1()
+    {
+        myResourceClass.changeWater(350);
+        updateResult(result1);
+    }
+    public override void ChoseO2()
+    {
+        myResourceClass.changeWater(170);
+        myResourceClass.changeSoldierMorale(0.10f);
+        myResourceClass.changeUnemployedMorale(0.10f);
+        myResourceClass.changeWorkerMorale(0.1f);
+        updateResult(result2);
+    }
+    public override void ChoseO3()
+    {
+        myResourceClass.changeSoldierMorale(0.25f);
+        myResourceClass.changeUnemployedMorale(0.25f);
+        myResourceClass.changeWorkerMorale(0.25f);
+        updateResult(result3);
+    }
+}
+
+class storageFire : RandEvent
+{
+    public storageFire(GameObject obj) : base(obj)
+    {
+        title = "Storage Fire!";
+        text = "A shack where you store some of the food is on fire! Do we waste water to save the food?";
+        option1 = "Use water to take out the fire!";
+        option2 = "Do nothing, water is more important.";
+        option3 = "Force some of the men to run in to save the food.";
+        result1 = "We save the food, at the expense of some water.";
+        result2 = "The shack burns down, with the food in it.";
+        result3 = "We save the food, but lost some men. People are not happy.";
+    }
+    string result4 = "We didn't have enough water.";
+    public override void ChoseO1()
+    {
+        if(myResourceClass.getWater() >= 75)
+        {
+            myResourceClass.changeWater(-75);
+            updateResult(result1);
+        }
+        else
+        {
+            myResourceClass.changeFood(-100);
+            updateResult(result4);
+        }
+    }
+
+    public override void ChoseO2()
+    {
+        myResourceClass.changeFood(-100);
+        updateResult(result2);
+    }
+
+    public override void ChoseO3()
+    {
+        myResourceClass.decreasePop(3);
+        myResourceClass.changeWorkerMorale(-0.05f);
+        myResourceClass.changeUnemployedMorale(-0.05f);
+    }
+
+}
+
 class bards: RandEvent
 {
     public bards(GameObject obj) : base(obj)
