@@ -92,7 +92,7 @@ public class Combat : MonoBehaviour {
         currentX = X;
         currentY = Y;
 
-        Debug.Log("x in combat " + X+ " y in combat " + Y);
+        //Debug.Log("x in combat " + X+ " y in combat " + Y);
     }
 
     public void changePaperBack()

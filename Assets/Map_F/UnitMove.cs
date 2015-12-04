@@ -30,7 +30,16 @@ public class UnitMove : MonoBehaviour {
 
         if (uiManager.MulitaryStatus == 1)
         {
-            myCombatClass.changeActionExplanation(false, uiManager.TerrainType);
+            if (uiManager.currentActionIsAttack)
+            {
+                myCombatClass.changeActionExplanation(false, uiManager.TerrainType);
+
+            }
+            else
+            {
+                myCombatClass.changeActionExplanation(true, uiManager.TerrainType);
+
+            }
             GameObject.Find("Cordinate").GetComponent<Text>().text = "X: " + countX + " Y: "+ countY + " "; 
             switch (uiManager.TerrainType)
             {

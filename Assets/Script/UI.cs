@@ -62,6 +62,8 @@ public class UI : MonoBehaviour {
     [SerializeField]
     float inputDelay = 0.3f;
 
+    public bool currentActionIsAttack = true;
+
     enum UIChoice
     {
         
@@ -169,15 +171,20 @@ public class UI : MonoBehaviour {
 			case (0):
                 showTips = true;
                 Tips.GetComponentInChildren<Text>().text = "Left & Right to choose military action,, A to confirm.";
-				switch (mulitaryAction += value) 
+                Debug.Log("Military action is " + mulitaryAction);
+                Debug.Log("Military action + value is " + mulitaryAction+value);
+
+                switch (mulitaryAction += value) 
 			    {
-				case(MulitaryAction.Attack):
+            case (MulitaryAction.Attack):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Attack";
                     myCombatClass.changeActionExplanation(false,TerrainType);
+                        currentActionIsAttack = true;
 					break;
 				case(MulitaryAction.Explore):
 					GameObject.Find("MilitaryAction").GetComponent<Text>().text = "Explore";
                     myCombatClass.changeActionExplanation(true, TerrainType);
+                        currentActionIsAttack = false;
 					break;
 				default:
                     mulitaryAction -= value;
@@ -436,7 +443,7 @@ public class UI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(TipTime);
+        //Debug.Log(TipTime);
         if (showTips == true)
         {
             TipTime += Time.deltaTime;
