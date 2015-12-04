@@ -160,6 +160,16 @@ public class Resource : MonoBehaviour {
         return Fuel;
     }
 
+    public int getWater()
+    {
+        return Water;
+    }
+
+    public int getFood()
+    {
+        return Food;
+    }
+
     public void setResources()
     {
 		foodAmountObj.GetComponent<Text>().text = Food.ToString();

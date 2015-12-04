@@ -46,7 +46,10 @@ public class RandomEvents : MonoBehaviour {
           new Refugees(myManager),
            new Attacked(myManager),
            new Brahmin(myManager),
-           new Brahmin2(myManager)
+           new Brahmin2(myManager),
+           new bards(myManager),
+           new hotHouse(myManager),
+           new waterSource(myManager)
          };
 
         Debug.Log("EVENT ARRAY IS " + EventArray.Length.ToString());
@@ -262,7 +265,154 @@ public abstract class RandEvent{
 	
 }
 
+//travelling bards
+class bards: RandEvent
+{
+    public bards(GameObject obj) : base(obj)
+    {
+        title = "Travelling bards?!";
+        text = "A group of wierd people arrived at our camp on their bikes. They say they are travelling bards, singing songs about survivors, safety and hope. They say they can sing their songs for us, for a 'small donation'";
+        option1 = "Give them 100 fuel";
+        option2 = "Give them 50 food and 50 water";
+        option3 = "Send them away";
+        result1 = "They sing their songs. Your people are encouraged";
+        result2 = "They sing their songs. Your people are encouraged";
+        result3 = "They jump on their bikes and ride away.";
+    }
+    string result4 = "We don't have that much resources";
 
+    public override void ChoseO1()
+    {
+        if(myResourceClass.getFuel() >= 100)
+        {
+            myResourceClass.changeFuel(-100);
+            myResourceClass.changeSoldierMorale(0.25f);
+            myResourceClass.changeUnemployedMorale(0.25f);
+            myResourceClass.changeWorkerMorale(0.25f);
+            updateResult(result1);
+        }
+        else
+        {
+            updateResult(result4);
+        }
+    }
+    public override void ChoseO2()
+    {
+        if (myResourceClass.getFood() >= 50 && myResourceClass.getWater() >= 50)
+        {
+            myResourceClass.changeWater(-50);
+            myResourceClass.changeFood(-50);
+            myResourceClass.changeSoldierMorale(0.25f);
+            myResourceClass.changeUnemployedMorale(0.25f);
+            myResourceClass.changeWorkerMorale(0.25f);
+            updateResult(result2);
+        }
+        else
+        {
+            updateResult(result4);
+        }
+    }
+    public override void ChoseO3()
+    {
+        updateResult(result3);
+    }
+
+}
+
+class hotHouse: RandEvent
+{
+    public hotHouse(GameObject obj) : base(obj)
+    {
+        title = "Hothouse suggestion";
+        text = "One of our people is a farmer. She suggests we build a hothouse to grow food. She says she will need fuel and water.";
+        option1 = "Give her 100 water and 100 fuel.";
+        option2 = "Give her 50 water and 50 fuel.";
+        option3 = "Do nothing.";
+        result1 = "She builds the hothouse and grows 350 food";
+        result2 = "She builds the hothouse and grows 150 food";
+        result3 = "You decide to do nothing.";
+    }
+
+    string result4 = "We don't have enough resources";
+    public override void ChoseO1()
+    {
+        if(myResourceClass.getFuel() >= 100 && myResourceClass.getWater() >= 100)
+        {
+            myResourceClass.changeFood(350);
+            myResourceClass.changeFuel(-100);
+            myResourceClass.changeWater(-100);
+            updateResult(result1);
+        }
+        else
+        {
+            updateResult(result4);
+        }
+    }
+
+    public override void ChoseO2()
+    {
+        if (myResourceClass.getFuel() >= 50 && myResourceClass.getWater() >= 50)
+        {
+            myResourceClass.changeFood(150);
+            myResourceClass.changeFuel(-50);
+            myResourceClass.changeWater(-50);
+            updateResult(result2);
+        }
+        else
+        {
+            updateResult(result4);
+        }
+    }
+
+    public override void ChoseO3()
+    {
+        updateResult(result3);
+    }
+}
+
+
+class waterSource : RandEvent
+{
+
+    public waterSource(GameObject obj) : base(obj)
+    {
+        title = "Possible Water Source";
+        text = "One of our people thinks there's underground water nearby. He says if we give him fuel for his machines, he can dig us the water.";
+        option1 = "Give him the fuel.";
+        option2 = "Forget the fuel, force people to dig by hand.";
+        option3 = "Do nothing.";
+        result1 = "He digs up with his machines and finds a decent amount of drinkable water.";
+        result2 = "We force people to dig up, with their bare hands when necessary. We reach the water but people are unhappy with your desicion.";
+        result3 = "You decided not to take action";
+    }
+
+    public override void ChoseO1()
+    {
+        if(myResourceClass.getFuel() >= 50)
+        {
+            myResourceClass.changeFuel(-50);
+            myResourceClass.changeWater(125);
+            updateResult(result1);
+        }
+        else
+        {
+            updateResult("We couldn't gather enough fuel for him.");
+        }
+    }
+
+    public override void ChoseO2()
+    {
+        myResourceClass.changeWater(105);
+        myResourceClass.changeWorkerMorale(-0.08f);
+        myResourceClass.changeUnemployedMorale(-0.06f);
+        updateResult(result2);
+    }
+
+    public override void ChoseO3()
+    {
+        updateResult(result3);
+    }
+}
 	
 
 class VisitingMerchant : RandEvent{
@@ -277,7 +427,8 @@ class VisitingMerchant : RandEvent{
         result2 = "We killed the merchant and loot his stuff. This affected our people's morale.";
         result3 = "We sent him away.";
 	}
-	
+
+    string result4 = "We didn't have enough fuel to trade.";
 	
 	override public void ChoseO1(){
 		//Bought food
@@ -285,10 +436,14 @@ class VisitingMerchant : RandEvent{
         {
             myResourceClass.changeFuel(-50);
             myResourceClass.changeFood(50);
+            updateResult(result1);
         }
-        updateResult(result1);
-		
-	}
+        else
+        {
+            updateResult(result4);
+        }
+
+    }
 	override public void ChoseO2(){
         updateResult(result2);
         //Killed the poor guy
