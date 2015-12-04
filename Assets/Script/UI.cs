@@ -32,8 +32,7 @@ public class UI : MonoBehaviour {
     GameObject MulitaryUI;
     Vector3 MulitaryPos;
     Quaternion MulitaryRot;
-    int SoldierNum = 1;
-
+    int SoldierNum;
 
     GameObject StockUI;
     Vector3 StockPos;
@@ -156,6 +155,7 @@ public class UI : MonoBehaviour {
 	        LeftPage = GameObject.Find("MainMenuLeftPage");
 	        RightPage = GameObject.Find("MainMenuRightPage");
 
+            SoldierNum; = resource.popSoldier;
 	        //MulitaryStatusChoice(0);
 		}
 
@@ -522,6 +522,7 @@ public class UI : MonoBehaviour {
             GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
             MulitaryActionAssigned = false;
 			AssignActionAssigned = false;
+            SoldierNum = resource.popSoldier;
             RandomEventFinished = false;
             controlDisable = true;
             TimePassing = 1;
@@ -531,6 +532,7 @@ public class UI : MonoBehaviour {
         {
             MulitaryActionAssigned = false;
 			AssignActionAssigned = false;
+            SoldierNum = resource.popSoldier;
             RandomEventFinished = false;
             GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
             controlDisable = true;
