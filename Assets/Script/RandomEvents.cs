@@ -327,14 +327,30 @@ class storageFire : RandEvent
         }
         else
         {
-            myResourceClass.changeFood(-100);
-            updateResult(result4);
+            if(myResourceClass.getFood() >= 100)
+            {
+                myResourceClass.changeFood(-100);
+                updateResult(result4);
+            }
+            else
+            {
+                myResourceClass.changeFood(-myResourceClass.getFood());
+            }
+            
         }
     }
 
     public override void ChoseO2()
     {
-        myResourceClass.changeFood(-100);
+        if (myResourceClass.getFood() >= 100)
+        {
+            myResourceClass.changeFood(-100);
+            updateResult(result4);
+        }
+        else
+        {
+            myResourceClass.changeFood(-myResourceClass.getFood());
+        }
         updateResult(result2);
     }
 
@@ -343,6 +359,7 @@ class storageFire : RandEvent
         myResourceClass.decreasePop(3);
         myResourceClass.changeWorkerMorale(-0.05f);
         myResourceClass.changeUnemployedMorale(-0.05f);
+        updateResult(result3);
     }
 
 }
