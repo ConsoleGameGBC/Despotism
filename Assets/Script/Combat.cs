@@ -55,8 +55,16 @@ public class Combat : MonoBehaviour {
     bool[,] dangerMap = new bool[20, 20];
     bool[,] lootMap = new bool[20, 20];
 
+    Resource myResourceManager;
+
     // Use this for initialization
     void Start() {
+        myResourceManager = this.GetComponent<Resource>();
+
+        if (myResourceManager)
+        {
+            Debug.Log("Resource manager is assigned");
+        }
         //bool[,] exploredMap = new bool[20, 20];
         //bool[,] dangerMap = new bool[20, 20];
         //bool[,] lootMap = new bool[20, 20];
@@ -205,6 +213,8 @@ public class Combat : MonoBehaviour {
 
     public string explorationResult(bool isExploration, int terrainType, int soldierNum)
     {
+        float soldierQ = myResourceManager.getSoldierQuality();
+        Debug.Log("Soldier quality is" + soldierQ);
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
 
@@ -287,9 +297,10 @@ public class Combat : MonoBehaviour {
                 break;
         }
 
+
         Debug.Log("enemyCas" + soldierNum + " " + terrainRange + " " + playerRange);
         Debug.Log("playerCas" + enemyNum + " " + terrainRange + " " + enemyRange);
-        float enemyCas = soldierNum * terrainRange * playerRange * Random.Range(1.8f, 3.0f);
+        float enemyCas = soldierNum * terrainRange * playerRange * soldierQ * Random.Range(1.8f, 3.0f);
         float playerCas = enemyNum * terrainRange * enemyRange * Random.Range(1.8f, 3.0f);
         Debug.Log("enemycas" + enemyCas);
         Debug.Log("playercas" + playerCas);
@@ -309,7 +320,7 @@ public class Combat : MonoBehaviour {
         if (soldierNum > 0 && enemyNum > 0)
         {
 
-            totalplayerLoss = (int)playerCas;
+            totalplayerLoss += (int)playerCas;
             enemyCas = 0;
             playerCas = 0;
 
@@ -317,7 +328,7 @@ public class Combat : MonoBehaviour {
             //int playerCasMelee = 0;
             while ((int)enemyCas != enemyNum && (int)playerCas != soldierNum)
             {
-                enemyCas = soldierNum * terrainMelee * playerMelee * Random.Range(0.8f, 2.5f);
+                enemyCas = soldierNum * terrainMelee * soldierQ * playerMelee * Random.Range(0.8f, 2.5f);
                 playerCas = enemyNum * terrainMelee * enemyMelee * Random.Range(0.8f, 2.5f);
 
 

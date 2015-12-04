@@ -10,6 +10,9 @@ public class Resource : MonoBehaviour {
     float productionSpeed = 1.3f;
     float scavangeSpeed = 0.8f;
 
+    float workerQuality = 1;
+    float soldierQuality = 1;
+
     float workerMorale = 1.0f;
     float soldierMorale = 1.0f;
     float unemployedMorale = 1.0f;
@@ -169,6 +172,10 @@ public class Resource : MonoBehaviour {
     {
         return Food;
     }
+    public float getSoldierQuality()
+    {
+        return soldierQuality;
+    }
 
     public void setResources()
     {
@@ -272,8 +279,8 @@ public class Resource : MonoBehaviour {
 
 
         //PRODUCTION
-        changeFood((int)(popWorker * productionSpeed *workerMorale));
-        changeWater((int)(popWorker * productionSpeed * workerMorale));
+        changeFood((int)(popWorker * productionSpeed * workerQuality *workerMorale));
+        changeWater((int)(popWorker * productionSpeed * workerQuality * workerMorale));
         //SCAVANGE
         changeFood((int)(popUnemployed * scavangeSpeed *unemployedMorale));
         changeWater((int)(popUnemployed * scavangeSpeed * unemployedMorale));
@@ -330,7 +337,15 @@ public class Resource : MonoBehaviour {
 
         if (Population < popToLose)
             LoseGame();
-		
+
+        workerQuality += 0.05f;
+        soldierQuality += 0.05f;
+        if (workerQuality > 1)
+            workerQuality = 1;
+        if(soldierQuality>1)
+            soldierQuality = 1;
+        
+
 	}
 
 
@@ -401,25 +416,34 @@ public class Resource : MonoBehaviour {
     }
     public int getYouthNElderPop() { return popYouth + popElder; }
 
-    public void trainUnempToSoldier(int amount)
+    public void trainUnempToSoldier(int amount, bool isHastened)
     {
         changeUnemployed(-amount);
         changeSoldier(amount);
+
+        if (isHastened)
+            soldierQuality -= 0.1f;
     }
-    public void trainUnempToWorker(int amount)
+    public void trainUnempToWorker(int amount, bool isHastened)
     {
         changeUnemployed(-amount);
         changeWorker(amount);
+        if (isHastened)
+            workerQuality -= 0.1f;
     }
-    public void trainWorkerToSoldier(int amount)
+    public void trainWorkerToSoldier(int amount, bool isHastened)
     {
         changeWorker(-amount);
         changeSoldier(amount);
+        if (isHastened)
+            soldierQuality -= 0.1f;
     }
-    public void trainSoldierToWorker(int amount)
+    public void trainSoldierToWorker(int amount, bool isHastened)
     {
         changeSoldier(-amount);
         changeWorker(amount);
+        if (isHastened)
+            workerQuality -= 0.1f;
     }
 
     public void changeWorkerMorale(float amount)
