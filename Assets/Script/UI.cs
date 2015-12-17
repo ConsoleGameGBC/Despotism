@@ -531,24 +531,24 @@ public class UI : MonoBehaviour {
             switch (currentUI)
             {
                 case (UIChoice.Stock):
-                    HelpUILeft.text = "Stock";
-                    HelpUIRight.text = "Stock";
+                    HelpUILeft.text = "Here are our resources and their expected change for tomorrow.";
+                    HelpUIRight.text = "";
                     break;
                 case (UIChoice.TurnReport):
-                    HelpUILeft.text = "TurnReport";
-                    HelpUIRight.text = "TurnReport";
+                    HelpUILeft.text = "Your resources. We need water and food to survive.";
+                    HelpUIRight.text = "This is the daily event. Choose carefully. You can not end the day without resolving this event first.";
                     break;
                 case (UIChoice.Assign):
-                    HelpUILeft.text = "Assign";
-                    HelpUIRight.text = "Assign";
+                    HelpUILeft.text = "The quality and morale of your soldiers and workers affect their performance.";
+                    HelpUIRight.text = "Here, you can train more workers or soldiers. If you are in a hurry you can assign them in bulk with 'hastened train' but lack of proper training will affect their performance.";
                     break;
                  case (UIChoice.Mulitary):
-                    HelpUILeft.text = "Mulitary";
-                    HelpUIRight.text = "Mulitary";
+                    HelpUILeft.text = "Here you choose the location of your military assignment.";
+                    HelpUIRight.text = "We can explore an area to learn about its danger levels and if it has loot. Attacking loots the area of those resources, if any exists. Attacking an area without proper intel is dangerous.";
                     break;
                  case (UIChoice.MainMenu):
-                    HelpUILeft.text = "MainMenu";
-                    HelpUIRight.text = "MainMenu";
+                    HelpUILeft.text = "Welcome to the office, Chief.";
+                    HelpUIRight.text = "Survive 60 days. Good luck.";
                     break;
             }
 
