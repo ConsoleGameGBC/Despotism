@@ -590,26 +590,27 @@ public class Resource : MonoBehaviour {
         
         if(Water < 500)
         {
-            water1.GetComponent<MeshRenderer>().enabled = false;
-            water2.GetComponent<MeshRenderer>().enabled = false;
-            water3.GetComponent<MeshRenderer>().enabled = false;
-        }else if(Water < 1000)
+            water1.SetActive(false);
+            water2.SetActive(false);
+            water3.SetActive(false);
+        }
+        else if(Water < 1000)
         {
-            water1.GetComponent<MeshRenderer>().enabled = true;
-            water2.GetComponent<MeshRenderer>().enabled = false;
-            water3.GetComponent<MeshRenderer>().enabled = false;
+            water1.SetActive(true);
+            water2.SetActive(false);
+            water3.SetActive(false);
         }
         else if(Water < 1500)
         {
-            water1.GetComponent<MeshRenderer>().enabled = true;
-            water2.GetComponent<MeshRenderer>().enabled = true;
-            water3.GetComponent<MeshRenderer>().enabled = false;
+            water1.SetActive(true);
+            water2.SetActive(true);
+            water3.SetActive(false);
         }
         else
         {
-            water1.GetComponent<MeshRenderer>().enabled = true;
-            water2.GetComponent<MeshRenderer>().enabled = true;
-            water3.GetComponent<MeshRenderer>().enabled = true;
+            water1.SetActive(true);
+            water2.SetActive(true);
+            water3.SetActive(true);
         }
 
 
