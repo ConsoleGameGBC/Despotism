@@ -45,6 +45,31 @@ public class Resource : MonoBehaviour {
     int popElder;
     int popYouth;
 
+
+    [Header("Training UI Info")]
+    [SerializeField]
+    GameObject soldierNumObj;
+    [SerializeField]
+    GameObject soldierQualityObj;
+
+    [SerializeField]
+    GameObject workerNumObj;
+    [SerializeField]
+    GameObject workerQualityObj;
+
+    [SerializeField]
+    GameObject unemployedNumObj;
+
+    [SerializeField]
+    GameObject soldierMoraleObj;
+    [SerializeField]
+    GameObject workerMoraleObj;
+    [SerializeField]
+    GameObject unemployedMoraleObj;
+
+    [SerializeField]
+    GameObject weaponNumObj;
+
     [Header("Change Objects")]
     [SerializeField]
     GameObject foodChangeObj;
@@ -200,6 +225,11 @@ public class Resource : MonoBehaviour {
         elderYouthPercObj.GetComponent<Text>().text = (((popElder + popYouth) * 100) / Population).ToString() + "%";
     }
 
+    public int getWeapons()
+    {
+        return Weapons;
+    }
+
     public int getFuel()
     {
         return Fuel;
@@ -235,11 +265,25 @@ public class Resource : MonoBehaviour {
         workerPopObj.GetComponent<Text>().text = popWorker.ToString();
         elderYouthPopObj.GetComponent<Text>().text = (popElder + popYouth).ToString();
 
+        soldierNumObj.GetComponent<Text>().text = popSoldier.ToString();
+        workerNumObj.GetComponent<Text>().text = popWorker.ToString();
+        unemployedNumObj.GetComponent<Text>().text = popUnemployed.ToString();
+
+        weaponNumObj.GetComponent<Text>().text = "Extra weapons for training: " + Weapons.ToString();
+
+        soldierQualityObj.GetComponent<Text>().text = ((int)(soldierQuality * 100)).ToString();
+        workerQualityObj.GetComponent<Text>().text = ((int)(workerQuality * 100)).ToString();
+
+        soldierMoraleObj.GetComponent<Text>().text = ((int)(soldierMorale * 100)).ToString() + "% happy";
+        workerMoraleObj.GetComponent<Text>().text = ((int)(workerMorale * 100)).ToString() + "% happy";
+        unemployedMoraleObj.GetComponent<Text>().text = ((int)(unemployedMorale * 100)).ToString() + "% happy";
 
         unemployedPercObj.GetComponent<Text>().text = ((popUnemployed * 100) / Population).ToString() + "%";
         soldierPercObj.GetComponent<Text>().text = ((popSoldier * 100) / Population).ToString() + "%";
         workerPercObj.GetComponent<Text>().text = ((popWorker * 100) / Population).ToString() + "%";
         elderYouthPercObj.GetComponent<Text>().text = (((popElder + popYouth) * 100) / Population).ToString() + "%";
+
+
 
 
         reportFoodStockObj.GetComponent<Text>().text = Food.ToString();
@@ -370,6 +414,8 @@ public class Resource : MonoBehaviour {
         medicalChangeObj.GetComponent<Text>().text = MedicalChange.ToString();
         MedicalChange = 0;
 
+        WeaponChange = 0;
+
         setResources ();
 
 
@@ -391,7 +437,12 @@ public class Resource : MonoBehaviour {
 	}
 
 
-
+    public void changeWeapons(int amount)
+    {
+        Weapons += amount;
+        WeaponChange += amount;
+        setResources();
+    }
 	
 	public void changeFood(int amount){
 		Food += amount;
