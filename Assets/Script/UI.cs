@@ -523,7 +523,7 @@ public class UI : MonoBehaviour {
                 }
                 else if (MulitaryStatus == 1)
                 {
-                    BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAssignText").GetComponent<Text>());
+                    BlinkScript.assignTextToBlink(GameObject.Find("Cordinate").GetComponent<Text>());
                 }
                 else if (MulitaryStatus == 2)
                 {
@@ -531,14 +531,43 @@ public class UI : MonoBehaviour {
                 }
                 else if (MulitaryStatus == 3)
                 {
-                    BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAssignText").GetComponent<Text>());
+                    BlinkScript.stopBlinking();
                 }
                 break;
             case (UIChoice.TurnReport):
-                //ReportChoice(1);
+                //ReportChoice(1)
+                BlinkScript.assignTextToBlink(GameObject.Find("OptionContent").GetComponent<Text>());
+                    if (RandomEventFinished == true)
+                    {
+                        BlinkScript.stopBlinking();
+                    }
                 break;
             case (UIChoice.Assign):
                 //AssignStatusChoice(1);
+                if (AssignStatus == 0)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("AssignAction").GetComponent<Text>());
+                }
+                else if (AssignStatus == 1)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("AssignFromType").GetComponent<Text>());
+                }
+                else if (AssignStatus == 2)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("AssignToType").GetComponent<Text>());
+                }
+                else if (AssignStatus == 3)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("AssignNumber").GetComponent<Text>());
+                }
+                else if (AssignStatus == 4)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("AssignDetailText").GetComponent<Text>());
+                }
+                if (AssignActionAssigned == true)
+                {
+                    BlinkScript.stopBlinking();
+                }
                 break;
         }
         
