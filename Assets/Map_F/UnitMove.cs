@@ -11,7 +11,7 @@ public class UnitMove : MonoBehaviour {
     Combat myCombatClass;
     UI uiManager;
 	int countC = 0;
-
+	public AudioClip click;
     [Header("Erdem's UI Thingy")]
     float timeSinceLastXChange = 5;
     float inputDelay = 0.3f;
@@ -66,6 +66,9 @@ public class UnitMove : MonoBehaviour {
             {
                 if (timeSinceLastXChange > inputDelay && Input.GetAxis("YAxis") > 0.5)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = click;
+					audio.Play();
                     timeSinceLastXChange = 0;
 
                     countY--;
@@ -86,6 +89,9 @@ public class UnitMove : MonoBehaviour {
             {
                 if (timeSinceLastXChange > inputDelay && Input.GetAxis("YAxis") < -0.5)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = click;
+					audio.Play();
                     timeSinceLastXChange = 0;
                     countY++;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
@@ -107,6 +113,9 @@ public class UnitMove : MonoBehaviour {
             {
                 if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") < -0.5)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = click;
+					audio.Play();
                     timeSinceLastXChange = 0;
                     countX--;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);
@@ -124,6 +133,9 @@ public class UnitMove : MonoBehaviour {
             {
                 if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") > 0.5)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = click;
+					audio.Play();
                     timeSinceLastXChange = 0;
                     countX++;
                     // transform.localPosition = new Vector3(5.088666f, 4.213001f, -0.08f);

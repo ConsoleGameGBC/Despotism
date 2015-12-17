@@ -54,7 +54,8 @@ public class Combat : MonoBehaviour {
     bool[,] exploredMap = new bool[20, 20];
     bool[,] dangerMap = new bool[20, 20];
     bool[,] lootMap = new bool[20, 20];
-
+	public AudioClip win;
+	public AudioClip result;
     Resource myResourceManager;
 
     // Use this for initialization
@@ -353,10 +354,16 @@ public class Combat : MonoBehaviour {
         if (soldierNum > 0)
         {
             myString += " We won the fight.";
+			AudioSource audio = GetComponent<AudioSource>();
+			audio.clip = win;
+			audio.Play();
         }
         else
         {
             myString += "We lost the fight.";
+			AudioSource audio = GetComponent<AudioSource>();
+			audio.clip = result;
+			audio.Play();
         }
         //this is for the exploration/loot thing
         soldiers = soldierNum;

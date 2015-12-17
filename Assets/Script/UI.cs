@@ -67,6 +67,12 @@ public class UI : MonoBehaviour {
 
     public bool currentActionIsAttack = true;
 
+	public AudioClip confirm;
+	public AudioClip folder;
+	public AudioClip openbook;
+	public AudioClip click;
+	public AudioClip morning;
+	public AudioClip newevent;
     enum UIChoice
     {
         
@@ -655,6 +661,11 @@ public class UI : MonoBehaviour {
                     resource.endTurn();
                     showTips = true;
                     Tips.GetComponentInChildren<Text>().text = "Another peacful day has passed.";
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = morning;
+					audio.Play();
+
+					
                 }
                 else
                 {
@@ -667,6 +678,10 @@ public class UI : MonoBehaviour {
             {
                 if (fold == false)
                 {
+
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = click;
+					audio.Play();
                     switch (currentUI)
                     {
                         case (UIChoice.Mulitary):
@@ -682,6 +697,9 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = folder;
+					audio.Play();
                     showTips = true;
                     Tips.GetComponentInChildren<Text>().text = "Left & Right to switch the report.";
                     controlDisable = true;
@@ -695,6 +713,9 @@ public class UI : MonoBehaviour {
             {
              if (fold == false)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = click;
+					audio.Play();
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
@@ -711,6 +732,9 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = folder;
+					audio.Play();
                     showTips = true;
                     Tips.GetComponentInChildren<Text>().text = "Left & Right to switch the report";
                     controlDisable = true;
@@ -733,6 +757,9 @@ public class UI : MonoBehaviour {
                             {
                                 MulitaryChoice(true);
                                 MulitaryStatusChoice(0);
+							AudioSource audio = GetComponent<AudioSource>();
+							audio.clip = confirm;
+							audio.Play();
                                 
                             }
 							break;
@@ -741,6 +768,9 @@ public class UI : MonoBehaviour {
                             {
                                 RandomEventFinished = true;
                                 RandomEventChoice();
+							AudioSource audio = GetComponent<AudioSource>();
+							audio.clip = confirm;
+							audio.Play();
                             }
                             break;
 						case (UIChoice.Assign):
@@ -748,6 +778,9 @@ public class UI : MonoBehaviour {
 							{
 								AssignChoice(true);
 								AssignStatusChoice(0);
+							AudioSource audio = GetComponent<AudioSource>();
+							audio.clip = confirm;
+							audio.Play();
 								
 							}
 							break;
@@ -765,12 +798,18 @@ public class UI : MonoBehaviour {
 	                        if (MulitaryActionAssigned == false)
 	                        {
 	                            MulitaryChoice(false);
+							AudioSource audio = GetComponent<AudioSource>();
+							audio.clip = confirm;
+							audio.Play();
 	                        }
 							break;
 						case (UIChoice.Assign):
 							if (AssignActionAssigned == false)
 							{
 								AssignChoice(false);
+							AudioSource audio = GetComponent<AudioSource>();
+							audio.clip = confirm;
+							audio.Play();
 							}
 							break;
 						}
@@ -782,6 +821,9 @@ public class UI : MonoBehaviour {
             {
                 if (fold == true)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = openbook;
+					audio.Play();
                     controlDisable = true;
                     fold = false;
                     startFolding = true;
@@ -794,6 +836,9 @@ public class UI : MonoBehaviour {
             {
                 if (fold == false)
                 {
+					AudioSource audio = GetComponent<AudioSource>();
+					audio.clip = openbook;
+					audio.Play();
                     controlDisable = true;
                     fold = true;
                     startFolding = true;
@@ -807,6 +852,7 @@ public class UI : MonoBehaviour {
                 timeSinceLastXChange = 0;
                 if (fold == false)
                 {
+
 					switch(currentUI)
 					{
 					case (UIChoice.Mulitary):
@@ -822,6 +868,7 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
+
                     showTips = true;
                     Tips.GetComponentInChildren<Text>().text = "Left & Right to switch between Report";
                     controlDisable = true;
