@@ -61,6 +61,9 @@ public class UI : MonoBehaviour {
     float timeSinceLastXChange = 5;
     [SerializeField]
     float inputDelay = 0.3f;
+    [SerializeField]
+    GameObject myManager;
+    blinkScript myBlinkScript;
 
     public bool currentActionIsAttack = true;
 
@@ -111,6 +114,9 @@ public class UI : MonoBehaviour {
     bool RandomEventFinished = false;
 
 	void Start () {
+        //Erdem's manager assignment
+        myBlinkScript = myManager.GetComponent<blinkScript>();
+
         //Cursor.visible = false;
 
         SunCenter = GameObject.Find("Center");
