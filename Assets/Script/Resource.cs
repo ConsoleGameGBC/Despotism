@@ -26,11 +26,15 @@ public class Resource : MonoBehaviour {
     int Power;
     int Medical;
 
+    int Weapons;
+
     int FoodChange = 0;
     int WaterChange = 0;
     int FuelChange = 0;
     int PowerChange = 0;
     int MedicalChange = 0;
+
+    int WeaponChange = 0;
 
 
     int Population;
@@ -162,7 +166,7 @@ public class Resource : MonoBehaviour {
     void Start () {
         setInitialResources();
         setResources();
-		
+        changeResourceAssets();
 		
 		
 	}
@@ -184,6 +188,7 @@ public class Resource : MonoBehaviour {
         Water = Random.Range(660, 1500);
         Medical = Random.Range(200, 500);
         Fuel = Random.Range(200, 500);
+        Weapons = Random.Range(11, 26);
         Power = 0;
 
 
@@ -381,8 +386,8 @@ public class Resource : MonoBehaviour {
             workerQuality = 1;
         if(soldierQuality>1)
             soldierQuality = 1;
-        
 
+        changeResourceAssets();
 	}
 
 
@@ -515,7 +520,146 @@ public class Resource : MonoBehaviour {
 
     void changeResourceAssets()
     {
+        if(Medical > 500)
+        {
+            medKit.GetComponent<MeshRenderer>().enabled = true;
+        }
+        else
+        {
+            medKit.GetComponent<MeshRenderer>().enabled = false;
+        }
 
+        if(Fuel < 400)
+        {
+            gas1.SetActive(false);
+            gas2.SetActive(false);
+            gas3.SetActive(false);
+        }else if(Fuel < 800)
+        {
+            gas1.SetActive(true);
+            gas2.SetActive(false);
+            gas3.SetActive(false);
+        }
+        else if (Fuel < 1200)
+        {
+            gas1.SetActive(true);
+            gas2.SetActive(true);
+            gas3.SetActive(false);
+        }
+        else
+        {
+            gas1.SetActive(true);
+            gas2.SetActive(true);
+            gas3.SetActive(true);
+        }
+
+        if(Food < 500)
+        {
+            food1.GetComponent<MeshRenderer>().enabled = false;
+            food2.GetComponent<MeshRenderer>().enabled = false;
+            food3.GetComponent<MeshRenderer>().enabled = false;
+            food4.GetComponent<MeshRenderer>().enabled = false;
+        }else if(Food < 1000)
+        {
+            food1.GetComponent<MeshRenderer>().enabled = true;
+            food2.GetComponent<MeshRenderer>().enabled = false;
+            food3.GetComponent<MeshRenderer>().enabled = false;
+            food4.GetComponent<MeshRenderer>().enabled = false;
+        }else if(Food < 1500)
+        {
+            food1.GetComponent<MeshRenderer>().enabled = true;
+            food2.GetComponent<MeshRenderer>().enabled = true;
+            food3.GetComponent<MeshRenderer>().enabled = false;
+            food4.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else if(Food < 2000)
+        {
+            food1.GetComponent<MeshRenderer>().enabled = true;
+            food2.GetComponent<MeshRenderer>().enabled = true;
+            food3.GetComponent<MeshRenderer>().enabled = true;
+            food4.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else
+        {
+            food1.GetComponent<MeshRenderer>().enabled = true;
+            food2.GetComponent<MeshRenderer>().enabled = true;
+            food3.GetComponent<MeshRenderer>().enabled = true;
+            food4.GetComponent<MeshRenderer>().enabled = true;
+        }
+
+        
+        if(Water < 500)
+        {
+            water1.GetComponent<MeshRenderer>().enabled = false;
+            water2.GetComponent<MeshRenderer>().enabled = false;
+            water3.GetComponent<MeshRenderer>().enabled = false;
+        }else if(Water < 1000)
+        {
+            water1.GetComponent<MeshRenderer>().enabled = true;
+            water2.GetComponent<MeshRenderer>().enabled = false;
+            water3.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else if(Water < 1500)
+        {
+            water1.GetComponent<MeshRenderer>().enabled = true;
+            water2.GetComponent<MeshRenderer>().enabled = true;
+            water3.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else
+        {
+            water1.GetComponent<MeshRenderer>().enabled = true;
+            water2.GetComponent<MeshRenderer>().enabled = true;
+            water3.GetComponent<MeshRenderer>().enabled = true;
+        }
+
+
+        if(Weapons < 5)
+        {
+            gun1.SetActive(false);
+            gun2.SetActive(false);
+            gun3.SetActive(false);
+            gun4.SetActive(false);
+            gun5.SetActive(false);    
+        }else if (Weapons < 10)
+        {
+            gun1.SetActive(true);
+            gun2.SetActive(false);
+            gun3.SetActive(false);
+            gun4.SetActive(false);
+            gun5.SetActive(false);
+        }
+        else if (Weapons < 15)
+        {
+            gun1.SetActive(true);
+            gun2.SetActive(true);
+            gun3.SetActive(false);
+            gun4.SetActive(false);
+            gun5.SetActive(false);
+        }
+        else if (Weapons < 20)
+        {
+            gun1.SetActive(true);
+            gun2.SetActive(true);
+            gun3.SetActive(true);
+            gun4.SetActive(false);
+            gun5.SetActive(false);
+        }
+        else if (Weapons < 25)
+        {
+            gun1.SetActive(true);
+            gun2.SetActive(true);
+            gun3.SetActive(true);
+            gun4.SetActive(true);
+            gun5.SetActive(false);
+        }
+        else
+        {
+            gun1.SetActive(true);
+            gun2.SetActive(true);
+            gun3.SetActive(true);
+            gun4.SetActive(true);
+            gun5.SetActive(true);
+        }
 
 
     }
