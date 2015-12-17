@@ -995,6 +995,7 @@ public class UI : MonoBehaviour {
                 break;
 			case (UIChoice.Assign):
 				CurrentUI = AssignUI;
+                myBlinkScript.assignTextToBlink(GameObject.Find("AssignAction").GetComponent<Text>());
 				LeftPage = GameObject.Find("AssignLeftPage");
 				RightPage = GameObject.Find("AssignRightPage");
 				switchingUI = true;

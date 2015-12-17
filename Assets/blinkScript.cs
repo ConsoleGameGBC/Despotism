@@ -34,7 +34,9 @@ public class blinkScript : MonoBehaviour {
 
     public void assignTextToBlink(Text newText)
     {
+        if(textToBlink)
         textToBlink.color = new Color(0, 0, 0, 1);
+
         textToBlink = newText;
     }
 }
