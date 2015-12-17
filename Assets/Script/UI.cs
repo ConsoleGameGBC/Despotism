@@ -42,6 +42,8 @@ public class UI : MonoBehaviour {
 	Vector3 AssignPos;
 	Quaternion AssignRot;
 
+    blinkScript BlinkScript;
+
     bool showTips;
     public float speed = 20f;
     float step;
@@ -133,6 +135,8 @@ public class UI : MonoBehaviour {
         resource = GameObject.Find("GameManager").GetComponent<Resource>();
         randomEvents = GameObject.Find("GameManager").GetComponent<RandomEvents>();
 
+        BlinkScript = GameObject.Find("GameManager").GetComponent<blinkScript>();
+
         HelpUILeft = GameObject.Find("HelpUILeft").GetComponent<Text>();
         HelpUIRight = GameObject.Find("HelpUIRight").GetComponent<Text>();
 
@@ -147,7 +151,7 @@ public class UI : MonoBehaviour {
         MainMenu = GameObject.Find("MainMenu");
         MenuPosition = GameObject.Find("MenuPlaceHolder").transform.position;
         MenuRotation = GameObject.Find("MenuPlaceHolder").transform.rotation;
-
+        
         MulitaryUI = GameObject.Find("MulitaryUI");
         MulitaryPos = MulitaryUI.transform.position;
         MulitaryRot = MulitaryUI.transform.rotation;
@@ -509,6 +513,36 @@ public class UI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Debug.Log(TipTime);
+        switch (currentUI)
+        {
+            case (UIChoice.Mulitary):
+                //MulitaryStatusChoice(1);
+                if(MulitaryStatus == 0)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAction").GetComponent<Text>());
+                }
+                else if (MulitaryStatus == 1)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAssignText").GetComponent<Text>());
+                }
+                else if (MulitaryStatus == 2)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAssignText").GetComponent<Text>());
+                }
+                else if (MulitaryStatus == 3)
+                {
+                    BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAssignText").GetComponent<Text>());
+                }
+                break;
+            case (UIChoice.TurnReport):
+                //ReportChoice(1);
+                break;
+            case (UIChoice.Assign):
+                //AssignStatusChoice(1);
+                break;
+        }
+        
+
         if (showTips == true)
         {
             TipTime += Time.deltaTime;
