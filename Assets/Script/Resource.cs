@@ -121,6 +121,43 @@ public class Resource : MonoBehaviour {
 	[SerializeField] GameObject reportWaterExportObj;
 
 
+    [Header("Resource Assets")]
+
+    [SerializeField]
+    GameObject medKit;
+    [SerializeField]
+    GameObject food1;
+    [SerializeField]
+    GameObject food2;
+    [SerializeField]
+    GameObject food3;
+    [SerializeField]
+    GameObject food4;
+    [SerializeField]
+    GameObject gas1;
+    [SerializeField]
+    GameObject gas2;
+    [SerializeField]
+    GameObject gas3;
+    [SerializeField]
+    GameObject gun1;
+    [SerializeField]
+    GameObject gun2;
+    [SerializeField]
+    GameObject gun3;
+    [SerializeField]
+    GameObject gun4;
+    [SerializeField]
+    GameObject gun5;
+    [SerializeField]
+    GameObject water1;
+    [SerializeField]
+    GameObject water2;
+    [SerializeField]
+    GameObject water3;
+
+
+
     // Use this for initialization
     void Start () {
         setInitialResources();
@@ -470,6 +507,17 @@ public class Resource : MonoBehaviour {
             unemployedMorale = 1;
         if (unemployedMorale <= 0)
             LoseGame();
+    }
+
+
+
+
+
+    void changeResourceAssets()
+    {
+
+
+
     }
 
 
