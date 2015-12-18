@@ -231,144 +231,152 @@ public class UI : MonoBehaviour {
 
 	void AssignStatusChoice(int value)
 	{
-		switch(AssignStatus)
-		{
-			case (0):
-				switch (assignAction += value) 
-				{
-				case(AssignAction.Assign):
-					GameObject.Find("AssignAction").GetComponent<Text>().text = "Train";
-					break;
-				case(AssignAction.Transfer):
-					GameObject.Find("AssignAction").GetComponent<Text>().text = "Hastened Train";
-					break;
-				default:
-					assignAction -= value;
-					break;
-				}
-				break;
-			case(1): 
-                    switch (assignPopFrom += value)
-					{
-						case(AssignPop.Soldier):
-							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Soldier";
-				  			break;
-						case(AssignPop.Worker):
-							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Worker";
-							break;
-						case(AssignPop.Unemployed):
-							GameObject.Find("AssignFromType").GetComponent<Text>().text = "Unemployed";
-							break;
-						default:
-                            assignPopFrom -= value;
-							break;
-					}
-				break;
-			case(2): 
-                   switch (assignPopTo += value)
-                {
-                    case (AssignPop.Soldier):
-                        GameObject.Find("AssignToType").GetComponent<Text>().text = "Soldier";
-                        break;
-                    case (AssignPop.Worker):
-                        GameObject.Find("AssignToType").GetComponent<Text>().text = "Worker";
-                        break;
-                    //case (AssignPop.Unemployed):
-                    //    GameObject.Find("AssignToType").GetComponent<Text>().text = "Unemployed";
-                    //    break;
-                    default:
-                        assignPopTo -= value;
-                        break;
-                }
-                break;
-            case (3):
-              
-                if(assignAction == AssignAction.Assign)
-				{
-                    switch (assignPopFrom)
-                    {
-                        case (AssignPop.Soldier):
-                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getSoldierPop() && AssignAmount + value > 0)
-                            {
-                                AssignAmount += value;
-                            }
-                            break;
-                        case (AssignPop.Worker):
-                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
-                            {
-                                AssignAmount += value;
-                            }
-                            else if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
-                            {
-                                AssignAmount += value;
-                            }
-                            break;
-                        case (AssignPop.Unemployed):
-                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
-                            {
-                                AssignAmount += value;
-                            }
-                            else if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
-                            {
-                                AssignAmount += value;
-                            }
-                            
-                            break;
-                    }
-				}
-				else if(assignAction == AssignAction.Transfer)
-				{
-                    switch (assignPopFrom)
-                    {
-                        case (AssignPop.Soldier):
-                            if (AssignAmount + value <= resource.getSoldierPop() && AssignAmount + value > 0)
-                            {
-                                AssignAmount += value;
-                            }
-                            break;
-                        case (AssignPop.Worker):
-                            if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
-                            {
-                                AssignAmount += value;
-                            }
-                            else if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
-                            {
-                                AssignAmount += value;
-                            }
-                            break;
-                        case (AssignPop.Unemployed):
-                            if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
-                            {
-                                AssignAmount += value;
-                            }
-                            else if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
-                            {
-                                AssignAmount += value;
-                            }
-                            break;
-                    }
-				}
-                GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
-				break;
-			case(4):
 
-                if (assignPopTo == assignPopFrom)
-                {
-                    GameObject.Find("AssignDetailText").GetComponent<Text>().text = "False assignment will not be permitted.";
-                }
-                else
-                {
-                    trainingFunc();
-                    if (AssignAmount>1)
-                    GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + "s has been " + assignAction + " to " + assignPopTo + ".";
-                    else if(AssignAmount == 1)
-                    GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + " has been " + assignAction + " to " + assignPopTo + ".";
-                }
-				AssignStatus = 0;
-				AssignActionAssigned = true;
-				
-				break;
-		}
+        if (AssignActionAssigned == false)
+        {
+            switch (AssignStatus)
+            {
+                case (0):
+                    switch (assignAction += value)
+                    {
+                        case (AssignAction.Assign):
+                            GameObject.Find("AssignAction").GetComponent<Text>().text = "Train";
+                            break;
+                        case (AssignAction.Transfer):
+                            GameObject.Find("AssignAction").GetComponent<Text>().text = "Hastened Train";
+                            break;
+                        default:
+                            assignAction -= value;
+                            break;
+                    }
+                    break;
+                case (1):
+                    switch (assignPopFrom += value)
+                    {
+                        case (AssignPop.Soldier):
+                            GameObject.Find("AssignFromType").GetComponent<Text>().text = "Soldier";
+                            break;
+                        case (AssignPop.Worker):
+                            GameObject.Find("AssignFromType").GetComponent<Text>().text = "Worker";
+                            break;
+                        case (AssignPop.Unemployed):
+                            GameObject.Find("AssignFromType").GetComponent<Text>().text = "Unemployed";
+                            break;
+                        default:
+                            assignPopFrom -= value;
+                            break;
+                    }
+                    break;
+                case (2):
+                    switch (assignPopTo += value)
+                    {
+                        case (AssignPop.Soldier):
+                            GameObject.Find("AssignToType").GetComponent<Text>().text = "Soldier";
+                            break;
+                        case (AssignPop.Worker):
+                            GameObject.Find("AssignToType").GetComponent<Text>().text = "Worker";
+                            break;
+                        //case (AssignPop.Unemployed):
+                        //    GameObject.Find("AssignToType").GetComponent<Text>().text = "Unemployed";
+                        //    break;
+                        default:
+                            assignPopTo -= value;
+                            break;
+                    }
+                    break;
+                case (3):
+
+                    if (assignAction == AssignAction.Assign)
+                    {
+                        switch (assignPopFrom)
+                        {
+                            case (AssignPop.Soldier):
+                                if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getSoldierPop() && AssignAmount + value > 0)
+                                {
+                                    AssignAmount += value;
+                                }
+                                break;
+                            case (AssignPop.Worker):
+                                if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                                {
+                                    AssignAmount += value;
+                                }
+                                else if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
+                                {
+                                    AssignAmount += value;
+                                }
+                                break;
+                            case (AssignPop.Unemployed):
+                                if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                                {
+                                    AssignAmount += value;
+                                }
+                                else if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
+                                {
+                                    AssignAmount += value;
+                                }
+
+                                break;
+                        }
+                    }
+                    else if (assignAction == AssignAction.Transfer)
+                    {
+                        switch (assignPopFrom)
+                        {
+                            case (AssignPop.Soldier):
+                                if (AssignAmount + value <= resource.getSoldierPop() && AssignAmount + value > 0)
+                                {
+                                    AssignAmount += value;
+                                }
+                                break;
+                            case (AssignPop.Worker):
+                                if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                                {
+                                    AssignAmount += value;
+                                }
+                                else if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
+                                {
+                                    AssignAmount += value;
+                                }
+                                break;
+                            case (AssignPop.Unemployed):
+                                if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                                {
+                                    AssignAmount += value;
+                                }
+                                else if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
+                                {
+                                    AssignAmount += value;
+                                }
+                                break;
+                        }
+                    }
+                    GameObject.Find("AssignNumber").GetComponent<Text>().text = AssignAmount.ToString();
+                    break;
+                case (4):
+                    if (AssignAmount == 0)
+                    {
+                        GameObject.Find("AssignDetailText").GetComponent<Text>().text = "It seems you have nobody to train.";
+
+                    }
+                    else if (assignPopTo == assignPopFrom)
+                    {
+                        GameObject.Find("AssignDetailText").GetComponent<Text>().text = "False assignment will not be permitted.";
+                    }
+                    else
+                    {
+                        trainingFunc();
+                        if (AssignAmount > 1)
+                            GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + "s has been " + assignAction + " to " + assignPopTo + ".";
+                        else if (AssignAmount == 1)
+                            GameObject.Find("AssignDetailText").GetComponent<Text>().text = AssignAmount + " " + assignPopFrom + " has been " + assignAction + " to " + assignPopTo + ".";
+                    }
+                    AssignStatus = 0;
+                    AssignActionAssigned = true;
+
+                    break;
+            }
+        }
 	}
 
     void trainingFunc()
@@ -982,6 +990,7 @@ public class UI : MonoBehaviour {
 
                 }
                 else
+
                 {
                     controlDisable = true;
                     lastUI = currentUI;
