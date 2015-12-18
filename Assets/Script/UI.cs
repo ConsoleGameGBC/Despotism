@@ -290,16 +290,25 @@ public class UI : MonoBehaviour {
                             }
                             break;
                         case (AssignPop.Worker):
-                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0)
+                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                            {
+                                AssignAmount += value;
+                            }
+                            else if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
                             {
                                 AssignAmount += value;
                             }
                             break;
                         case (AssignPop.Unemployed):
-                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0)
+                            if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
                             {
                                 AssignAmount += value;
                             }
+                            else if (AssignAmount + value <= 10 && AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
+                            {
+                                AssignAmount += value;
+                            }
+                            
                             break;
                     }
 				}
@@ -314,13 +323,21 @@ public class UI : MonoBehaviour {
                             }
                             break;
                         case (AssignPop.Worker):
-                            if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0)
+                            if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                            {
+                                AssignAmount += value;
+                            }
+                            else if (AssignAmount + value <= resource.getWorkerPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
                             {
                                 AssignAmount += value;
                             }
                             break;
                         case (AssignPop.Unemployed):
-                            if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0)
+                            if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && assignPopTo != AssignPop.Soldier)
+                            {
+                                AssignAmount += value;
+                            }
+                            else if (AssignAmount + value <= resource.getUnemployedPop() && AssignAmount + value > 0 && AssignAmount + value <= resource.getWeapons())
                             {
                                 AssignAmount += value;
                             }
