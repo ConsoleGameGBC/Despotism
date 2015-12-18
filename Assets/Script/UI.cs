@@ -635,7 +635,7 @@ public class UI : MonoBehaviour {
                     break;
                  case (UIChoice.MainMenu):
                     HelpUILeft.text = "Welcome to the office, Chief.";
-                    HelpUIRight.text = "Survive 60 days. Good luck.";
+                    HelpUIRight.text = "Survive 30 days. Good luck.";
                     break;
             }
 

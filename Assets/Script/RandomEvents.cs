@@ -51,7 +51,12 @@ public class RandomEvents : MonoBehaviour {
           new hotHouse(myManager),
            new waterSource(myManager),
            new storageFire(myManager),
-           new rainyDay(myManager)
+           new rainyDay(myManager),
+           new Attacked(myManager),
+           new Attacked(myManager),
+           new Attacked(myManager),
+           new Attacked(myManager),
+           new Attacked(myManager)
          };
 
         Debug.Log("EVENT ARRAY IS " + EventArray.Length.ToString());

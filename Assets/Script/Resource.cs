@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Resource : MonoBehaviour {
     int turnNum = 1;
-    int turnsToWin = 60;
+    int turnsToWin = 30;
     int popToLose = 100;
 
     float productionSpeed = 1.3f;

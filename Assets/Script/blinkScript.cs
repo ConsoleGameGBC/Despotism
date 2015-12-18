@@ -21,7 +21,7 @@ public class blinkScript : MonoBehaviour {
             myAlpha = Mathf.PingPong(Time.time * blinkSpeed, 0.7f);
             //myAlpha = 1;
             //Debug.Log("alpha of the blinking is " + myAlpha.ToString());
-            myColor = new Color(0, 0, 0, myAlpha+0.3f);
+            myColor = new Color(0.2f, 0, 0, myAlpha+0.3f);
             textToBlink.color = myColor;
         }
 
