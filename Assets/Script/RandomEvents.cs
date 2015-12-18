@@ -274,6 +274,7 @@ public abstract class RandEvent{
     {
         //manager.GetComponent<RandomEvents>().showResult(myStr);
         myEventClass.showResult(myStr);
+        myResourceClass.setResources();
     }
 	
 }
