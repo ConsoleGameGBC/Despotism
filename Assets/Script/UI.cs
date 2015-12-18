@@ -956,8 +956,10 @@ public class UI : MonoBehaviour {
                 timeSinceLastXChange = 0;
                 if (fold == false)
                 {
-
-					switch(currentUI)
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.clip = click;
+                    audio.Play();
+                    switch (currentUI)
 					{
 					case (UIChoice.Mulitary):
                             MulitaryStatusChoice(-1);
@@ -972,7 +974,9 @@ public class UI : MonoBehaviour {
                 }
                 else
                 {
-
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.clip = folder;
+                    audio.Play();
                     controlDisable = true;
                     lastUI = currentUI;
                     currentUI--;
@@ -982,9 +986,13 @@ public class UI : MonoBehaviour {
             else if (timeSinceLastXChange > inputDelay && Input.GetAxis("XAxis") > 0.5 && MulitaryStatus != 1)
             {
                 timeSinceLastXChange = 0;
+
                 if (fold == false)
                 {
-					switch(currentUI)
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.clip = click;
+                    audio.Play();
+                    switch (currentUI)
 					{
 					case (UIChoice.Mulitary):
                       	MulitaryStatusChoice(1);
@@ -1001,6 +1009,9 @@ public class UI : MonoBehaviour {
                 else
 
                 {
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.clip = folder;
+                    audio.Play();
                     controlDisable = true;
                     lastUI = currentUI;
                     currentUI++;
