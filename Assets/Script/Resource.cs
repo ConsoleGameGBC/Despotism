@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Resource : MonoBehaviour {
-    int turnNum = 0;
+    int turnNum = 1;
     int turnsToWin = 60;
     int popToLose = 100;
 
@@ -45,6 +45,8 @@ public class Resource : MonoBehaviour {
     int popElder;
     int popYouth;
 
+    [SerializeField]
+    GameObject dayNumObj;
 
     [Header("Training UI Info")]
     [SerializeField]
@@ -223,6 +225,8 @@ public class Resource : MonoBehaviour {
         soldierPercObj.GetComponent<Text>().text = ((popSoldier * 100) / Population).ToString() + "%";
         workerPercObj.GetComponent<Text>().text = ((popWorker * 100) / Population).ToString() + "%";
         elderYouthPercObj.GetComponent<Text>().text = (((popElder + popYouth) * 100) / Population).ToString() + "%";
+
+        dayNumObj.GetComponent<Text>().text = "Day " + turnNum.ToString();
     }
 
     public int getWeapons()
@@ -357,6 +361,7 @@ public class Resource : MonoBehaviour {
 
 	public void endTurn(){
         turnNum++;
+        dayNumObj.GetComponent<Text>().text = "Day " + turnNum.ToString();
 
         if (turnNum >= turnsToWin)
             WinGame();
