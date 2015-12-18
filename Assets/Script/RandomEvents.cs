@@ -41,14 +41,14 @@ public class RandomEvents : MonoBehaviour {
         */
 
          EventArray = new RandEvent[] {
-            new VisitingMerchant(myManager),
+           new VisitingMerchant(myManager),
            new StolenFood(myManager),
-          new Refugees(myManager),
+         new Refugees(myManager),
            new Attacked(myManager),
-           new Brahmin(myManager),
-           new Brahmin2(myManager),
+          new Brahmin(myManager),
+          new Brahmin2(myManager),
            new bards(myManager),
-           new hotHouse(myManager),
+          new hotHouse(myManager),
            new waterSource(myManager),
            new storageFire(myManager),
            new rainyDay(myManager)
@@ -141,7 +141,7 @@ public class RandomEvents : MonoBehaviour {
 	}
 
 
-    public void combatCalculator(bool isDefensive, int terrainType, int soldierNum, int strLevel)
+    public void combatCalculator(bool isDefensive, int terrainType, int soldierNum, float strLevel, int enemyNum)
     {
         float playerRange = 0.35f;
         float enemyRange = 0.0f;
@@ -152,10 +152,10 @@ public class RandomEvents : MonoBehaviour {
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
         //GENERATE ENEMY TYPE FOR PROTOTYPE and NUMBER
-        int enemyNum = UnityEngine.Random.Range(30, 80);
+        //int enemyNum = UnityEngine.Random.Range(30, 80);
 
 
-        float enemyCas = soldierNum * playerRange * UnityEngine.Random.Range(1.8f, 3.0f);
+        float enemyCas = soldierNum * playerRange * myManager.GetComponent<Resource>().getSoldierQuality() * strLevel *  UnityEngine.Random.Range(1.8f, 3.0f);
         float playerCas = enemyNum * enemyRange * UnityEngine.Random.Range(1.8f, 3.0f);
         Debug.Log("enemycas" + enemyCas);
         Debug.Log("playercas" + playerCas);
@@ -168,19 +168,23 @@ public class RandomEvents : MonoBehaviour {
 
         soldierNum -= (int)playerCas;
         enemyNum -= (int)enemyCas;
+        totalplayerLoss = (int)playerCas;
+
+        Debug.Log("enemynum" + enemyNum);
+        Debug.Log("playernum" + soldierNum);
 
         if (soldierNum > 0 && enemyNum > 0)
         {
 
-            totalplayerLoss = (int)playerCas;
+            
             enemyCas = 0;
             playerCas = 0;
 
             int enemyCasMelee = 0;
             //int playerCasMelee = 0;
-            while ((int)enemyCas != enemyNum && (int)playerCas != soldierNum)
+            while ((int)enemyCas < enemyNum && (int)playerCas < soldierNum)
             {
-                enemyCas = soldierNum * playerMelee * UnityEngine.Random.Range(0.8f, 2.5f);
+                enemyCas = soldierNum * playerMelee * myManager.GetComponent<Resource>().getSoldierQuality() * strLevel * UnityEngine.Random.Range(0.8f, 2.5f);
                 playerCas = enemyNum * enemyMelee * UnityEngine.Random.Range(0.8f, 2.5f);
 
 
@@ -196,13 +200,17 @@ public class RandomEvents : MonoBehaviour {
                 soldierNum -= (int)playerCas;
                 enemyNum -= (int)enemyCas;
             }
-
+            Debug.Log("enemycas" + enemyCas);
+            Debug.Log("playercas" + playerCas);
+            Debug.Log("enemynum" + enemyNum);
+            Debug.Log("playernum" + soldierNum);
         }
 
+      
 
         totalplayerLoss += playerCasMelee;
         //change this later
-        if(this.gameObject.GetComponent<Resource>().getSoldierPop() <= totalplayerLoss) //If number of deaths are lower then number of soldiers
+        if(this.gameObject.GetComponent<Resource>().getSoldierPop() >= totalplayerLoss) //If number of deaths are lower then number of soldiers
         this.gameObject.GetComponent<Resource>().changeSoldier(-totalplayerLoss);       //kill that many soldiers
         else
         {
@@ -211,7 +219,10 @@ public class RandomEvents : MonoBehaviour {
             this.gameObject.GetComponent<Resource>().decreasePop(totalplayerLoss);
         }
 
-
+        if(enemyNum > 0)
+        {
+            myManager.GetComponent<Resource>().decreasePop((int)(enemyNum * 1.5f));
+        }
 
         myManager.GetComponent<Resource>().decreasePop(0);
     }
@@ -690,10 +701,12 @@ class Brahmin2 : RandEvent
 
 class Attacked : RandEvent
 {
+    int enemyNum;
     public Attacked(GameObject obj) : base(obj)
     {
+        enemyNum = UnityEngine.Random.Range(30, 80);
         title = "Attacked!";
-        text = "Zombies are attacking the camp!";
+        text = "Zombies are attacking the camp! There are " + enemyNum.ToString() +" of them!";
         option1 = "Send only our soldiers to the defence";
         option2 = "Send every fit adult to the defences";
         option3 = "Send everyone to the defences, including the elderly and the youngsters";
@@ -702,11 +715,18 @@ class Attacked : RandEvent
         result3 = "Our defences held, but at what cost?";
     }
 
+    void generateNewNum4NextTime()
+    {
+        enemyNum = UnityEngine.Random.Range(30, 80);
+        text = "Zombies are attacking the camp! There are " + enemyNum.ToString() + " of them!";
+    }
+
     override public void ChoseO1()
     {
         //manager.GetComponent<RandomEvents>().combatCalculator(true, 1, manager.GetComponent<Resource>().getSoldierPop(), 1);
-        myEventClass.combatCalculator(true, 1, myResourceClass.getSoldierPop(), 1);
+        myEventClass.combatCalculator(true, 1, myResourceClass.getSoldierPop(), 1, enemyNum);
         updateResult(result1);
+        generateNewNum4NextTime();
     }
     override public void ChoseO2()
     {
@@ -714,9 +734,10 @@ class Attacked : RandEvent
         //int temp = manager.GetComponent<Resource>().getSoldierPop() + manager.GetComponent<Resource>().getWorkerPop() + manager.GetComponent<Resource>().getUnemployedPop();
         int temp = myResourceClass.getSoldierPop() + myResourceClass.getWorkerPop() + myResourceClass.getUnemployedPop();
         //manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
-        myEventClass.combatCalculator(true, 1, temp, 1);
+        myEventClass.combatCalculator(true, 1, temp, 0.9f, enemyNum);
 
         updateResult(result2);
+        generateNewNum4NextTime();
     }
     override public void ChoseO3()
     {
@@ -724,8 +745,9 @@ class Attacked : RandEvent
         //   + manager.GetComponent<Resource>().getYouthNElderPop();
         //manager.GetComponent<RandomEvents>().combatCalculator(true, 1, temp, 1);
         int temp = myResourceClass.getSoldierPop() + myResourceClass.getWorkerPop() + myResourceClass.getUnemployedPop() + myResourceClass.getYouthNElderPop();
-        myEventClass.combatCalculator(true, 1, temp, 1);
+        myEventClass.combatCalculator(true, 1, temp, 0.7f, enemyNum);
         updateResult(result3);
+        generateNewNum4NextTime();
     }
 
 }
