@@ -213,6 +213,7 @@ public class Combat : MonoBehaviour {
 
         lootMap[currentX, currentY] = false;
         combatResultTextObj.GetComponent<Text>().text = myString;
+        myResourceManager.setResources();
         return myString;
     }
 
@@ -384,6 +385,7 @@ public class Combat : MonoBehaviour {
 
         exploredMap[currentX, currentY] = true;
 
+        myResourceManager.setResources();
         return myString;
 
 
