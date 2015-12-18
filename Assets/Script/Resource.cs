@@ -269,7 +269,7 @@ public class Resource : MonoBehaviour {
         workerNumObj.GetComponent<Text>().text = popWorker.ToString();
         unemployedNumObj.GetComponent<Text>().text = popUnemployed.ToString();
 
-        weaponNumObj.GetComponent<Text>().text = "Extra weapons for training: " + Weapons.ToString();
+        weaponNumObj.GetComponent<Text>().text = "Extra weapons: " + Weapons.ToString();
 
         soldierQualityObj.GetComponent<Text>().text = ((int)(soldierQuality * 100)).ToString();
         workerQualityObj.GetComponent<Text>().text = ((int)(workerQuality * 100)).ToString();
