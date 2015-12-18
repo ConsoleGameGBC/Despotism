@@ -680,6 +680,7 @@ public class UI : MonoBehaviour {
             UIChanged(currentUI, false);
             GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
             MulitaryActionAssigned = false;
+            AssignAmount = 0;
 			AssignActionAssigned = false;
             SoldierNum = resource.popSoldier;
             RandomEventFinished = false;
@@ -691,6 +692,7 @@ public class UI : MonoBehaviour {
         {
             MulitaryActionAssigned = false;
 			AssignActionAssigned = false;
+            AssignAmount = 0;
             SoldierNum = resource.popSoldier;
             RandomEventFinished = false;
             GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
