@@ -217,9 +217,9 @@ public class UI : MonoBehaviour {
                 GameObject.Find("MilitaryAssignText").GetComponent<Text>().text = SoldierNum.ToString();
             break;
 		case(3):
+                MulitaryActionAssigned = true;
                 callCombat();
-                MulitaryStatus = 0;
-			    MulitaryActionAssigned = true;
+                //MulitaryStatus = 0;
                
             break;
 		}
@@ -538,7 +538,7 @@ public class UI : MonoBehaviour {
                     break;
                 case (UIChoice.Assign):
                     //AssignStatusChoice(1);
-                    if (AssignStatus == 0)
+                    if (AssignStatus == 0 && AssignActionAssigned == false)
                     {
                         BlinkScript.assignTextToBlink(GameObject.Find("AssignAction").GetComponent<Text>());
                         showTips = true;
