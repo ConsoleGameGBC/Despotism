@@ -219,7 +219,7 @@ public class UI : MonoBehaviour {
 		case(3):
                 MulitaryActionAssigned = true;
                 callCombat();
-                //MulitaryStatus = 0;
+                MulitaryStatus = 0;
                
             break;
 		}
