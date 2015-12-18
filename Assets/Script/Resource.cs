@@ -205,16 +205,16 @@ public class Resource : MonoBehaviour {
 	}
     void setInitialResources()
     {
-        popSoldier = Random.Range(50, 70);
-        popElder = Random.Range(10, 30);
-        popYouth = Random.Range(12, 20);
-        popWorker = Random.Range(50, 80);
-        popUnemployed = Random.Range(10, 20);
+        popSoldier = Random.Range(50, 60);
+        popElder = Random.Range(10, 40);
+        popYouth = Random.Range(12, 40);
+        popWorker = Random.Range(50, 70);
+        popUnemployed = Random.Range(10, 45);
 
         Food = Random.Range(660, 1500);
         Water = Random.Range(660, 1500);
-        Medical = Random.Range(200, 500);
-        Fuel = Random.Range(200, 500);
+        Medical = Random.Range(0, 50);
+        Fuel = Random.Range(200, 400);
         Weapons = Random.Range(11, 26);
         Power = 0;
 
@@ -228,7 +228,10 @@ public class Resource : MonoBehaviour {
 
         dayNumObj.GetComponent<Text>().text = "Day " + turnNum.ToString();
     }
-
+    public int getMedicine()
+    {
+        return Medical;
+    }
     public int getWeapons()
     {
         return Weapons;

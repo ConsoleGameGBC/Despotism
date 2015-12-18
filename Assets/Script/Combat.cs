@@ -226,14 +226,14 @@ public class Combat : MonoBehaviour {
 
         if(dangerMap[currentX,currentY] && exploredMap[currentX,currentY] == false && isExploration == false)
         {
-            enemyNum = Random.Range(30, 60);
+            enemyNum = Random.Range(30, 90);
         }else if(dangerMap[currentX, currentY] || exploredMap[currentX, currentY] == false)
         {
-            enemyNum = Random.Range(15, 25);
+            enemyNum = Random.Range(15, 45);
         }
         else
         {
-            enemyNum = Random.Range(5, 15);
+            enemyNum = Random.Range(5, 20);
         }
 
 

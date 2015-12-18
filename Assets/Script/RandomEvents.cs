@@ -41,6 +41,7 @@ public class RandomEvents : MonoBehaviour {
         */
 
          EventArray = new RandEvent[] {
+             new Attacked(myManager),
            new VisitingMerchant(myManager),
            new StolenFood(myManager),
          new Refugees(myManager),
@@ -53,6 +54,7 @@ public class RandomEvents : MonoBehaviour {
            new storageFire(myManager),
            new rainyDay(myManager),
            new Attacked(myManager),
+           new Sickness(myManager),
            new Attacked(myManager),
            new Attacked(myManager),
            new Attacked(myManager),
@@ -609,6 +611,60 @@ class StolenFood : RandEvent{
 	
 }
 
+class Sickness : RandEvent
+{
+    public Sickness(GameObject obj) : base(obj)
+    {
+        title = "Sickness!";
+        text = "Some of our people are sick! They need medicine!";
+        option1 = "Spend 60 medicine.";
+        option2 = "Spend 20 medicine.";
+        option3 = "Do nothing";
+        result1 = "They got better!";
+        result2 = "Half of them got better!";
+        result3 = "They died! Our people are unhappy to watch them suffer.";
+    }
+    string result4 = "We don't have that many medicine.";
+
+
+    override public void ChoseO1()
+    {
+        if(myResourceClass.getMedicine() >= 60)
+        {
+            updateResult(result1);
+            myResourceClass.changeMedical(-60);
+        }
+        else
+        {
+            myResourceClass.decreasePop(20);
+            updateResult(result4);
+        }
+    }
+    override public void ChoseO2()
+    {
+        if (myResourceClass.getMedicine() >= 20)
+        {
+            
+            myResourceClass.changeMedical(-20);
+            myResourceClass.decreasePop(10);
+            updateResult(result2);
+        }
+        else
+        {
+            myResourceClass.decreasePop(20);
+            updateResult(result4);
+        }
+    }
+    override public void ChoseO3()
+    {
+        myResourceClass.decreasePop(20);
+        updateResult(result3);
+        //They are gone
+    }
+
+
+}
+
 class Refugees:RandEvent{
 	public Refugees(GameObject obj) : base(obj)
     {
@@ -622,8 +678,8 @@ class Refugees:RandEvent{
         result3 = "They are gone.";
 	}
 	override public void ChoseO1(){
-        updateResult(result1);
         myResourceClass.changeUnemployed(10);
+        updateResult(result1);
 		//Gain pop
 	}
 	override public void ChoseO2(){
@@ -710,7 +766,7 @@ class Attacked : RandEvent
     int enemyNum;
     public Attacked(GameObject obj) : base(obj)
     {
-        enemyNum = UnityEngine.Random.Range(30, 80);
+        enemyNum = UnityEngine.Random.Range(30, 90);
         title = "Attacked!";
         text = "Zombies are attacking the camp! There are " + enemyNum.ToString() +" of them!";
         option1 = "Send only our soldiers to the defence";
