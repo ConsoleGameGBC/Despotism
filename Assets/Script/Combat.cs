@@ -198,6 +198,10 @@ public class Combat : MonoBehaviour {
             myString += temp.ToString() + " medicine, ";
             this.GetComponent<Resource>().changeMedical(temp);
 
+            temp = Random.Range(5, 25);
+            myString += temp.ToString() + " weapons, ";
+            this.GetComponent<Resource>().changeWeapons(temp);
+
             temp = Random.Range(0, 10);
             if (temp > 5)
             {
