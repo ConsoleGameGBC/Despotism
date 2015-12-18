@@ -532,18 +532,21 @@ public class UI : MonoBehaviour {
                     //MulitaryStatusChoice(1);
                     if (MulitaryStatus == 0 && MulitaryActionAssigned == false)
                     {
+                        if(GameObject.Find("MilitaryAction").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAction").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Left & Right to choose military action,, A to confirm.";
                     }
                     else if (MulitaryStatus == 1)
                     {
+                        if(GameObject.Find("Cordinate").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("Cordinate").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Up/Down/Left/Right to move around the map, A to confirm.";
                     }
                     else if (MulitaryStatus == 2)
                     {
+                        if(GameObject.Find("MilitaryAssignText").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAssignText").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Left & Right to adjust number of soldier for current action, A to confirm.";
@@ -557,6 +560,7 @@ public class UI : MonoBehaviour {
                     break;
                 case (UIChoice.TurnReport):
                     //ReportChoice(1)
+                    if(GameObject.Find("OptionContent").GetComponent<Text>())
                     BlinkScript.assignTextToBlink(GameObject.Find("OptionContent").GetComponent<Text>());
                     showTips = true;
                     Tips.GetComponentInChildren<Text>().text = "Left & Right to switch between solutions, A to confirm.";
@@ -569,30 +573,35 @@ public class UI : MonoBehaviour {
                     //AssignStatusChoice(1);
                     if (AssignStatus == 0 && AssignActionAssigned == false)
                     {
+                        if(GameObject.Find("AssignAction").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("AssignAction").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Left & Right to choose assign action, A to confirm.";
                     }
                     else if (AssignStatus == 1)
                     {
+                        if(GameObject.Find("AssignFromType").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("AssignFromType").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Left & Right to choose population type, A to confirm.";
                     }
                     else if (AssignStatus == 2)
                     {
+                        if(GameObject.Find("AssignToType").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("AssignToType").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Left & Right to choose population type, A to confirm.";
                     }
                     else if (AssignStatus == 3)
                     {
+                        if(GameObject.Find("AssignNumber").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("AssignNumber").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Left & Right to adjust number of people for current action, A to confirm";
                     }
                     else if (AssignStatus == 4)
                     {
+                        if(GameObject.Find("AssignDetailText").GetComponent<Text>())
                         BlinkScript.assignTextToBlink(GameObject.Find("AssignDetailText").GetComponent<Text>());
                         showTips = true;
                         Tips.GetComponentInChildren<Text>().text = "Assign action processed, press Down to zoom out";

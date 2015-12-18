@@ -29,6 +29,9 @@ public class blinkScript : MonoBehaviour {
 
     public void stopBlinking()
     {
+        if(textToBlink)
+           textToBlink.color = new Color(0, 0, 0, 1);
+
         textToBlink = null;
     }
 
