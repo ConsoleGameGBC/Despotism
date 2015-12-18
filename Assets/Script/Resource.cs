@@ -136,8 +136,8 @@ public class Resource : MonoBehaviour {
 	[SerializeField] GameObject reportFoodWorkerSoldierObj;
 	[SerializeField] GameObject reportFoodGiveawayObj;
 	[SerializeField] GameObject reportFoodProductionObj;
-	[SerializeField] GameObject reportFoodImportObj;
-	[SerializeField] GameObject reportFoodExportObj;
+	[SerializeField] GameObject reportFoodSalvageObj;
+	//[SerializeField] GameObject reportFoodExportObj;
     [SerializeField]
     GameObject reportFoodEstimate;
     [SerializeField]
@@ -148,8 +148,8 @@ public class Resource : MonoBehaviour {
 	[SerializeField] GameObject reportWaterWorkerSoldierObj;
 	[SerializeField] GameObject reportWaterGiveawayObj;
 	[SerializeField] GameObject reportWaterFarmObj;
-	[SerializeField] GameObject reportWaterImportObj;
-	[SerializeField] GameObject reportWaterExportObj;
+	[SerializeField] GameObject reportWaterSalvageObj;
+	//[SerializeField] GameObject reportWaterExportObj;
 
 
     [Header("Resource Assets")]
@@ -292,24 +292,31 @@ public class Resource : MonoBehaviour {
 
 
 
+        int ration = popSoldier + popWorker;
+        int giveaway = popUnemployed + popYouth + popElder;
+        int produce = ((int)(popWorker * productionSpeed * workerQuality * workerMorale));
+        int salvage = ((int)(popUnemployed * scavangeSpeed * unemployedMorale));
 
         reportFoodStockObj.GetComponent<Text>().text = Food.ToString();
-        reportFoodWorkerSoldierObj.GetComponent<Text>().text = (popWorker + popSoldier).ToString();
-        reportFoodGiveawayObj.GetComponent<Text>().text = (popUnemployed + popElder + popYouth).ToString();
-        reportFoodProductionObj.GetComponent<Text>().text = "0";
-        reportFoodImportObj.GetComponent<Text>().text = "0";
-        reportFoodExportObj.GetComponent<Text>().text = "0";
+        reportFoodWorkerSoldierObj.GetComponent<Text>().text = "-"+ ration.ToString();
+        reportFoodGiveawayObj.GetComponent<Text>().text = "-"+ giveaway.ToString();
+        reportFoodProductionObj.GetComponent<Text>().text = "+" + produce.ToString();
+        reportFoodSalvageObj.GetComponent<Text>().text = "+"+salvage.ToString();
+       //// reportFoodExportObj.GetComponent<Text>().text = "0";
 
-        reportFoodEstimate.GetComponent<Text>().text = (Food - Population).ToString();
-        reportWaterEstimate.GetComponent<Text>().text = (Water - Population).ToString();
+        
 
         reportWaterStockObj.GetComponent<Text>().text = Water.ToString();
-        reportWaterWorkerSoldierObj.GetComponent<Text>().text = (popWorker + popSoldier).ToString();
-        reportWaterGiveawayObj.GetComponent<Text>().text = (popUnemployed + popElder + popYouth).ToString();
-        reportWaterFarmObj.GetComponent<Text>().text = "0";
-        reportWaterImportObj.GetComponent<Text>().text = "0";
-        reportWaterExportObj.GetComponent<Text>().text = "0";
+        reportWaterWorkerSoldierObj.GetComponent<Text>().text = "-" + ration.ToString();
+        reportWaterGiveawayObj.GetComponent<Text>().text = "-" + giveaway.ToString();
+        reportWaterFarmObj.GetComponent<Text>().text = "+" + produce.ToString();
+        reportWaterSalvageObj.GetComponent<Text>().text = "+" + salvage.ToString();
+        ////  reportWaterExportObj.GetComponent<Text>().text = "0";
 
+
+
+        reportFoodEstimate.GetComponent<Text>().text = (Food - giveaway - ration + produce + salvage).ToString();
+        reportWaterEstimate.GetComponent<Text>().text = (Water - giveaway - ration + produce + salvage).ToString();
     }
    public void decreasePop(int amount)
     {
