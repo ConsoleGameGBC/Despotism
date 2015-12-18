@@ -501,7 +501,7 @@ public class UI : MonoBehaviour {
             {
                 case (UIChoice.Mulitary):
                     //MulitaryStatusChoice(1);
-                    if (MulitaryStatus == 0)
+                    if (MulitaryStatus == 0 && MulitaryActionAssigned == false)
                     {
                         BlinkScript.assignTextToBlink(GameObject.Find("MilitaryAction").GetComponent<Text>());
                         showTips = true;
