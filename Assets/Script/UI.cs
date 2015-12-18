@@ -209,6 +209,10 @@ public class UI : MonoBehaviour {
 		case(1): //Enable Map
 			break;
         case (2):
+            if (SoldierNum > resource.popSoldier)
+            {
+                SoldierNum = resource.popSoldier;
+            }
             if (SoldierNum + value <= resource.popSoldier && SoldierNum + value > 0)
                 {
                     SoldierNum += value;
@@ -682,6 +686,7 @@ public class UI : MonoBehaviour {
             MulitaryActionAssigned = false;
             AssignAmount = 0;
 			AssignActionAssigned = false;
+            RandomEventOptionStatus = 0;
             SoldierNum = resource.popSoldier;
             RandomEventFinished = false;
             controlDisable = true;
@@ -693,6 +698,7 @@ public class UI : MonoBehaviour {
             MulitaryActionAssigned = false;
 			AssignActionAssigned = false;
             AssignAmount = 0;
+            RandomEventOptionStatus = 0;
             SoldierNum = resource.popSoldier;
             RandomEventFinished = false;
             GameObject.Find("AssignDetailText").GetComponent<Text>().text = "";
