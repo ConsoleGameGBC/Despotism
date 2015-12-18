@@ -151,8 +151,8 @@ public class RandomEvents : MonoBehaviour {
         float playerRange = 0.35f;
         float enemyRange = 0.0f;
 
-        float playerMelee = 0.30f;
-        float enemyMelee = 0.15f;
+        float playerMelee = 0.35f;
+        float enemyMelee = 0.25f;
 
         int totalplayerLoss = 0;
         int playerCasMelee = 0;
@@ -160,8 +160,8 @@ public class RandomEvents : MonoBehaviour {
         //int enemyNum = UnityEngine.Random.Range(30, 80);
 
 
-        float enemyCas = soldierNum * playerRange * myManager.GetComponent<Resource>().getSoldierQuality() * strLevel *  UnityEngine.Random.Range(1.8f, 3.0f);
-        float playerCas = enemyNum * enemyRange * UnityEngine.Random.Range(1.8f, 3.0f);
+        float enemyCas = soldierNum * playerRange * myManager.GetComponent<Resource>().getSoldierQuality() * strLevel *  UnityEngine.Random.Range(0.8f, 2.5f);
+        float playerCas = enemyNum * enemyRange * UnityEngine.Random.Range(0.8f, 2.5f);
         Debug.Log("enemycas" + enemyCas);
         Debug.Log("playercas" + playerCas);
 
@@ -190,7 +190,7 @@ public class RandomEvents : MonoBehaviour {
             while ((int)enemyCas < enemyNum && (int)playerCas < soldierNum)
             {
                 enemyCas = soldierNum * playerMelee * myManager.GetComponent<Resource>().getSoldierQuality() * strLevel * UnityEngine.Random.Range(0.8f, 2.5f);
-                playerCas = enemyNum * enemyMelee * UnityEngine.Random.Range(0.8f, 2.5f);
+                playerCas = enemyNum * (enemyMelee) * UnityEngine.Random.Range(0.8f, 2.5f);
 
 
                 if ((int)enemyCas > enemyNum)
