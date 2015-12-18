@@ -626,7 +626,7 @@ public class UI : MonoBehaviour {
                     HelpUIRight.text = "This is the daily event. Choose carefully. You can not end the day without resolving this event first.";
                     break;
                 case (UIChoice.Assign):
-                    HelpUILeft.text = "The quality and morale of your soldiers and workers affect their performance.";
+                    HelpUILeft.text = "The quality and morale of your soldiers and workers affect their performance. \n \nYou will need extra weapons to train new soldiers.";
                     HelpUIRight.text = "Here, you can train more workers or soldiers. If you are in a hurry you can assign them in bulk with 'hastened train' but lack of proper training will affect their performance.";
                     break;
                  case (UIChoice.Mulitary):

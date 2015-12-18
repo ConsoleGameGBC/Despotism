@@ -73,7 +73,7 @@ public class RandomEvents : MonoBehaviour {
 
 		//RandEvent eventInProgress = EventList.
 		eventNo = UnityEngine.Random.Range (0, numOfEvents);
-		RandEvent eventInProgress = EventArray[eventNo];
+		//RandEvent eventInProgress = EventArray[eventNo];
 		eventTopicObj.GetComponent<Text> ().text = EventArray [eventNo].title;
         eventContentObj.GetComponent<Text>().text = EventArray[eventNo].text;
         eventOptionContent.GetComponent<Text>().text = EventArray[eventNo].option1;
