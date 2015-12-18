@@ -513,30 +513,38 @@ public class Resource : MonoBehaviour {
     {
         changeUnemployed(-amount);
         changeSoldier(amount);
-
-        if (isHastened)
+        changeWeapons(-amount);
+        if (isHastened || amount > 10)
             soldierQuality -= 0.1f;
+
+        Debug.Log("soldier quality " + soldierQuality);
+        setResources();
     }
     public void trainUnempToWorker(int amount, bool isHastened)
     {
         changeUnemployed(-amount);
         changeWorker(amount);
-        if (isHastened)
+        if (isHastened || amount > 10)
             workerQuality -= 0.1f;
+        setResources();
     }
     public void trainWorkerToSoldier(int amount, bool isHastened)
     {
         changeWorker(-amount);
         changeSoldier(amount);
-        if (isHastened)
+        changeWeapons(-amount);
+        if (isHastened || amount > 10)
             soldierQuality -= 0.1f;
+        setResources();
     }
     public void trainSoldierToWorker(int amount, bool isHastened)
     {
         changeSoldier(-amount);
         changeWorker(amount);
-        if (isHastened)
+        changeWeapons(amount);
+        if (isHastened || amount > 10)
             workerQuality -= 0.1f;
+        setResources();
     }
 
     public void changeWorkerMorale(float amount)
